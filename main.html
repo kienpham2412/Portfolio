@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phạm Hồng Kiên | Portfolio - Game Developer & Software Engineer</title>
+  <meta name="description"
+    content="Portfolio cá nhân của Phạm Hồng Kiên - Lập trình viên Game Unity, Kỹ sư phần mềm chuyên nghiệp.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Background Ambient Glow -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Floating PlayStation DualSense Shapes Canvas -->
+  <canvas id="dualsense-canvas"></canvas>
+
+  <!-- Header Navigation -->
+  <header id="main-header">
+    <div class="nav-container">
+      <a href="#hero" class="logo" id="brand-logo">
+        <div class="logo-badge">K</div>
+        <span>Kien.Dev</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#hero" class="active">Trang chủ</a></li>
+        <li><a href="#profile">Hồ sơ cá nhân</a></li>
+        <li><a href="#education">Học vấn</a></li>
+        <li><a href="#projects">Dự án cá nhân</a></li>
+        <li><a href="#skills">Kỹ năng</a></li>
+        <li><a href="#contact">Liên hệ</a></li>
+      </ul>
+      <a href="#contact" class="btn btn-primary" id="nav-cta-btn">Kết nối ngay</a>
+    </div>
+  </header>
+
+  <!-- Hero Section with Portrait -->
+  <section class="hero" id="hero">
+    <div class="hero-container">
+
+      <!-- Text introduction -->
+      <div class="hero-text-side">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span id="hero-status">Sẵn sàng đón nhận cơ hội việc làm mới</span>
+        </div>
+        <p class="hero-greeting" id="hero-greeting">Xin chào, tôi là</p>
+        <h1 class="hero-name">
+          <span class="gradient-text" id="hero-name">Phạm Hồng Kiên</span>
+        </h1>
+        <div class="hero-role" id="hero-role-container">
+          <span>Game Developer</span>
+          <span class="role-tag">Unity & C#</span>
+          <span class="role-tag">Software Engineer</span>
+        </div>
+        <p class="hero-bio" id="hero-bio">
+          Đam mê xây dựng các trò chơi tương tác 3D lôi cuốn, đồ họa bắt mắt và phát triển ứng dụng tối ưu hiệu năng
+          cao. Luôn khát khao học hỏi và tạo ra các sản phẩm mang lại giá trị thực tế.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary" id="btn-hero-projects">
+            Xem dự án cá nhân
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+          <a href="#profile" class="btn btn-outline" id="btn-hero-profile">
+            Thông tin chi tiết
+          </a>
+        </div>
+      </div>
+
+      <!-- Portrait avatar visual -->
+      <div class="portrait-wrapper">
+        <div class="portrait-glow-ring"></div>
+        <div class="portrait-frame">
+          <img src="./assets/images/avatar.jpg" alt="Ảnh chân dung Phạm Hồng Kiên" class="portrait-img"
+            id="user-portrait">
+        </div>
+
+        <!-- Floating badge 1 -->
+        <div class="portrait-badge badge-top">
+          <div class="badge-icon purple">🎮</div>
+          <div>
+            <div class="badge-text-title">Unity Specialist</div>
+            <div class="badge-text-sub">3D & 2D Game Systems</div>
+          </div>
+        </div>
+
+        <!-- Floating badge 2 -->
+        <div class="portrait-badge badge-bottom">
+          <div class="badge-icon cyan">🚀</div>
+          <div>
+            <div class="badge-text-title">4+ Năm lập trình</div>
+            <div class="badge-text-sub">15+ Dự án hoàn thành</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Quick Stats -->
+  <div class="container">
+    <div class="stats-strip">
+      <div class="stat-card">
+        <div class="stat-num">4+</div>
+        <div class="stat-name">Năm kinh nghiệm</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">15+</div>
+        <div class="stat-name">Dự án hoàn thành</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">GPA 3.6</div>
+        <div class="stat-name">Tốt nghiệp loại Giỏi</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">100%</div>
+        <div class="stat-name">Đam mê & Cam kết</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile & Education Section -->
+  <section id="profile">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Thông tin lý lịch</span>
+        <h2 class="section-title">Hồ sơ cá nhân & Học vấn</h2>
+        <p class="section-desc">Tổng quan về lý lịch cá nhân, thông tin liên lạc và quá trình đào tạo học tập chuyên
+          sâu.</p>
+      </div>
+
+      <div class="info-container">
+
+        <!-- Personal Information Box -->
+        <div class="info-box">
+          <h3 class="info-box-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            Thông tin cá nhân
+          </h3>
+          <div class="info-details-list" id="personal-info-container">
+            <!-- Dữ liệu được nạp động từ file data.json -->
+          </div>
+        </div>
+
+        <!-- Education Box -->
+        <div class="education-box" id="education">
+          <h3 class="info-box-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg>
+            Trình độ học vấn & Chứng chỉ
+          </h3>
+          <div class="timeline" id="education-timeline-container">
+            <!-- Dữ liệu các giai đoạn học vấn được nạp động từ file data.json -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Personal Projects Section -->
+  <section id="projects" style="background: rgba(15, 20, 34, 0.45);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Sản phẩm sáng tạo</span>
+        <h2 class="section-title">Dự án cá nhân tiêu biểu</h2>
+        <p class="section-desc">Các dự án độc lập do tôi tự lên ý tưởng, lập trình cơ chế, đồ họa và tối ưu hóa từ đầu
+          đến cuối.</p>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- Project 1: Cyberpunk 3D Action Game -->
+        <article class="project-card">
+          <div class="project-cover">
+            <span class="project-category-badge">Unity 3D Action</span>
+            <span class="project-role-badge">Lead Developer</span>
+            <img src="./assets/images/project-cyber.jpg" alt="Dự án Cyber Strike: Odyssey">
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Cyber Strike: Odyssey</h3>
+            <p class="project-desc">
+              Trò chơi hành động nhập vai phong cách Cyberpunk góc nhìn người thứ ba. Tích hợp hệ thống combo chiến đấu
+              mượt mà, AI kẻ địch linh hoạt theo hành vi, ánh sáng thể tích URP và hiệu ứng kiếm năng lượng custom
+              shader.
+            </p>
+            <div class="project-tech">
+              <span class="tech-pill">Unity 2022 LTS</span>
+              <span class="tech-pill">C#</span>
+              <span class="tech-pill">URP</span>
+              <span class="tech-pill">Shader Graph</span>
+              <span class="tech-pill">NavMesh AI</span>
+            </div>
+            <div class="project-links">
+              <a href="#hero" class="project-btn primary">
+                Xem Demo / Gameplay
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: Low-Poly Fantasy Open World -->
+        <article class="project-card">
+          <div class="project-cover">
+            <span class="project-category-badge">Open World RPG</span>
+            <span class="project-role-badge">Solo Creator</span>
+            <img src="./assets/images/project-fantasy.jpg" alt="Dự án Chronicles of Aetheria">
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Chronicles of Aetheria</h3>
+            <p class="project-desc">
+              Game phiêu lưu khám phá các hòn đảo lơ lửng giữa mây trời theo phong cách Low-Poly tươi sáng. Tính năng
+              gồm
+              hệ thống bay lượn, giải đố vật lý trọng lực, chu kỳ ngày/đêm và hệ thống nhiệm vụ RPG mở rộng.
+            </p>
+            <div class="project-tech">
+              <span class="tech-pill">Unity 3D</span>
+              <span class="tech-pill">C#</span>
+              <span class="tech-pill">Cinemachine</span>
+              <span class="tech-pill">Custom Physics</span>
+              <span class="tech-pill">Blender Modeling</span>
+            </div>
+            <div class="project-links">
+              <a href="#hero" class="project-btn primary">
+                Xem Demo / Gameplay
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Chuyên môn kỹ thuật</span>
+        <h2 class="section-title">Kỹ năng & Công nghệ</h2>
+        <p class="section-desc">Bộ công cụ và công nghệ tôi sử dụng hàng ngày để biến những ý tưởng phức tạp thành hiện
+          thực.</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-icon-wrapper">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+          </div>
+          <h3 class="skill-title">Game Development</h3>
+          <p class="skill-desc">Chuyên sâu về lập trình Unity, xây dựng logic gameplay, quản lý asset bộ nhớ, tối ưu hóa
+            FPS và xử lý animation state machine.</p>
+          <div class="project-tech">
+            <span class="tech-pill">Unity 3D / 2D</span>
+            <span class="tech-pill">C# Advanced</span>
+            <span class="tech-pill">Shader Graph & HLSL</span>
+            <span class="tech-pill">Animation & IK</span>
+            <span class="tech-pill">DOTS / ECS</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon-wrapper">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+            </svg>
+          </div>
+          <h3 class="skill-title">Phát triển Phần mềm & Web</h3>
+          <p class="skill-desc">Thiết kế phần mềm chuẩn OOP, Design Patterns (Singleton, State, Observer, Factory) cùng
+            kỹ năng xây dựng web UI tương tác hiện đại.</p>
+          <div class="project-tech">
+            <span class="tech-pill">HTML5 & Modern CSS</span>
+            <span class="tech-pill">JavaScript (ES6+)</span>
+            <span class="tech-pill">WebGL / Canvas 2D</span>
+            <span class="tech-pill">RESTful APIs</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon-wrapper">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+            </svg>
+          </div>
+          <h3 class="skill-title">Công cụ & Quy trình</h3>
+          <p class="skill-desc">Quản lý mã nguồn chặt chẽ, tối ưu quy trình làm việc nhóm, xây dựng mô hình 3D cơ bản và
+            kiểm thử hiệu năng phần mềm.</p>
+          <div class="project-tech">
+            <span class="tech-pill">Git / Version Control</span>
+            <span class="tech-pill">Blender (Low-poly)</span>
+            <span class="tech-pill">Unity Profiler</span>
+            <span class="tech-pill">Visual Studio / Rider</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Kết nối công việc</span>
+        <h2 class="section-title">Gửi tin nhắn cho Kiên</h2>
+        <p class="section-desc">Bạn đang tìm kiếm lập trình viên nhiệt huyết cho dự án game hoặc phát triển phần mềm?
+          Hãy gửi lời nhắn ngay!</p>
+      </div>
+
+      <div class="contact-wrapper">
+        <form id="contact-form" class="contact-form">
+          <div>
+            <label class="form-label" for="contact-name">Họ và tên của bạn</label>
+            <input type="text" id="contact-name" class="form-input" placeholder="Ví dụ: Trần Minh" required>
+          </div>
+          <div>
+            <label class="form-label" for="contact-email">Địa chỉ Email</label>
+            <input type="email" id="contact-email" class="form-input" placeholder="name@company.com" required>
+          </div>
+          <div class="form-full">
+            <label class="form-label" for="contact-subject">Mục đích liên hệ</label>
+            <input type="text" id="contact-subject" class="form-input"
+              placeholder="Tuyển dụng / Dự án Freelance / Hợp tác" required>
+          </div>
+          <div class="form-full">
+            <label class="form-label" for="contact-message">Nội dung tin nhắn</label>
+            <textarea id="contact-message" class="form-textarea"
+              placeholder="Chia sẻ chi tiết về nhu cầu hoặc dự án của bạn..." required></textarea>
+          </div>
+          <div class="form-full" style="text-align: right;">
+            <button type="submit" class="btn btn-primary" id="btn-submit" style="width: 100%;">
+              Gửi tin nhắn đến Kiên
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5">
+      <path d="M20 6L9 17l-5-5" />
+    </svg>
+    <span>Cảm ơn bạn! Tin nhắn đã được gửi thành công đến Phạm Hồng Kiên.</span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© <span id="current-year">2026</span> Phạm Hồng Kiên. Bản quyền giao diện Portfolio cá nhân.</p>
+    </div>
+  </footer>
+
+  <!-- External Data & Script -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
