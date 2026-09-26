@@ -169,23 +169,6 @@ function animate() {
 }
 animate();
 
-// Xử lý gửi Form liên hệ và hiển thị Toast thông báo
-const form = document.getElementById('contact-form');
-const toast = document.getElementById('toast');
-
-if (form) {
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (toast) {
-      toast.classList.add('show');
-      form.reset();
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 4000);
-    }
-  });
-}
-
 // Đánh dấu mục đang chọn trên Navbar khi cuộn trang
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
@@ -211,6 +194,13 @@ window.addEventListener('scroll', () => {
 function renderPersonalInfo(items) {
   const container = document.getElementById('personal-info-container');
   if (!container || !Array.isArray(items)) return;
+
+  // Tự động đồng bộ link nút CTA trên thanh navbar với email cá nhân
+  const emailItem = items.find((item) => item.type === 'email');
+  if (emailItem && emailItem.value) {
+    const navCtaBtn = document.getElementById('nav-cta-btn');
+    if (navCtaBtn) navCtaBtn.href = `mailto:${emailItem.value}`;
+  }
 
   container.innerHTML = items
     .map((item) => {
@@ -295,12 +285,77 @@ function renderHero(hero, personalInfo) {
   }
 }
 
+// Render các thẻ số liệu thống kê nhanh (Quick Stats)
+function renderStats(stats) {
+  const container = document.getElementById('stats-container');
+  if (!container || !Array.isArray(stats)) return;
+
+  container.innerHTML = stats
+    .map(
+      (stat) => `
+      <div class="stat-card">
+        <div class="stat-num">${stat.value || ''}</div>
+        <div class="stat-name">${stat.label || ''}</div>
+      </div>
+    `
+    )
+    .join('');
+}
+
+// Bộ icon SVG cho các thẻ kỹ năng
+const SKILL_ICONS = {
+  layers: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></svg>`,
+  monitor: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>`,
+  tools: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>`,
+  code: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>`,
+  gamepad: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m7-1h.01m3-2h.01"/></svg>`
+};
+
+function getSkillIcon(iconKey) {
+  if (!iconKey) return SKILL_ICONS.layers;
+  if (typeof iconKey === 'string' && (iconKey.trim().startsWith('<svg') || iconKey.length <= 4)) {
+    return iconKey;
+  }
+  return SKILL_ICONS[iconKey] || SKILL_ICONS.layers;
+}
+
+// Render các thẻ kỹ năng & công nghệ (Skills & Tech)
+function renderSkills(skills) {
+  const container = document.getElementById('skills-container');
+  if (!container || !Array.isArray(skills)) return;
+
+  container.innerHTML = skills
+    .map((item) => {
+      const iconHtml = getSkillIcon(item.icon);
+      const tags = item.tags || item.skills || item.tech || [];
+      const tagsHtml = Array.isArray(tags)
+        ? tags.map((tag) => `<span class="tech-pill">${tag}</span>`).join('')
+        : '';
+
+      return `
+        <div class="skill-card">
+          <div class="skill-icon-wrapper">
+            ${iconHtml}
+          </div>
+          <h3 class="skill-title">${item.title || ''}</h3>
+          <p class="skill-desc">${item.description || item.desc || ''}</p>
+          <div class="project-tech">
+            ${tagsHtml}
+          </div>
+        </div>
+      `;
+    })
+    .join('');
+}
+
 // Nạp dữ liệu từ data.js (chạy mượt mà trực tiếp trên mọi trình duyệt mà không bị lỗi CORS)
 function loadPortfolioData() {
   if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA) {
     renderHero(PORTFOLIO_DATA.hero, PORTFOLIO_DATA.personalInfo);
+    if (PORTFOLIO_DATA.stats) renderStats(PORTFOLIO_DATA.stats);
     if (PORTFOLIO_DATA.personalInfo) renderPersonalInfo(PORTFOLIO_DATA.personalInfo);
     if (PORTFOLIO_DATA.education) renderEducation(PORTFOLIO_DATA.education);
+    if (PORTFOLIO_DATA.skills) renderSkills(PORTFOLIO_DATA.skills);
   } else {
     console.error('Không tìm thấy dữ liệu PORTFOLIO_DATA từ file data.js');
   }

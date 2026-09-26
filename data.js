@@ -11,6 +11,20 @@ const PORTFOLIO_DATA = {
     ],
     "bio": "Đam mê xây dựng các trò chơi tương tác lôi cuốn, đồ họa bắt mắt và phát triển ứng dụng tối ưu hiệu năng cao. Luôn khát khao học hỏi và tạo ra các sản phẩm mang lại giá trị thực tế."
   },
+  "stats": [
+    {
+      "value": "4+",
+      "label": "Năm kinh nghiệm"
+    },
+    {
+      "value": "15+",
+      "label": "Dự án hoàn thành"
+    },
+    {
+      "value": "100%",
+      "label": "Đam mê & Cam kết"
+    }
+  ],
   "personalInfo": [
     {
       "label": "Họ và tên",
@@ -58,5 +72,32 @@ const PORTFOLIO_DATA = {
       "school": "Đại học Bách khoa Hà Nội",
       "description": "Tốt nghiệp loại giỏi"
     }
+  ],
+  "skills": [
+    {
+      "icon": "layers",
+      "title": "Game Development",
+      "description": "Chuyên sâu về lập trình Unity, xây dựng logic gameplay, quản lý asset bộ nhớ, tối ưu hóa FPS.",
+      "tags": [
+        "Unity 3D / 2D",
+        "C#",
+        "Shader Graph & HLSL",
+        "Animation & IK",
+        "DOTS / Job system"
+      ]
+    },
+    {
+      "icon": "tools",
+      "title": "Công cụ & Quy trình",
+      "description": "",
+      "tags": [
+        "Git",
+        "Blender",
+        "Photoshop",
+        "Unity Profiler",
+        "Rider / Antigravity"
+      ]
+    }
   ]
 };
+
