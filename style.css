@@ -506,18 +506,27 @@ section {
 /* Personal Info Card & Grid */
 .info-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
   align-items: start;
   margin-bottom: 4rem;
 }
 
-.info-box {
+.info-box,
+.education-box,
+.experience-box {
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-lg);
   padding: 2.25rem;
   backdrop-filter: blur(14px);
+  transition: var(--transition-smooth);
+}
+
+.info-box:hover,
+.education-box:hover,
+.experience-box:hover {
+  border-color: var(--border-accent);
 }
 
 .info-box-title {
@@ -537,7 +546,7 @@ section {
 
 .info-details-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 1.25rem;
 }
 
@@ -572,14 +581,7 @@ section {
   text-decoration: underline;
 }
 
-/* Education Timeline */
-.education-box {
-  background: var(--bg-card);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-lg);
-  padding: 2.25rem;
-  backdrop-filter: blur(14px);
-}
+/* Timeline Components (Education & Experience) */
 
 .timeline {
   position: relative;

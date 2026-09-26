@@ -1,15 +1,20 @@
-// Đặt năm hiện tại cho bản quyền footer
-document.getElementById('current-year').textContent = new Date().getFullYear();
+// Đặt năm hiện tại cho bản quyền footer (nếu có)
+const yearEl = document.getElementById('current-year');
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
 
 // Header scroll background effect
 const header = document.getElementById('main-header');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 40) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
-});
+if (header) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+}
 
 // Hiệu ứng các biểu tượng nút bấm DualSense bay lơ lửng trên Canvas
 const canvas = document.getElementById('dualsense-canvas');
@@ -245,6 +250,26 @@ function renderEducation(stages) {
     .join('');
 }
 
+// Render các mốc kinh nghiệm làm việc từ mảng experience trong JSON
+function renderExperience(experiences) {
+  const container = document.getElementById('experience-timeline-container');
+  if (!container || !Array.isArray(experiences)) return;
+
+  container.innerHTML = experiences
+    .map(
+      (exp) => `
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <span class="timeline-period">${exp.period || ''}</span>
+        <h4 class="timeline-degree">${exp.role || exp.position || ''}</h4>
+        <p class="timeline-school">${exp.company || ''}</p>
+        ${(exp.description || exp.desc) ? `<p class="timeline-desc">${exp.description || exp.desc}</p>` : ''}
+      </div>
+    `
+    )
+    .join('');
+}
+
 // Render thông tin giới thiệu Hero (lấy tên từ personalInfo, vai trò và mô tả từ hero)
 function renderHero(hero, personalInfo) {
   // Lấy họ và tên trực tiếp từ personalInfo
@@ -348,16 +373,17 @@ function renderSkills(skills) {
     .join('');
 }
 
-// Nạp dữ liệu từ data.js (chạy mượt mà trực tiếp trên mọi trình duyệt mà không bị lỗi CORS)
+// Nạp dữ liệu từ assets/data.js (chạy mượt mà trực tiếp trên mọi trình duyệt mà không bị lỗi CORS)
 function loadPortfolioData() {
   if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA) {
     renderHero(PORTFOLIO_DATA.hero, PORTFOLIO_DATA.personalInfo);
     if (PORTFOLIO_DATA.stats) renderStats(PORTFOLIO_DATA.stats);
     if (PORTFOLIO_DATA.personalInfo) renderPersonalInfo(PORTFOLIO_DATA.personalInfo);
     if (PORTFOLIO_DATA.education) renderEducation(PORTFOLIO_DATA.education);
+    if (PORTFOLIO_DATA.experience) renderExperience(PORTFOLIO_DATA.experience);
     if (PORTFOLIO_DATA.skills) renderSkills(PORTFOLIO_DATA.skills);
   } else {
-    console.error('Không tìm thấy dữ liệu PORTFOLIO_DATA từ file data.js');
+    console.error('Không tìm thấy dữ liệu PORTFOLIO_DATA từ file assets/data.js');
   }
 }
 

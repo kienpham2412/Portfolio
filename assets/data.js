@@ -52,11 +52,6 @@ const PORTFOLIO_DATA = {
       "value": "(+84) 935581686",
       "type": "phone",
       "raw": "0935581686"
-    },
-    {
-      "label": "Tình trạng",
-      "value": "Sẵn sàng làm việc",
-      "statusColor": "#22c55e"
     }
   ],
   "education": [
@@ -71,6 +66,13 @@ const PORTFOLIO_DATA = {
       "degree": "Cử nhân Kỹ thuật phần mềm",
       "school": "Đại học Bách khoa Hà Nội",
       "description": "Tốt nghiệp loại giỏi"
+    }
+  ],
+  "experience": [
+    {
+      "period": "2022 – Hiện tại",
+      "company": "Công Ty Cổ Phần Công Nghệ Cscmobi Việt Nam",
+      "role": "Unity Game Developer"
     }
   ],
   "skills": [

@@ -40,6 +40,7 @@
         <li><a href="#hero" class="active">Trang chủ</a></li>
         <li><a href="#profile">Hồ sơ cá nhân</a></li>
         <li><a href="#education">Học vấn</a></li>
+        <li><a href="#experience">Kinh nghiệm</a></li>
         <li><a href="#skills">Kỹ năng</a></li>
         <li><a href="#projects">Dự án cá nhân</a></li>
       </ul>
@@ -137,9 +138,8 @@
     <div class="container">
       <div class="section-header">
         <span class="section-subtitle">Thông tin lý lịch</span>
-        <h2 class="section-title">Hồ sơ cá nhân & Học vấn</h2>
-        <p class="section-desc">Tổng quan về lý lịch cá nhân, thông tin liên lạc và quá trình đào tạo học tập chuyên
-          sâu.</p>
+        <h2 class="section-title">Hồ sơ cá nhân, Học vấn & Kinh nghiệm</h2>
+        <p class="section-desc">Tổng quan về lý lịch cá nhân, quá trình đào tạo và kinh nghiệm làm việc thực tế.</p>
       </div>
 
       <div class="info-container">
@@ -154,7 +154,7 @@
             Thông tin cá nhân
           </h3>
           <div class="info-details-list" id="personal-info-container">
-            <!-- Dữ liệu được nạp động từ file data.json -->
+            <!-- Dữ liệu được nạp động từ file assets/data.js -->
           </div>
         </div>
 
@@ -168,7 +168,21 @@
             Trình độ học vấn & Chứng chỉ
           </h3>
           <div class="timeline" id="education-timeline-container">
-            <!-- Dữ liệu các giai đoạn học vấn được nạp động từ file data.json -->
+            <!-- Dữ liệu các giai đoạn học vấn được nạp động từ file assets/data.js -->
+          </div>
+        </div>
+
+        <!-- Work Experience Box -->
+        <div class="experience-box" id="experience">
+          <h3 class="info-box-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+            </svg>
+            Kinh nghiệm làm việc
+          </h3>
+          <div class="timeline" id="experience-timeline-container">
+            <!-- Dữ liệu kinh nghiệm làm việc được nạp động từ file assets/data.js -->
           </div>
         </div>
 
@@ -314,7 +328,7 @@
 
 
   <!-- External Data & Script -->
-  <script src="data.js"></script>
+  <script src="assets/data.js"></script>
   <script src="script.js"></script>
 </body>
 
