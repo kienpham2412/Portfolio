@@ -33,18 +33,16 @@
   <header id="main-header">
     <div class="nav-container">
       <a href="#hero" class="logo" id="brand-logo">
-        <div class="logo-badge">K</div>
-        <span>Kien.Dev</span>
+        <div class="logo-badge" id="brand-badge">K</div>
+        <span id="brand-title">Kien.Dev</span>
       </a>
       <ul class="nav-links">
         <li><a href="#hero" class="active">Trang chủ</a></li>
         <li><a href="#profile">Hồ sơ cá nhân</a></li>
-        <li><a href="#education">Học vấn</a></li>
-        <li><a href="#experience">Kinh nghiệm</a></li>
+        <li><a href="#education-experience">Học vấn & Kinh nghiệm</a></li>
         <li><a href="#skills">Kỹ năng</a></li>
         <li><a href="#projects">Dự án cá nhân</a></li>
       </ul>
-      <a href="mailto:kienpham241296@gmail.com" class="btn btn-primary" id="nav-cta-btn">Gửi Email</a>
     </div>
   </header>
 
@@ -54,10 +52,6 @@
 
       <!-- Text introduction -->
       <div class="hero-text-side">
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          <span id="hero-status">Sẵn sàng đón nhận cơ hội việc làm mới</span>
-        </div>
         <p class="hero-greeting" id="hero-greeting">Xin chào, tôi là</p>
         <h1 class="hero-name">
           <span class="gradient-text" id="hero-name">Phạm Hồng Kiên</span>
@@ -91,24 +85,6 @@
         <div class="portrait-frame">
           <img src="./assets/images/avatar.jpg" alt="Ảnh chân dung Phạm Hồng Kiên" class="portrait-img"
             id="user-portrait">
-        </div>
-
-        <!-- Floating badge 1 -->
-        <div class="portrait-badge badge-top">
-          <div class="badge-icon purple">🎮</div>
-          <div>
-            <div class="badge-text-title">Unity Specialist</div>
-            <div class="badge-text-sub">3D & 2D Game Systems</div>
-          </div>
-        </div>
-
-        <!-- Floating badge 2 -->
-        <div class="portrait-badge badge-bottom">
-          <div class="badge-icon cyan">🚀</div>
-          <div>
-            <div class="badge-text-title">4+ Năm lập trình</div>
-            <div class="badge-text-sub">15+ Dự án hoàn thành</div>
-          </div>
         </div>
       </div>
 
@@ -159,13 +135,13 @@
         </div>
 
         <!-- Education Box -->
-        <div class="education-box" id="education">
+        <div class="education-box" id="education-experience">
           <h3 class="info-box-title">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
               <path d="M6 12v5c3 3 9 3 12 0v-5" />
             </svg>
-            Trình độ học vấn & Chứng chỉ
+            Trình độ học vấn
           </h3>
           <div class="timeline" id="education-timeline-container">
             <!-- Dữ liệu các giai đoạn học vấn được nạp động từ file assets/data.js -->

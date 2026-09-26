@@ -1,6 +1,4 @@
-// File chứa toàn bộ dữ liệu cấu hình cho Portfolio (định dạng JSON Object)
-// Bạn chỉ cần chỉnh sửa dữ liệu trong file này, website sẽ tự động cập nhật ngay lập tức!
-const PORTFOLIO_DATA = {
+{
   "brand": {
     "badge": "K",
     "title": "Kien Pham"
@@ -104,5 +102,4 @@ const PORTFOLIO_DATA = {
       ]
     }
   ]
-};
-
+}

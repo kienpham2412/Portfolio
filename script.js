@@ -175,37 +175,37 @@ function animate() {
 animate();
 
 // Đánh dấu mục đang chọn trên Navbar khi cuộn trang
-const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
 
 window.addEventListener('scroll', () => {
   let current = '';
-  sections.forEach((section) => {
-    const sectionTop = section.offsetTop - 150;
-    if (window.pageYOffset >= sectionTop) {
-      current = section.getAttribute('id');
+  navLinks.forEach((link) => {
+    const targetId = link.getAttribute('href');
+    if (targetId && targetId.startsWith('#')) {
+      const el = document.querySelector(targetId);
+      if (el) {
+        const targetTop = el.offsetTop - 180;
+        if (window.pageYOffset >= targetTop) {
+          current = targetId;
+        }
+      }
     }
   });
 
-  navLinks.forEach((link) => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === `#${current}`) {
-      link.classList.add('active');
-    }
-  });
+  if (current) {
+    navLinks.forEach((link) => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === current) {
+        link.classList.add('active');
+      }
+    });
+  }
 });
 
 // Render thông tin cá nhân từ dữ liệu JSON
 function renderPersonalInfo(items) {
   const container = document.getElementById('personal-info-container');
   if (!container || !Array.isArray(items)) return;
-
-  // Tự động đồng bộ link nút CTA trên thanh navbar với email cá nhân
-  const emailItem = items.find((item) => item.type === 'email');
-  if (emailItem && emailItem.value) {
-    const navCtaBtn = document.getElementById('nav-cta-btn');
-    if (navCtaBtn) navCtaBtn.href = `mailto:${emailItem.value}`;
-  }
 
   container.innerHTML = items
     .map((item) => {
@@ -284,10 +284,6 @@ function renderHero(hero, personalInfo) {
   }
 
   if (hero) {
-    if (hero.status) {
-      const el = document.getElementById('hero-status');
-      if (el) el.textContent = hero.status;
-    }
     if (hero.greeting) {
       const el = document.getElementById('hero-greeting');
       if (el) el.textContent = hero.greeting;
@@ -373,9 +369,34 @@ function renderSkills(skills) {
     .join('');
 }
 
+// Render logo / title thương hiệu trên thanh điều hướng
+function renderBrand(brand, title) {
+  const data = brand || title;
+  if (!data) return;
+
+  const badgeEl = document.getElementById('brand-badge') || document.querySelector('#brand-logo .logo-badge');
+  const titleEl = document.getElementById('brand-title') || document.querySelector('#brand-logo span');
+
+  if (typeof data === 'string') {
+    if (titleEl) titleEl.textContent = data;
+    if (badgeEl && data.length > 0) badgeEl.textContent = data.charAt(0).toUpperCase();
+  } else if (typeof data === 'object') {
+    const titleText = data.title || data.text || data.name || '';
+    const badgeText = data.badge !== undefined
+      ? data.badge
+      : (titleText ? titleText.trim().charAt(0).toUpperCase() : '');
+
+    if (badgeEl && badgeText) badgeEl.textContent = badgeText;
+    if (titleEl && titleText) titleEl.textContent = titleText;
+  }
+}
+
 // Nạp dữ liệu từ assets/data.js (chạy mượt mà trực tiếp trên mọi trình duyệt mà không bị lỗi CORS)
 function loadPortfolioData() {
   if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA) {
+    if (PORTFOLIO_DATA.brand || PORTFOLIO_DATA.title) {
+      renderBrand(PORTFOLIO_DATA.brand, PORTFOLIO_DATA.title);
+    }
     renderHero(PORTFOLIO_DATA.hero, PORTFOLIO_DATA.personalInfo);
     if (PORTFOLIO_DATA.stats) renderStats(PORTFOLIO_DATA.stats);
     if (PORTFOLIO_DATA.personalInfo) renderPersonalInfo(PORTFOLIO_DATA.personalInfo);
