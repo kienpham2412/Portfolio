@@ -118,7 +118,7 @@ const PORTFOLIO_DATA = {
         "URP",
         "Job system"
       ],
-      "url": "#hero",
+      "url": "./assets/apks/sandrush.apk",
       "storeUrl": "https://play.google.com/store/apps/details?id=com.cscmobi.sandrush&hl=vi"
     },
     {
@@ -133,7 +133,7 @@ const PORTFOLIO_DATA = {
         "URP",
         "Unity Physics"
       ],
-      "url": "#hero",
+      "url": "./assets/apks/pin.apk",
       "storeUrl": "https://app.sensortower.com/overview/com.cscmobi.pin.association?country=US"
     }
   ]
