@@ -391,7 +391,7 @@ function renderProjects(projects) {
         : '';
 
       const linkUrl = project.url || (project.link && project.link.url) || (typeof project.link === 'string' ? project.link : '') || project.linkUrl || '#hero';
-      const linkText = (project.link && project.link.text) || project.linkText || 'Xem Demo / Gameplay';
+      const linkText = (project.link && project.link.text) || project.linkText || 'Tải apk';
       const storeUrl = project.storeUrl || project.store_url || '';
       const categoryBadge = project.category ? `<span class="project-category-badge">${project.category}</span>` : '';
       const roleBadge = project.role ? `<span class="project-role-badge">${project.role}</span>` : '';
@@ -434,7 +434,7 @@ function renderProjects(projects) {
   if (!container.dataset.storeBound) {
     container.dataset.storeBound = 'true';
     container.addEventListener('click', (e) => {
-      // Bỏ qua nếu click vào nút Xem Demo / Gameplay hoặc thẻ liên kết bất kỳ
+      // Bỏ qua nếu click vào nút Tải apk hoặc thẻ liên kết bất kỳ
       if (e.target.closest('.project-links') || e.target.closest('a')) {
         return;
       }
