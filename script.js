@@ -303,6 +303,15 @@ function renderHero(hero, personalInfo) {
         roleContainer.innerHTML = html;
       }
     }
+
+    // Cập nhật ảnh avatar từ cấu hình hero data
+    const avatarSrc = hero.avatar || hero.image || hero.portrait || (typeof PORTFOLIO_DATA !== 'undefined' && (PORTFOLIO_DATA.avatar || PORTFOLIO_DATA.portrait));
+    if (avatarSrc) {
+      const portraitEl = document.getElementById('user-portrait');
+      if (portraitEl) {
+        portraitEl.src = avatarSrc;
+      }
+    }
   }
 }
 

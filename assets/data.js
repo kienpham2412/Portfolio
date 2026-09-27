@@ -8,6 +8,7 @@ const PORTFOLIO_DATA = {
   "hero": {
     "greeting": "Xin chào, tôi là",
     "role": "Game Developer",
+    "avatar": "./assets/images/avatar.webp",
     "tags": [
       "Unity & C#",
       "Software Engineer"
@@ -124,7 +125,7 @@ const PORTFOLIO_DATA = {
       "title": "Pin Association",
       "category": "Puzzle",
       "role": "Lead Developer",
-      "image": "./assets/images/pin.png",
+      "image": "./assets/images/pin.webp",
       "description": "Rèn luyện trí não với Pin Association, một trò chơi giải đố 3D thư giãn, nơi bạn khám phá những chiếc ghim ẩn và ghép chúng thành các bộ sưu tập theo chủ đề.",
       "tech": [
         "Unity",

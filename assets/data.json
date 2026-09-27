@@ -6,6 +6,7 @@
   "hero": {
     "greeting": "Xin chào, tôi là",
     "role": "Game Developer",
+    "avatar": "./assets/images/avatar.jpg",
     "tags": [
       "Unity & C#",
       "Software Engineer"
@@ -104,36 +105,34 @@
   ],
   "projects": [
     {
-      "title": "Cyber Strike: Odyssey",
-      "category": "Unity 3D Action",
+      "title": "Sand Rush",
+      "category": "Puzzle",
       "role": "Lead Developer",
-      "image": "./assets/images/project-cyber.jpg",
-      "description": "Trò chơi hành động nhập vai phong cách Cyberpunk góc nhìn người thứ ba. Tích hợp hệ thống combo chiến đấu mượt mà, AI kẻ địch linh hoạt theo hành vi, ánh sáng thể tích URP và hiệu ứng kiếm năng lượng custom shader.",
+      "image": "./assets/images/sandrush.webp",
+      "description": "Sand Rush là một trò chơi giải đố phân loại cát thư giãn nhưng đầy thử thách, nơi bạn phá vỡ các cấu trúc hình khối đầy màu sắc thành dòng cát chảy.",
       "tech": [
-        "Unity 2022 LTS",
+        "Unity",
         "C#",
         "URP",
-        "Shader Graph",
-        "NavMesh AI"
+        "Job system"
       ],
       "url": "#hero",
-      "storeUrl": "https://store.steampowered.com"
+      "storeUrl": "https://play.google.com/store/apps/details?id=com.cscmobi.sandrush&hl=vi"
     },
     {
-      "title": "Chronicles of Aetheria",
-      "category": "Open World RPG",
-      "role": "Solo Creator",
-      "image": "./assets/images/project-fantasy.jpg",
-      "description": "Game phiêu lưu khám phá các hòn đảo lơ lửng giữa mây trời theo phong cách Low-Poly tươi sáng. Tính năng gồm hệ thống bay lượn, giải đố vật lý trọng lực, chu kỳ ngày/đêm và hệ thống nhiệm vụ RPG mở rộng.",
+      "title": "Pin Association",
+      "category": "Puzzle",
+      "role": "Lead Developer",
+      "image": "./assets/images/pin.png",
+      "description": "Rèn luyện trí não với Pin Association, một trò chơi giải đố 3D thư giãn, nơi bạn khám phá những chiếc ghim ẩn và ghép chúng thành các bộ sưu tập theo chủ đề.",
       "tech": [
-        "Unity 3D",
+        "Unity",
         "C#",
-        "Cinemachine",
-        "Custom Physics",
-        "Blender Modeling"
+        "URP",
+        "Unity Physics"
       ],
       "url": "#hero",
-      "storeUrl": "https://store.steampowered.com"
+      "storeUrl": "https://app.sensortower.com/overview/com.cscmobi.pin.association?country=US"
     }
   ]
 }
