@@ -103,6 +103,39 @@ const PORTFOLIO_DATA = {
         "Rider / Antigravity"
       ]
     }
+  ],
+  "projects": [
+    {
+      "title": "Sand Rush",
+      "category": "Puzzle",
+      "role": "Lead Developer",
+      "image": "./assets/images/sandrush.webp",
+      "description": "Sand Rush là một trò chơi giải đố phân loại cát thư giãn nhưng đầy thử thách, nơi bạn phá vỡ các cấu trúc hình khối đầy màu sắc thành dòng cát chảy.",
+      "tech": [
+        "Unity",
+        "C#",
+        "URP",
+        "Job system"
+      ],
+      "url": "#hero",
+      "storeUrl": "https://play.google.com/store/apps/details?id=com.cscmobi.sandrush&hl=vi"
+    },
+    {
+      "title": "Pin Association",
+      "category": "Puzzle",
+      "role": "Lead Developer",
+      "image": "./assets/images/pin.png",
+      "description": "Rèn luyện trí não với Pin Association, một trò chơi giải đố 3D thư giãn, nơi bạn khám phá những chiếc ghim ẩn và ghép chúng thành các bộ sưu tập theo chủ đề.",
+      "tech": [
+        "Unity",
+        "C#",
+        "URP",
+        "Unity Physics"
+      ],
+      "url": "#hero",
+      "storeUrl": "https://app.sensortower.com/overview/com.cscmobi.pin.association?country=US"
+    }
   ]
 };
+
 

@@ -369,6 +369,77 @@ function renderSkills(skills) {
     .join('');
 }
 
+// Render các dự án cá nhân tiêu biểu từ mảng projects trong JSON
+function renderProjects(projects) {
+  const container = document.getElementById('projects-container');
+  if (!container || !Array.isArray(projects)) return;
+
+  container.innerHTML = projects
+    .map((project) => {
+      const techList = project.tech || project.tags || [];
+      const techHtml = Array.isArray(techList)
+        ? techList.map((tag) => `<span class="tech-pill">${tag}</span>`).join('')
+        : '';
+
+      const linkUrl = project.url || (project.link && project.link.url) || (typeof project.link === 'string' ? project.link : '') || project.linkUrl || '#hero';
+      const linkText = (project.link && project.link.text) || project.linkText || 'Xem Demo / Gameplay';
+      const storeUrl = project.storeUrl || project.store_url || '';
+      const categoryBadge = project.category ? `<span class="project-category-badge">${project.category}</span>` : '';
+      const roleBadge = project.role ? `<span class="project-role-badge">${project.role}</span>` : '';
+      const imageSrc = project.image || project.img || './assets/images/project-cyber.jpg';
+      const imageAlt = project.title ? `Dự án ${project.title}` : 'Ảnh dự án';
+      const storeAttr = storeUrl ? `data-store-url="${storeUrl}"` : '';
+      const tooltipAttr = storeUrl ? `title="Nhấn để mở trang Store (${project.title || ''})"` : '';
+
+      return `
+        <article class="project-card ${storeUrl ? 'has-store-url' : ''}" ${storeAttr} ${tooltipAttr}>
+          <div class="project-cover">
+            ${categoryBadge}
+            ${roleBadge}
+            <img src="${imageSrc}" alt="${imageAlt}">
+          </div>
+          <div class="project-body">
+            <div class="project-info-area">
+              <h3 class="project-title">${project.title || ''}</h3>
+              <p class="project-desc">${project.description || project.desc || ''}</p>
+              <div class="project-tech">
+                ${techHtml}
+              </div>
+            </div>
+            <div class="project-links">
+              <a href="${linkUrl}" class="project-btn primary" ${linkUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>
+                ${linkText}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      `;
+    })
+    .join('');
+
+  // Lắng nghe sự kiện click vào vùng hiển thị project để mở Store URL trên tab mới
+  if (!container.dataset.storeBound) {
+    container.dataset.storeBound = 'true';
+    container.addEventListener('click', (e) => {
+      // Bỏ qua nếu click vào nút Xem Demo / Gameplay hoặc thẻ liên kết bất kỳ
+      if (e.target.closest('.project-links') || e.target.closest('a')) {
+        return;
+      }
+      const card = e.target.closest('.project-card[data-store-url]');
+      if (card) {
+        const storeUrl = card.getAttribute('data-store-url');
+        if (storeUrl) {
+          window.open(storeUrl, '_blank', 'noopener,noreferrer');
+        }
+      }
+    });
+  }
+}
+
 // Render logo / title thương hiệu trên thanh điều hướng
 function renderBrand(brand, title) {
   const data = brand || title;
@@ -403,6 +474,7 @@ function loadPortfolioData() {
     if (PORTFOLIO_DATA.education) renderEducation(PORTFOLIO_DATA.education);
     if (PORTFOLIO_DATA.experience) renderExperience(PORTFOLIO_DATA.experience);
     if (PORTFOLIO_DATA.skills) renderSkills(PORTFOLIO_DATA.skills);
+    if (PORTFOLIO_DATA.projects) renderProjects(PORTFOLIO_DATA.projects);
   } else {
     console.error('Không tìm thấy dữ liệu PORTFOLIO_DATA từ file assets/data.js');
   }

@@ -101,5 +101,39 @@
         "Rider / Antigravity"
       ]
     }
+  ],
+  "projects": [
+    {
+      "title": "Cyber Strike: Odyssey",
+      "category": "Unity 3D Action",
+      "role": "Lead Developer",
+      "image": "./assets/images/project-cyber.jpg",
+      "description": "Trò chơi hành động nhập vai phong cách Cyberpunk góc nhìn người thứ ba. Tích hợp hệ thống combo chiến đấu mượt mà, AI kẻ địch linh hoạt theo hành vi, ánh sáng thể tích URP và hiệu ứng kiếm năng lượng custom shader.",
+      "tech": [
+        "Unity 2022 LTS",
+        "C#",
+        "URP",
+        "Shader Graph",
+        "NavMesh AI"
+      ],
+      "url": "#hero",
+      "storeUrl": "https://store.steampowered.com"
+    },
+    {
+      "title": "Chronicles of Aetheria",
+      "category": "Open World RPG",
+      "role": "Solo Creator",
+      "image": "./assets/images/project-fantasy.jpg",
+      "description": "Game phiêu lưu khám phá các hòn đảo lơ lửng giữa mây trời theo phong cách Low-Poly tươi sáng. Tính năng gồm hệ thống bay lượn, giải đố vật lý trọng lực, chu kỳ ngày/đêm và hệ thống nhiệm vụ RPG mở rộng.",
+      "tech": [
+        "Unity 3D",
+        "C#",
+        "Cinemachine",
+        "Custom Physics",
+        "Blender Modeling"
+      ],
+      "url": "#hero",
+      "storeUrl": "https://store.steampowered.com"
+    }
   ]
 }
