@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trình quản lý & Chỉnh sửa Dữ liệu Portfolio (Local Editor)</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Theme Palette -->
+  <link rel="stylesheet" href="palette.css">
+
+  <style>
+    :root {
+      --sidebar-width: 260px;
+      --header-height: 70px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --font-code: 'Fira Code', monospace;
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Ambient background glows */
+    .bg-glow {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.12;
+    }
+
+    .glow-cyan {
+      top: -100px;
+      right: -100px;
+      background: var(--accent-secondary);
+    }
+
+    .glow-coral {
+      bottom: -150px;
+      left: -100px;
+      background: var(--accent-primary);
+    }
+
+    /* Top Bar Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--header-bg-scrolled);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-glass);
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .header-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-gradient);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .header-title-box h1 {
+      font-size: 1.15rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .local-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.15rem 0.55rem;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--accent-secondary);
+      letter-spacing: 0.05em;
+    }
+
+    .header-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.15rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      border: 1px solid transparent;
+      outline: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      border-color: var(--border-glass);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      color: var(--accent-secondary);
+    }
+
+    .btn-outline-danger {
+      background: transparent;
+      border-color: rgba(255, 86, 86, 0.3);
+      color: #ff6b6b;
+    }
+
+    .btn-outline-danger:hover {
+      background: rgba(255, 86, 86, 0.15);
+      border-color: var(--accent-primary);
+    }
+
+    .btn-sm {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    /* App Container Layout */
+    .app-layout {
+      display: flex;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: var(--sidebar-width);
+      padding: 1.75rem 1.25rem;
+      border-right: 1px solid var(--border-glass);
+      background: rgba(11, 15, 25, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      position: sticky;
+      top: var(--header-height);
+      height: calc(100vh - var(--header-height));
+      overflow-y: auto;
+    }
+
+    .nav-group-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin: 1.25rem 0 0.4rem 0.75rem;
+    }
+
+    .nav-group-title:first-child {
+      margin-top: 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-primary);
+    }
+
+    .nav-item.active {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-secondary);
+      font-weight: 600;
+    }
+
+    .nav-item svg {
+      flex-shrink: 0;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-size: 0.72rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+    }
+
+    .nav-item.active .nav-badge {
+      background: var(--accent-secondary);
+      color: #0b0f19;
+      font-weight: 700;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      padding: 2.25rem 3rem 4rem;
+      overflow-y: auto;
+      min-width: 0;
+    }
+
+    .section-view {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .section-view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .view-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .view-title {
+      font-size: 1.6rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .view-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    /* Cards & Containers */
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      backdrop-filter: blur(14px);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .panel-title {
+      font-size: 1.15rem;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Form Grids & Inputs */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .label-hint {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select,
+    textarea {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      padding: 0.75rem 0.95rem;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      transition: all 0.2s ease;
+      outline: none;
+      width: 100%;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* List Items Card (Projects, Experience, Education, etc.) */
+    .items-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .item-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .item-card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      background: rgba(20, 30, 50, 0.65);
+    }
+
+    .item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .item-index-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-secondary);
+      background: rgba(56, 189, 248, 0.12);
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .item-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-icon {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .btn-icon.danger:hover {
+      background: rgba(255, 86, 86, 0.2);
+      color: #ff6b6b;
+      border-color: rgba(255, 86, 86, 0.4);
+    }
+
+    /* Image Preview helper */
+    .image-preview-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .image-thumb-box {
+      width: 76px;
+      height: 76px;
+      border-radius: var(--radius-sm);
+      background: #1e293b;
+      border: 1px solid var(--border-glass);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .image-thumb-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Project Cover Image Picker */
+    .project-image-picker {
+      position: relative;
+      width: 100%;
+      height: 150px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #0f172a;
+      border: 1px solid var(--border-glass);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-image-picker:hover {
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .project-image-picker img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .project-image-picker:hover img {
+      transform: scale(1.05);
+    }
+
+    .image-picker-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(11, 15, 25, 0.72);
+      backdrop-filter: blur(2px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .project-image-picker:hover .image-picker-overlay,
+    .image-thumb-box:hover .image-picker-overlay {
+      opacity: 1;
+    }
+
+    .image-path-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.45rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      gap: 0.5rem;
+    }
+
+    .image-path-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+      font-family: var(--font-code);
+      color: #94a3b8;
+    }
+
+    .btn-text-edit {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      color: var(--accent-secondary);
+      cursor: pointer;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-text-edit:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent-secondary);
+    }
+
+    /* Raw Code Editor View */
+    .code-editor-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .code-editor-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    #raw-code-editor {
+      width: 100%;
+      height: 600px;
+      background: #070a11;
+      color: #38bdf8;
+      font-family: var(--font-code);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-glass);
+      white-space: pre;
+      tab-size: 2;
+    }
+
+    #raw-code-editor:focus {
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+
+    /* Floating Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-accent);
+      color: var(--text-primary);
+      padding: 0.9rem 1.4rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+
+    .toast.success {
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+
+    .toast.success svg {
+      color: #22c55e;
+    }
+
+    .toast.info svg {
+      color: var(--accent-secondary);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-dialog {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      max-width: 650px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+    }
+
+    /* Helper Callout Box */
+    .callout {
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      font-size: 0.88rem;
+      color: #bae6fd;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .callout svg {
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+      color: var(--accent-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .app-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0.75rem 1rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border-glass);
+      }
+
+      .nav-group-title {
+        display: none;
+      }
+
+      .main-content {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Ambient Glows -->
+  <div class="bg-glow glow-cyan"></div>
+  <div class="bg-glow glow-coral"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-brand">
+      <div class="header-badge">E</div>
+      <div class="header-title-box">
+        <h1>Portfolio Data Editor <span class="local-tag">Local Only</span></h1>
+        <p class="header-subtitle">Trình chỉnh sửa trực quan file assets/data.js</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Mở xem trước website portfolio -->
+      <a href="index.html" target="_blank" class="btn btn-secondary btn-sm" title="Mở trang Portfolio trên tab mới">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        Xem Portfolio
+      </a>
+
+      <!-- Sao chép nhanh mã JS -->
+      <button class="btn btn-secondary btn-sm" id="btn-copy-code" title="Sao chép nội dung data.js vào bộ nhớ tạm">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        Sao chép JS
+      </button>
+
+      <!-- Tải file data.js về máy -->
+      <button class="btn btn-secondary btn-sm" id="btn-download-file" title="Tải file data.js trực tiếp về thư mục">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Tải file data.js
+      </button>
+
+      <!-- Ghi đè trực tiếp vào file data.js qua File System Access API -->
+      <button class="btn btn-primary btn-sm" id="btn-save-direct" title="Lưu và ghi đè trực tiếp vào file data.js">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+          <polyline points="17 21 17 13 7 13 7 21"></polyline>
+          <polyline points="7 3 7 8 15 8"></polyline>
+        </svg>
+        Lưu vào data.js
+      </button>
+    </div>
+  </header>
+
+  <!-- App Layout -->
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="nav-group-title">Thông tin tổng quan</div>
+      <div class="nav-item active" data-tab="brand-hero">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+        </svg>
+        <span>Brand & Hero</span>
+      </div>
+
+      <div class="nav-item" data-tab="personal-info">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <line x1="7" y1="8" x2="17" y2="8" />
+          <line x1="7" y1="12" x2="13" y2="12" />
+        </svg>
+        <span>Thông tin cá nhân</span>
+        <span class="nav-badge" id="badge-count-personal">0</span>
+      </div>
+
+      <div class="nav-item" data-tab="stats">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10" />
+          <line x1="12" y1="20" x2="12" y2="4" />
+          <line x1="6" y1="20" x2="6" y2="14" />
+        </svg>
+        <span>Số liệu (Stats)</span>
+        <span class="nav-badge" id="badge-count-stats">0</span>
+      </div>
+
+      <div class="nav-group-title">Sự nghiệp & Chuyên môn</div>
+      <div class="nav-item" data-tab="education">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+          <path d="M6 12v5c3 3 9 3 12 0v-5" />
+        </svg>
+        <span>Học vấn</span>
+        <span class="nav-badge" id="badge-count-edu">0</span>
+      </div>
+
+      <div class="nav-item" data-tab="experience">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+        </svg>
+        <span>Kinh nghiệm</span>
+        <span class="nav-badge" id="badge-count-exp">0</span>
+      </div>
+
+      <div class="nav-item" data-tab="skills">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 2 7 12 12 22 7 12 2" />
+          <polyline points="2 17 12 22 22 17" />
+          <polyline points="2 12 12 17 22 12" />
+        </svg>
+        <span>Kỹ năng & Tool</span>
+        <span class="nav-badge" id="badge-count-skills">0</span>
+      </div>
+
+      <div class="nav-group-title">Sản phẩm & Dự án</div>
+      <div class="nav-item" data-tab="projects">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2" />
+          <line x1="8" y1="21" x2="16" y2="21" />
+          <line x1="12" y1="17" x2="12" y2="21" />
+        </svg>
+        <span>Dự án thực tế</span>
+        <span class="nav-badge" id="badge-count-projects">0</span>
+      </div>
+
+      <div class="nav-group-title">Nâng cao</div>
+      <div class="nav-item" data-tab="raw-code">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+        <span>Mã nguồn JSON</span>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- ================= 1. BRAND & HERO TAB ================= -->
+      <section class="section-view active" id="view-brand-hero">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Thương hiệu & Lời chào Hero</h2>
+            <p class="view-desc">Cấu hình tiêu đề logo, câu chào, avatar đại diện và đoạn giới thiệu bản thân.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            Thương hiệu thanh điều hướng (Navbar Brand)
+          </h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="brand-title">Tên hiển thị (Brand Title)</label>
+              <input type="text" id="brand-title" placeholder="VD: Kien Pham">
+            </div>
+            <div class="form-group">
+              <label for="brand-badge">Ký tự viết tắt trên Badge</label>
+              <input type="text" id="brand-badge" maxlength="2" placeholder="VD: K">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Khu vực Giới thiệu chính (Hero Section)
+          </h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="hero-greeting">Lời chào mở đầu (Greeting)</label>
+              <input type="text" id="hero-greeting" placeholder="VD: Xin chào, tôi là">
+            </div>
+            <div class="form-group">
+              <label for="hero-role">Chức danh chính (Role)</label>
+              <input type="text" id="hero-role" placeholder="VD: Game Developer">
+            </div>
+            <div class="form-group full-width">
+              <label for="hero-avatar">
+                <span>Ảnh đại diện (Avatar)</span>
+                <span class="label-hint">Nhấn ảnh để chọn tệp từ máy tính</span>
+              </label>
+              <div class="image-preview-wrapper">
+                <div class="image-thumb-box" onclick="document.getElementById('hero-avatar-file-input').click()" title="Nhấn để chọn ảnh đại diện mới từ máy tính">
+                  <img id="hero-avatar-preview" src="" alt="Avatar Preview" onerror="this.src='./assets/images/avatar.webp'">
+                  <div class="image-picker-overlay">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                      <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                  </div>
+                </div>
+                <input type="file" id="hero-avatar-file-input" accept="image/*" style="display: none;" onchange="handleHeroAvatarChange(this)">
+                <div style="flex: 1;">
+                  <input type="text" id="hero-avatar" placeholder="./assets/images/avatar.webp">
+                  <span class="label-hint">Đường dẫn: ./assets/images/avatar.webp (hoặc nhấn trực tiếp vào ảnh đại diện)</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label for="hero-tags">Thẻ định danh kỹ năng (Tags phụ) <span class="label-hint">Ngăn cách nhau bởi dấu phẩy</span></label>
+              <input type="text" id="hero-tags" placeholder="Unity & C#, Software Engineer">
+            </div>
+            <div class="form-group full-width">
+              <label for="hero-bio">Đoạn tóm tắt bản thân (Bio)</label>
+              <textarea id="hero-bio" rows="4" placeholder="Đam mê xây dựng các trò chơi tương tác lôi cuốn..."></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. PERSONAL INFO TAB ================= -->
+      <section class="section-view" id="view-personal-info">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Thông tin cá nhân</h2>
+            <p class="view-desc">Quản lý các trường thông tin lý lịch như Họ tên, Ngày sinh, Nơi ở, Email, Điện thoại.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-add-personal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Thêm trường thông tin
+          </button>
+        </div>
+
+        <div class="items-stack" id="personal-info-stack">
+          <!-- Render dynamically -->
+        </div>
+      </section>
+
+      <!-- ================= 3. STATS TAB ================= -->
+      <section class="section-view" id="view-stats">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Số liệu nổi bật (Quick Stats)</h2>
+            <p class="view-desc">Các con số ấn tượng hiển thị trong thanh thống kê nhanh trên trang chủ.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-add-stat">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Thêm thẻ số liệu
+          </button>
+        </div>
+
+        <div class="callout">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <div>
+            <strong>Lưu ý về số năm kinh nghiệm:</strong> Mục "+4 Năm kinh nghiệm" hiện được website tự động tính toán chính xác theo thời gian thực (bắt đầu từ tháng 04/2022 đến ngày hiện tại), do đó bạn không cần thêm mục này ở đây.
+          </div>
+        </div>
+
+        <div class="items-stack" id="stats-stack">
+          <!-- Render dynamically -->
+        </div>
+      </section>
+
+      <!-- ================= 4. EDUCATION TAB ================= -->
+      <section class="section-view" id="view-education">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Quá trình đào tạo & Học vấn</h2>
+            <p class="view-desc">Các cột mốc học tập tại các trường đại học, bằng cấp hoặc chứng chỉ chuyên ngành.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-add-education">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Thêm mốc học vấn
+          </button>
+        </div>
+
+        <div class="items-stack" id="education-stack">
+          <!-- Render dynamically -->
+        </div>
+      </section>
+
+      <!-- ================= 5. EXPERIENCE TAB ================= -->
+      <section class="section-view" id="view-experience">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Kinh nghiệm làm việc thực tế</h2>
+            <p class="view-desc">Quá trình làm việc tại các công ty, vị trí đảm nhiệm và đóng góp chuyên môn.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-add-experience">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Thêm mốc kinh nghiệm
+          </button>
+        </div>
+
+        <div class="items-stack" id="experience-stack">
+          <!-- Render dynamically -->
+        </div>
+      </section>
+
+      <!-- ================= 6. SKILLS TAB ================= -->
+      <section class="section-view" id="view-skills">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Kỹ năng & Công nghệ</h2>
+            <p class="view-desc">Các nhóm kỹ năng chuyên môn như Game Development, Quy trình công cụ, Frameworks.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-add-skill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Thêm nhóm kỹ năng
+          </button>
+        </div>
+
+        <div class="items-stack" id="skills-stack">
+          <!-- Render dynamically -->
+        </div>
+      </section>
+
+      <!-- ================= 7. PROJECTS TAB ================= -->
+      <section class="section-view" id="view-projects">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Dự án thực tế (Projects)</h2>
+            <p class="view-desc">Danh sách các game & sản phẩm thực tế đã phát hành trên Google Play, App Store hoặc APK.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-add-project">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Thêm dự án mới
+          </button>
+        </div>
+
+        <div class="items-stack" id="projects-stack">
+          <!-- Render dynamically -->
+        </div>
+      </section>
+
+      <!-- ================= 8. RAW CODE TAB ================= -->
+      <section class="section-view" id="view-raw-code">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Trình chỉnh sửa mã JSON trực tiếp</h2>
+            <p class="view-desc">Xem hoặc chỉnh sửa trực tiếp định dạng cấu trúc JSON của toàn bộ dữ liệu PORTFOLIO_DATA.</p>
+          </div>
+        </div>
+
+        <div class="code-editor-container">
+          <div class="code-editor-toolbar">
+            <span class="label-hint">Nhấn nút bên dưới để đồng bộ dữ liệu giữa Form giao diện và Trình soạn thảo mã JSON.</span>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary btn-sm" id="btn-format-json">Định dạng (Format)</button>
+              <button class="btn btn-primary btn-sm" id="btn-apply-json">Áp dụng vào Form</button>
+            </div>
+          </div>
+          <textarea id="raw-code-editor" spellcheck="false"></textarea>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Load current portfolio data -->
+  <script src="assets/data.js"></script>
+
+  <!-- Editor Logic -->
+  <script>
+    // State dữ liệu đang sửa đổi (Sao chép sâu từ PORTFOLIO_DATA)
+    let currentData = {};
+
+    function initData() {
+      if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA) {
+        currentData = JSON.parse(JSON.stringify(PORTFOLIO_DATA));
+      } else {
+        currentData = {
+          brand: { badge: "K", title: "Kien Pham" },
+          hero: { greeting: "Xin chào, tôi là", role: "Game Developer", avatar: "./assets/images/avatar.webp", tags: [], bio: "" },
+          stats: [],
+          personalInfo: [],
+          education: [],
+          experience: [],
+          skills: [],
+          projects: []
+        };
+      }
+    }
+
+    // Toast alert helper
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      const iconSvg = type === 'success'
+        ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>`
+        : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+
+      toast.innerHTML = `${iconSvg} <span>${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(15px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Tab Navigation
+    const navItems = document.querySelectorAll('.sidebar .nav-item');
+    const sectionViews = document.querySelectorAll('.section-view');
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        navItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        const tabKey = item.dataset.tab;
+        sectionViews.forEach(view => {
+          if (view.id === `view-${tabKey}`) {
+            view.classList.add('active');
+          } else {
+            view.classList.remove('active');
+          }
+        });
+
+        // Nếu chuyển sang tab Raw Code thì đồng bộ dữ liệu vào textarea
+        if (tabKey === 'raw-code') {
+          syncFormToData();
+          syncDataToRawEditor();
+        }
+      });
+    });
+
+    // Cập nhật số lượng huy hiệu trên sidebar
+    function updateSidebarBadges() {
+      document.getElementById('badge-count-personal').textContent = (currentData.personalInfo || []).length;
+      document.getElementById('badge-count-stats').textContent = (currentData.stats || []).length;
+      document.getElementById('badge-count-edu').textContent = (currentData.education || []).length;
+      document.getElementById('badge-count-exp').textContent = (currentData.experience || []).length;
+      document.getElementById('badge-count-skills').textContent = (currentData.skills || []).length;
+      document.getElementById('badge-count-projects').textContent = (currentData.projects || []).length;
+    }
+
+    // ================= 1. RENDER FORM BRAND & HERO =================
+    function populateBrandHero() {
+      const brand = currentData.brand || {};
+      const hero = currentData.hero || {};
+
+      document.getElementById('brand-title').value = brand.title || '';
+      document.getElementById('brand-badge').value = brand.badge || '';
+
+      document.getElementById('hero-greeting').value = hero.greeting || '';
+      document.getElementById('hero-role').value = hero.role || '';
+      document.getElementById('hero-avatar').value = hero.avatar || '';
+      document.getElementById('hero-avatar-preview').src = hero.avatar || './assets/images/avatar.webp';
+      document.getElementById('hero-tags').value = Array.isArray(hero.tags) ? hero.tags.join(', ') : '';
+      document.getElementById('hero-bio').value = hero.bio || '';
+
+      document.getElementById('hero-avatar').addEventListener('input', (e) => {
+        document.getElementById('hero-avatar-preview').src = e.target.value.trim();
+      });
+    }
+
+    // ================= 2. RENDER PERSONAL INFO =================
+    function renderPersonalInfoList() {
+      const container = document.getElementById('personal-info-stack');
+      const list = currentData.personalInfo || [];
+
+      if (list.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Chưa có thông tin cá nhân nào. Hãy nhấn "Thêm trường thông tin".</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map((item, index) => `
+        <div class="item-card" data-index="${index}">
+          <div class="item-header">
+            <span class="item-index-badge">#${index + 1} - ${escapeHtml(item.label || 'Thông tin')}</span>
+            <div class="item-ctrls">
+              <button class="btn-icon" onclick="moveItem('personalInfo', ${index}, -1)" title="Di chuyển lên" ${index === 0 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              </button>
+              <button class="btn-icon" onclick="moveItem('personalInfo', ${index}, 1)" title="Di chuyển xuống" ${index === list.length - 1 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <button class="btn-icon danger" onclick="removeItem('personalInfo', ${index})" title="Xóa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Tên nhãn (Label)</label>
+              <input type="text" value="${escapeHtml(item.label || '')}" onchange="updateItemField('personalInfo', ${index}, 'label', this.value)" placeholder="VD: Email, Số điện thoại">
+            </div>
+            <div class="form-group">
+              <label>Giá trị hiển thị (Value)</label>
+              <input type="text" value="${escapeHtml(item.value || '')}" onchange="updateItemField('personalInfo', ${index}, 'value', this.value)" placeholder="VD: kienpham241296@gmail.com">
+            </div>
+            <div class="form-group">
+              <label>Loại liên kết (Type)</label>
+              <select onchange="updateItemField('personalInfo', ${index}, 'type', this.value)">
+                <option value="" ${!item.type ? 'selected' : ''}>Văn bản thường</option>
+                <option value="email" ${item.type === 'email' ? 'selected' : ''}>Email (mailto:)</option>
+                <option value="phone" ${item.type === 'phone' ? 'selected' : ''}>Số điện thoại (tel:)</option>
+                <option value="link" ${item.type === 'link' ? 'selected' : ''}>Liên kết web (Link)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại thô (Raw) <span class="label-hint">Dành cho type=phone</span></label>
+              <input type="text" value="${escapeHtml(item.raw || '')}" onchange="updateItemField('personalInfo', ${index}, 'raw', this.value)" placeholder="VD: 0935581686">
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ================= 3. RENDER STATS =================
+    function renderStatsList() {
+      const container = document.getElementById('stats-stack');
+      const list = currentData.stats || [];
+
+      if (list.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Chưa có số liệu nào. Hãy nhấn "Thêm thẻ số liệu".</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map((item, index) => `
+        <div class="item-card" data-index="${index}">
+          <div class="item-header">
+            <span class="item-index-badge">#${index + 1} - ${escapeHtml(item.label || 'Thẻ số liệu')}</span>
+            <div class="item-ctrls">
+              <button class="btn-icon" onclick="moveItem('stats', ${index}, -1)" title="Di chuyển lên" ${index === 0 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              </button>
+              <button class="btn-icon" onclick="moveItem('stats', ${index}, 1)" title="Di chuyển xuống" ${index === list.length - 1 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <button class="btn-icon danger" onclick="removeItem('stats', ${index})" title="Xóa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Con số nổi bật (Value)</label>
+              <input type="text" value="${escapeHtml(item.value || '')}" onchange="updateItemField('stats', ${index}, 'value', this.value)" placeholder="VD: 15+, 100%">
+            </div>
+            <div class="form-group">
+              <label>Nhãn mô tả (Label)</label>
+              <input type="text" value="${escapeHtml(item.label || '')}" onchange="updateItemField('stats', ${index}, 'label', this.value)" placeholder="VD: Dự án hoàn thành">
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ================= 4. RENDER EDUCATION =================
+    function renderEducationList() {
+      const container = document.getElementById('education-stack');
+      const list = currentData.education || [];
+
+      if (list.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Chưa có dữ liệu học vấn nào. Hãy nhấn "Thêm mốc học vấn".</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map((item, index) => `
+        <div class="item-card" data-index="${index}">
+          <div class="item-header">
+            <span class="item-index-badge">#${index + 1} - ${escapeHtml(item.school || 'Trường học')}</span>
+            <div class="item-ctrls">
+              <button class="btn-icon" onclick="moveItem('education', ${index}, -1)" title="Lên" ${index === 0 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              </button>
+              <button class="btn-icon" onclick="moveItem('education', ${index}, 1)" title="Xuống" ${index === list.length - 1 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <button class="btn-icon danger" onclick="removeItem('education', ${index})" title="Xóa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Thời gian (Period)</label>
+              <input type="text" value="${escapeHtml(item.period || '')}" onchange="updateItemField('education', ${index}, 'period', this.value)" placeholder="VD: 2020 – 2022">
+            </div>
+            <div class="form-group">
+              <label>Bằng cấp / Khóa học (Degree)</label>
+              <input type="text" value="${escapeHtml(item.degree || '')}" onchange="updateItemField('education', ${index}, 'degree', this.value)" placeholder="VD: Cử nhân Khoa học máy tính">
+            </div>
+            <div class="form-group">
+              <label>Tên trường / Đơn vị đào tạo (School)</label>
+              <input type="text" value="${escapeHtml(item.school || '')}" onchange="updateItemField('education', ${index}, 'school', this.value)" placeholder="VD: Đại học Bách khoa Hà Nội">
+            </div>
+            <div class="form-group">
+              <label>Mô tả / Xếp loại tốt nghiệp (Description)</label>
+              <input type="text" value="${escapeHtml(item.description || '')}" onchange="updateItemField('education', ${index}, 'description', this.value)" placeholder="VD: Tốt nghiệp loại giỏi">
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ================= 5. RENDER EXPERIENCE =================
+    function renderExperienceList() {
+      const container = document.getElementById('experience-stack');
+      const list = currentData.experience || [];
+
+      if (list.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Chưa có dữ liệu kinh nghiệm nào. Hãy nhấn "Thêm mốc kinh nghiệm".</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map((item, index) => `
+        <div class="item-card" data-index="${index}">
+          <div class="item-header">
+            <span class="item-index-badge">#${index + 1} - ${escapeHtml(item.company || 'Công ty')}</span>
+            <div class="item-ctrls">
+              <button class="btn-icon" onclick="moveItem('experience', ${index}, -1)" title="Lên" ${index === 0 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              </button>
+              <button class="btn-icon" onclick="moveItem('experience', ${index}, 1)" title="Xuống" ${index === list.length - 1 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <button class="btn-icon danger" onclick="removeItem('experience', ${index})" title="Xóa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Giai đoạn làm việc (Period)</label>
+              <input type="text" value="${escapeHtml(item.period || '')}" onchange="updateItemField('experience', ${index}, 'period', this.value)" placeholder="VD: 2022 – Hiện tại">
+            </div>
+            <div class="form-group">
+              <label>Vị trí công việc (Role)</label>
+              <input type="text" value="${escapeHtml(item.role || '')}" onchange="updateItemField('experience', ${index}, 'role', this.value)" placeholder="VD: Unity Game Developer">
+            </div>
+            <div class="form-group full-width">
+              <label>Tên Công ty / Tổ chức (Company)</label>
+              <input type="text" value="${escapeHtml(item.company || '')}" onchange="updateItemField('experience', ${index}, 'company', this.value)" placeholder="VD: Công Ty Cổ Phần Công Nghệ Cscmobi Việt Nam">
+            </div>
+            <div class="form-group full-width">
+              <label>Mô tả công việc (Description - Tùy chọn)</label>
+              <textarea onchange="updateItemField('experience', ${index}, 'description', this.value)" placeholder="Mô tả các trách nhiệm hoặc thành tích chính...">${escapeHtml(item.description || item.desc || '')}</textarea>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ================= 6. RENDER SKILLS =================
+    function renderSkillsList() {
+      const container = document.getElementById('skills-stack');
+      const list = currentData.skills || [];
+
+      if (list.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Chưa có nhóm kỹ năng nào. Hãy nhấn "Thêm nhóm kỹ năng".</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map((item, index) => `
+        <div class="item-card" data-index="${index}">
+          <div class="item-header">
+            <span class="item-index-badge">#${index + 1} - ${escapeHtml(item.title || 'Kỹ năng')}</span>
+            <div class="item-ctrls">
+              <button class="btn-icon" onclick="moveItem('skills', ${index}, -1)" title="Lên" ${index === 0 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              </button>
+              <button class="btn-icon" onclick="moveItem('skills', ${index}, 1)" title="Xuống" ${index === list.length - 1 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <button class="btn-icon danger" onclick="removeItem('skills', ${index})" title="Xóa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Icon hiển thị</label>
+              <select onchange="updateItemField('skills', ${index}, 'icon', this.value)">
+                <option value="layers" ${item.icon === 'layers' ? 'selected' : ''}>Layers (Khối kiến trúc)</option>
+                <option value="tools" ${item.icon === 'tools' ? 'selected' : ''}>Tools (Cờ lê công cụ)</option>
+                <option value="monitor" ${item.icon === 'monitor' ? 'selected' : ''}>Monitor (Màn hình máy tính)</option>
+                <option value="code" ${item.icon === 'code' ? 'selected' : ''}>Code (Thẻ lập trình)</option>
+                <option value="gamepad" ${item.icon === 'gamepad' ? 'selected' : ''}>Gamepad (Tay cầm chơi game)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tên nhóm kỹ năng (Title)</label>
+              <input type="text" value="${escapeHtml(item.title || '')}" onchange="updateItemField('skills', ${index}, 'title', this.value)" placeholder="VD: Game Development">
+            </div>
+            <div class="form-group full-width">
+              <label>Mô tả tóm tắt (Description)</label>
+              <textarea onchange="updateItemField('skills', ${index}, 'description', this.value)" placeholder="Chuyên sâu về lập trình Unity, xây dựng logic gameplay...">${escapeHtml(item.description || item.desc || '')}</textarea>
+            </div>
+            <div class="form-group full-width">
+              <label>Danh sách thẻ công nghệ (Tags) <span class="label-hint">Ngăn cách bởi dấu phẩy</span></label>
+              <input type="text" value="${escapeHtml(Array.isArray(item.tags) ? item.tags.join(', ') : '')}" onchange="updateItemArrayField('skills', ${index}, 'tags', this.value)" placeholder="Unity 3D / 2D, C#, Shader Graph, Git">
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ================= 7. RENDER PROJECTS =================
+    function renderProjectsList() {
+      const container = document.getElementById('projects-stack');
+      const list = currentData.projects || [];
+
+      if (list.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Chưa có dự án nào. Hãy nhấn "Thêm dự án mới".</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map((item, index) => `
+        <div class="item-card" data-index="${index}">
+          <div class="item-header">
+            <span class="item-index-badge">#${index + 1} - ${escapeHtml(item.title || 'Dự án')}</span>
+            <div class="item-ctrls">
+              <button class="btn-icon" onclick="moveItem('projects', ${index}, -1)" title="Lên" ${index === 0 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              </button>
+              <button class="btn-icon" onclick="moveItem('projects', ${index}, 1)" title="Xuống" ${index === list.length - 1 ? 'disabled' : ''}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <button class="btn-icon danger" onclick="removeItem('projects', ${index})" title="Xóa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Tên dự án (Title)</label>
+              <input type="text" value="${escapeHtml(item.title || '')}" onchange="updateItemField('projects', ${index}, 'title', this.value)" placeholder="VD: Sand Rush">
+            </div>
+            <div class="form-group">
+              <label>Thể loại (Category)</label>
+              <input type="text" value="${escapeHtml(item.category || '')}" onchange="updateItemField('projects', ${index}, 'category', this.value)" placeholder="VD: Puzzle, Action, RPG">
+            </div>
+            <div class="form-group">
+              <label>Vai trò đảm nhiệm (Role)</label>
+              <input type="text" value="${escapeHtml(item.role || '')}" onchange="updateItemField('projects', ${index}, 'role', this.value)" placeholder="VD: Lead Developer, Solo Dev">
+            </div>
+            <div class="form-group">
+              <label>
+                <span>Ảnh bìa dự án</span>
+                <span class="label-hint">Nhấn ảnh để đổi tệp</span>
+              </label>
+              <div class="project-image-picker" onclick="triggerProjectImageUpload(${index})" title="Nhấn vào ảnh để chọn tệp từ máy tính">
+                <img id="project-img-preview-${index}" src="${escapeHtml(item.image || './assets/images/project-cyber.jpg')}" alt="Ảnh bìa" onerror="this.src='./assets/images/project-cyber.jpg'">
+                <div class="image-picker-overlay">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                  <span>Chọn ảnh từ máy tính</span>
+                </div>
+              </div>
+              <input type="file" id="project-file-input-${index}" accept="image/*" style="display: none;" onchange="handleProjectImageChange(${index}, this)">
+              <div class="image-path-info">
+                <span class="image-path-text" id="project-img-path-${index}" title="${escapeHtml(item.image || '')}">${escapeHtml(item.image || 'Chưa chọn ảnh')}</span>
+                <button type="button" class="btn-text-edit" onclick="promptEditImagePath(${index})" title="Nhập tay đường dẫn nếu cần">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                  Sửa path
+                </button>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label>Mô tả chi tiết dự án (Description)</label>
+              <textarea onchange="updateItemField('projects', ${index}, 'description', this.value)" placeholder="Mô tả gameplay, cơ chế và trải nghiệm của trò chơi...">${escapeHtml(item.description || item.desc || '')}</textarea>
+            </div>
+            <div class="form-group full-width">
+              <label>Công nghệ sử dụng (Tech tags) <span class="label-hint">Ngăn cách bởi dấu phẩy</span></label>
+              <input type="text" value="${escapeHtml(Array.isArray(item.tech) ? item.tech.join(', ') : '')}" onchange="updateItemArrayField('projects', ${index}, 'tech', this.value)" placeholder="Unity, C#, URP, Job system">
+            </div>
+            <div class="form-group">
+              <label>Link tải APK / Google Drive (url)</label>
+              <input type="text" value="${escapeHtml(item.url || '')}" onchange="updateItemField('projects', ${index}, 'url', this.value)" placeholder="https://drive.google.com/...">
+            </div>
+            <div class="form-group">
+              <label>Link Store (Google Play / SensorTower)</label>
+              <input type="text" value="${escapeHtml(item.storeUrl || '')}" onchange="updateItemField('projects', ${index}, 'storeUrl', this.value)" placeholder="https://play.google.com/store/apps/details?id=...">
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ================= 8. RAW JSON EDITOR =================
+    function syncDataToRawEditor() {
+      const editor = document.getElementById('raw-code-editor');
+      editor.value = JSON.stringify(currentData, null, 2);
+    }
+
+    document.getElementById('btn-format-json').addEventListener('click', () => {
+      const editor = document.getElementById('raw-code-editor');
+      try {
+        const parsed = JSON.parse(editor.value);
+        editor.value = JSON.stringify(parsed, null, 2);
+        showToast('Đã định dạng JSON thành công!', 'success');
+      } catch (e) {
+        showToast('Lỗi cú pháp JSON: ' + e.message, 'error');
+      }
+    });
+
+    document.getElementById('btn-apply-json').addEventListener('click', () => {
+      const editor = document.getElementById('raw-code-editor');
+      try {
+        const parsed = JSON.parse(editor.value);
+        currentData = parsed;
+        renderAllForms();
+        showToast('Đã áp dụng mã JSON vào Form thành công!', 'success');
+      } catch (e) {
+        showToast('Lỗi cú pháp JSON: ' + e.message, 'error');
+      }
+    });
+
+    // Helper cập nhật trường dữ liệu của mảng
+    function updateItemField(arrayKey, index, field, value) {
+      if (currentData[arrayKey] && currentData[arrayKey][index]) {
+        currentData[arrayKey][index][field] = value.trim();
+      }
+    }
+
+    // Xử lý upload ảnh bìa dự án từ máy tính
+    function triggerProjectImageUpload(index) {
+      const input = document.getElementById(`project-file-input-${index}`);
+      if (input) input.click();
+    }
+
+    function handleProjectImageChange(index, input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const imagePath = `./assets/images/${file.name}`;
+        
+        updateItemField('projects', index, 'image', imagePath);
+        
+        const preview = document.getElementById(`project-img-preview-${index}`);
+        if (preview) {
+          preview.src = URL.createObjectURL(file);
+        }
+        
+        const pathText = document.getElementById(`project-img-path-${index}`);
+        if (pathText) {
+          pathText.textContent = imagePath;
+          pathText.title = imagePath;
+        }
+        
+        showToast(`Đã chọn ảnh bìa: ${file.name}`, 'success');
+      }
+    }
+
+    function promptEditImagePath(index) {
+      const current = (currentData.projects && currentData.projects[index] && currentData.projects[index].image) || '';
+      const newPath = prompt('Nhập đường dẫn hoặc URL của ảnh:', current);
+      if (newPath !== null) {
+        const trimmed = newPath.trim();
+        updateItemField('projects', index, 'image', trimmed);
+        const preview = document.getElementById(`project-img-preview-${index}`);
+        if (preview) preview.src = trimmed || './assets/images/project-cyber.jpg';
+        const pathText = document.getElementById(`project-img-path-${index}`);
+        if (pathText) {
+          pathText.textContent = trimmed || 'Chưa chọn ảnh';
+          pathText.title = trimmed;
+        }
+        showToast('Đã cập nhật đường dẫn ảnh!', 'success');
+      }
+    }
+
+    // Xử lý upload ảnh đại diện (Hero Avatar) từ máy tính
+    function handleHeroAvatarChange(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const imagePath = `./assets/images/${file.name}`;
+        
+        currentData.hero = currentData.hero || {};
+        currentData.hero.avatar = imagePath;
+        
+        const avatarInput = document.getElementById('hero-avatar');
+        if (avatarInput) avatarInput.value = imagePath;
+        
+        const avatarPreview = document.getElementById('hero-avatar-preview');
+        if (avatarPreview) avatarPreview.src = URL.createObjectURL(file);
+        
+        showToast(`Đã chọn ảnh đại diện: ${file.name}`, 'success');
+      }
+    }
+
+    function updateItemArrayField(arrayKey, index, field, commaSeparatedValue) {
+      if (currentData[arrayKey] && currentData[arrayKey][index]) {
+        currentData[arrayKey][index][field] = commaSeparatedValue
+          .split(',')
+          .map(s => s.trim())
+          .filter(s => s.length > 0);
+      }
+    }
+
+    function removeItem(arrayKey, index) {
+      if (confirm('Bạn có chắc chắn muốn xóa mục này không?')) {
+        currentData[arrayKey].splice(index, 1);
+        renderSection(arrayKey);
+        updateSidebarBadges();
+      }
+    }
+
+    function moveItem(arrayKey, index, direction) {
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= currentData[arrayKey].length) return;
+      const temp = currentData[arrayKey][index];
+      currentData[arrayKey][index] = currentData[arrayKey][newIndex];
+      currentData[arrayKey][newIndex] = temp;
+      renderSection(arrayKey);
+    }
+
+    function renderSection(arrayKey) {
+      if (arrayKey === 'personalInfo') renderPersonalInfoList();
+      else if (arrayKey === 'stats') renderStatsList();
+      else if (arrayKey === 'education') renderEducationList();
+      else if (arrayKey === 'experience') renderExperienceList();
+      else if (arrayKey === 'skills') renderSkillsList();
+      else if (arrayKey === 'projects') renderProjectsList();
+    }
+
+    // Các nút thêm mới
+    document.getElementById('btn-add-personal').addEventListener('click', () => {
+      if (!currentData.personalInfo) currentData.personalInfo = [];
+      currentData.personalInfo.push({ label: "Mục mới", value: "", type: "" });
+      renderPersonalInfoList();
+      updateSidebarBadges();
+    });
+
+    document.getElementById('btn-add-stat').addEventListener('click', () => {
+      if (!currentData.stats) currentData.stats = [];
+      currentData.stats.push({ value: "10+", label: "Nhãn số liệu" });
+      renderStatsList();
+      updateSidebarBadges();
+    });
+
+    document.getElementById('btn-add-education').addEventListener('click', () => {
+      if (!currentData.education) currentData.education = [];
+      currentData.education.push({ period: "2024 – Hiện tại", degree: "Bằng cấp", school: "Đơn vị đào tạo", description: "" });
+      renderEducationList();
+      updateSidebarBadges();
+    });
+
+    document.getElementById('btn-add-experience').addEventListener('click', () => {
+      if (!currentData.experience) currentData.experience = [];
+      currentData.experience.push({ period: "2024 – Hiện tại", company: "Tên công ty", role: "Vị trí", description: "" });
+      renderExperienceList();
+      updateSidebarBadges();
+    });
+
+    document.getElementById('btn-add-skill').addEventListener('click', () => {
+      if (!currentData.skills) currentData.skills = [];
+      currentData.skills.push({ icon: "layers", title: "Kỹ năng mới", description: "", tags: [] });
+      renderSkillsList();
+      updateSidebarBadges();
+    });
+
+    document.getElementById('btn-add-project').addEventListener('click', () => {
+      if (!currentData.projects) currentData.projects = [];
+      currentData.projects.unshift({
+        title: "Dự án mới",
+        category: "Puzzle",
+        role: "Lead Developer",
+        image: "./assets/images/project-cyber.jpg",
+        description: "",
+        tech: ["Unity", "C#"],
+        url: "",
+        storeUrl: ""
+      });
+      renderProjectsList();
+      updateSidebarBadges();
+    });
+
+    // Đồng bộ toàn bộ dữ liệu từ Form về currentData
+    function syncFormToData() {
+      // 1. Brand & Hero
+      currentData.brand = currentData.brand || {};
+      currentData.brand.title = document.getElementById('brand-title').value.trim();
+      currentData.brand.badge = document.getElementById('brand-badge').value.trim();
+
+      currentData.hero = currentData.hero || {};
+      currentData.hero.greeting = document.getElementById('hero-greeting').value.trim();
+      currentData.hero.role = document.getElementById('hero-role').value.trim();
+      currentData.hero.avatar = document.getElementById('hero-avatar').value.trim();
+      currentData.hero.bio = document.getElementById('hero-bio').value.trim();
+      currentData.hero.tags = document.getElementById('hero-tags').value
+        .split(',')
+        .map(t => t.trim())
+        .filter(t => t.length > 0);
+    }
+
+    // Render lại toàn bộ form
+    function renderAllForms() {
+      populateBrandHero();
+      renderPersonalInfoList();
+      renderStatsList();
+      renderEducationList();
+      renderExperienceList();
+      renderSkillsList();
+      renderProjectsList();
+      updateSidebarBadges();
+    }
+
+    // Sinh chuỗi mã nguồn file data.js hoàn chỉnh
+    function generateDataJsContent() {
+      syncFormToData();
+      const jsonText = JSON.stringify(currentData, null, 2);
+      return `// File chứa toàn bộ dữ liệu cấu hình cho Portfolio (định dạng JSON Object)
+// Bạn chỉ cần chỉnh sửa dữ liệu trong file này, website sẽ tự động cập nhật ngay lập tức!
+const PORTFOLIO_DATA = ${jsonText};
+`;
+    }
+
+    // 1. Lưu file trực tiếp (File System Access API)
+    document.getElementById('btn-save-direct').addEventListener('click', async () => {
+      const content = generateDataJsContent();
+
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: 'data.js',
+            types: [{
+              description: 'JavaScript File (*.js)',
+              accept: { 'application/javascript': ['.js'] }
+            }]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(content);
+          await writable.close();
+          showToast('Đã lưu thành công vào file data.js!', 'success');
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            console.error(err);
+            downloadFallback(content);
+          }
+        }
+      } else {
+        downloadFallback(content);
+      }
+    });
+
+    // 2. Tải file về máy
+    document.getElementById('btn-download-file').addEventListener('click', () => {
+      const content = generateDataJsContent();
+      downloadFallback(content);
+    });
+
+    function downloadFallback(content) {
+      const blob = new Blob([content], { type: 'application/javascript;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'data.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Đã tải xuống file data.js thành công!', 'success');
+    }
+
+    // 3. Sao chép nội dung vào Clipboard
+    document.getElementById('btn-copy-code').addEventListener('click', async () => {
+      const content = generateDataJsContent();
+      try {
+        await navigator.clipboard.writeText(content);
+        showToast('Đã sao chép toàn bộ mã JS vào Clipboard!', 'success');
+      } catch (err) {
+        const textarea = document.createElement('textarea');
+        textarea.value = content;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('Đã sao chép toàn bộ mã JS vào Clipboard!', 'success');
+      }
+    });
+
+    function escapeHtml(str) {
+      if (typeof str !== 'string') return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Khởi động
+    initData();
+    renderAllForms();
+  </script>
+</body>
+
+</html>

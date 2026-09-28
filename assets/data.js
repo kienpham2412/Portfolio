@@ -164,5 +164,3 @@ const PORTFOLIO_DATA = {
     }
   ]
 };
-
-
