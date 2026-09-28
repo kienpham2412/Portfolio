@@ -1,84 +1,89 @@
 :root {
   /* ==========================================================================
-     BẢNG MÀU CHỦ ĐẠO TOÀN TRANG (THEME COLOR PALETTE)
-     File này quản lý 100% màu sắc của website.
-     Để đổi tông màu (Sáng / Tối / Cyberpunk / Pastel...), chỉ cần chỉnh sửa tại đây!
+     BẢNG MÀU CHỦ ĐẠO TOÀN TRANG (SKY AQUA MIST & SUNSET THEME)
+     Màu nền chủ đạo: Tone Xanh Sky Aqua trong trẻo, thanh mát (không dùng nền trắng đơn điệu).
+     Bộ màu kết hợp:
+     - Sky Blue: rgb(140, 228, 255) / #8ce4ff (Màu chủ đạo tổng thể)
+     - Soft Lemon Yellow: rgb(254, 238, 145) / #feee91 (Ấm áp, tích cực)
+     - Warm Sunset Orange: rgb(255, 162, 57) / #ffa239 (Hoàng hôn rực rỡ)
+     - Coral Red: rgb(255, 86, 86) / #ff5656 (Điểm nhấn cuốn hút)
      ========================================================================== */
 
-  /* --- 1. MÀU NỀN TỔNG THỂ (Backgrounds) --- */
-  --bg-primary: #f8fafc;
-  --bg-secondary: #f1f5f9;
-  --bg-section-alt: rgba(241, 245, 249, 0.7);
-  --bg-card: rgba(255, 255, 255, 0.88);
+  /* --- 1. MÀU NỀN TỔNG THỂ (Sky Aqua Mist - Thanh mát, trong trẻo) --- */
+  --bg-primary: #eaf6fd;
+  --bg-secondary: #e0f2fe;
+  --bg-section-alt: rgba(254, 238, 145, 0.22);
+  --bg-card: rgba(255, 255, 255, 0.85);
   --bg-card-hover: rgba(255, 255, 255, 0.98);
   --bg-glass: rgba(255, 255, 255, 0.65);
-  --bg-cover-fallback: #e2e8f0;
+  --bg-cover-fallback: #bae6fd;
 
   /* --- 2. ĐƯỜNG VIỀN & PHÂN TÁCH (Borders) --- */
-  --border-glass: rgba(226, 232, 240, 0.85);
-  --border-accent: rgba(79, 70, 229, 0.3);
-  --border-strong: #cbd5e1;
+  --border-glass: rgba(186, 230, 253, 0.85);
+  --border-accent: rgba(255, 162, 57, 0.4);
+  --border-strong: #7dd3fc;
 
   /* --- 3. ĐIỂM NHẤN CÔNG NGHỆ (Vibrant Accents & Gradients) --- */
-  --accent-primary: #4f46e5;
+  --accent-primary: #ff5656;
   --accent-secondary: #0284c7;
-  --accent-tertiary: #db2777;
-  --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
-  --accent-glow: rgba(79, 70, 229, 0.22);
+  --accent-tertiary: #ffa239;
+  --accent-quaternary: #feee91;
+  --accent-gradient: linear-gradient(135deg, #ff5656 0%, #ffa239 52%, #feee91 100%);
+  --accent-glow: rgba(255, 86, 86, 0.25);
 
   /* --- 4. HÀO QUANG NỀN (Ambient Pastel Glows) --- */
-  --glow-1: rgba(99, 102, 241, 0.14);
-  --glow-2: rgba(2, 132, 199, 0.12);
-  --glow-3: rgba(219, 39, 119, 0.1);
+  --glow-1: rgba(140, 228, 255, 0.38);
+  --glow-2: rgba(255, 162, 57, 0.25);
+  --glow-3: rgba(255, 86, 86, 0.2);
 
-  /* --- 5. MÀU CHỮ & VĂN BẢN (Typography) --- */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
+  /* --- 5. MÀU CHỮ & VĂN BẢN (Typography - Tương phản cao trên nền Sky Aqua) --- */
+  --text-primary: #0c4a6e;
+  --text-secondary: #335c75;
+  --text-muted: #567e96;
   --text-inverse: #ffffff;
 
   /* --- 6. SHADOWS & HIỆU ỨNG KHỐI 3D (Shadows) --- */
-  --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 10px 25px -4px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 20px 40px -8px rgba(15, 23, 42, 0.12);
-  --shadow-card-hover: 0 20px 40px -6px rgba(15, 23, 42, 0.12);
-  --shadow-accent-glow: 0 8px 24px rgba(79, 70, 229, 0.28);
-  --shadow-portrait: 0 24px 50px rgba(15, 23, 42, 0.14);
+  --shadow-sm: 0 4px 14px rgba(2, 132, 199, 0.06);
+  --shadow-md: 0 10px 25px -4px rgba(2, 132, 199, 0.1);
+  --shadow-lg: 0 20px 40px -8px rgba(2, 132, 199, 0.14);
+  --shadow-card-hover: 0 20px 40px -6px rgba(255, 162, 57, 0.2);
+  --shadow-accent-glow: 0 8px 24px rgba(255, 86, 86, 0.28);
+  --shadow-portrait: 0 24px 50px rgba(2, 132, 199, 0.16);
 
   /* --- 7. THÀNH PHẦN GIAO DIỆN & HUY HIỆU (Components & Badges) --- */
-  --header-bg-scrolled: rgba(255, 255, 255, 0.88);
-  --badge-bg-subtle: rgba(79, 70, 229, 0.08);
-  --badge-border-subtle: rgba(79, 70, 229, 0.2);
-  --badge-text-subtle: #4338ca;
+  --header-bg-scrolled: rgba(234, 246, 253, 0.88);
+  --badge-bg-subtle: rgba(255, 86, 86, 0.1);
+  --badge-border-subtle: rgba(255, 86, 86, 0.25);
+  --badge-text-subtle: #e11d48;
   --badge-status-online: #16a34a;
-  --badge-category-bg: rgba(255, 255, 255, 0.9);
+  --badge-category-bg: rgba(255, 255, 255, 0.95);
 
-  --pill-bg: rgba(241, 245, 249, 0.9);
-  --pill-border: rgba(203, 213, 225, 0.7);
-  --pill-text: #334155;
+  --pill-bg: rgba(255, 255, 255, 0.85);
+  --pill-border: rgba(186, 230, 253, 0.95);
+  --pill-text: #0369a1;
 
-  --tag-role-bg: rgba(2, 132, 199, 0.08);
-  --tag-role-border: rgba(2, 132, 199, 0.22);
+  --tag-role-bg: rgba(255, 255, 255, 0.7);
+  --tag-role-border: rgba(2, 132, 199, 0.35);
   --tag-role-text: #0284c7;
 
-  --portrait-frame-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(79, 70, 229, 0.25) 50%, rgba(2, 132, 199, 0.25) 100%);
-  --timeline-line-gradient: linear-gradient(180deg, var(--accent-primary) 0%, rgba(79, 70, 229, 0.12) 100%);
+  --portrait-frame-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 86, 86, 0.35) 45%, rgba(140, 228, 255, 0.45) 100%);
+  --timeline-line-gradient: linear-gradient(180deg, #ff5656 0%, rgba(255, 162, 57, 0.25) 100%);
 
   /* --- 8. HUY HIỆU NỔI KHUNG CHÂN DUNG (Portrait Badges) --- */
-  --portrait-badge-bg: rgba(255, 255, 255, 0.92);
-  --portrait-badge-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
-  --badge-icon-purple-bg: rgba(79, 70, 229, 0.1);
-  --badge-icon-purple-text: #4f46e5;
-  --badge-icon-cyan-bg: rgba(2, 132, 199, 0.1);
+  --portrait-badge-bg: rgba(255, 255, 255, 0.95);
+  --portrait-badge-shadow: 0 12px 30px rgba(2, 132, 199, 0.14);
+  --badge-icon-purple-bg: rgba(255, 86, 86, 0.12);
+  --badge-icon-purple-text: #ff5656;
+  --badge-icon-cyan-bg: rgba(140, 228, 255, 0.25);
   --badge-icon-cyan-text: #0284c7;
 
   /* --- 9. MÀU CÁC BIỂU TƯỢNG PLAYSTATION DUALSENSE (Tự động đọc vào Canvas) --- */
   --shape-cross: #0284c7;
-  --shape-cross-glow: rgba(2, 132, 199, 0.35);
-  --shape-circle: #e11d48;
-  --shape-circle-glow: rgba(225, 29, 72, 0.35);
-  --shape-triangle: #059669;
-  --shape-triangle-glow: rgba(5, 150, 105, 0.35);
-  --shape-square: #db2777;
-  --shape-square-glow: rgba(219, 39, 119, 0.35);
+  --shape-cross-glow: rgba(140, 228, 255, 0.6);
+  --shape-circle: #ff5656;
+  --shape-circle-glow: rgba(255, 86, 86, 0.5);
+  --shape-triangle: #d97706;
+  --shape-triangle-glow: rgba(254, 238, 145, 0.7);
+  --shape-square: #ffa239;
+  --shape-square-glow: rgba(255, 162, 57, 0.5);
 }
