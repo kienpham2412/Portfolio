@@ -135,6 +135,21 @@ const PORTFOLIO_DATA = {
       ],
       "url": "",
       "storeUrl": "https://app.sensortower.com/overview/com.cscmobi.pin.association?country=US"
+    },
+    {
+      "title": "Nut Screw Jam Puzzle",
+      "category": "Puzzle",
+      "role": "Lead Developer",
+      "image": "./assets/images/nutscrew.webp",
+      "description": "Trong Nut Screw Jam Puzzle, mục tiêu của bạn đơn giản nhưng đầy thử thách: ghép các con ốc vít, đai ốc và bu-lông theo màu trước khi thời gian kết thúc.",
+      "tech": [
+        "Unity",
+        "C#",
+        "Unity Physics",
+        "Shader graph"
+      ],
+      "url": "https://drive.google.com/file/d/1OP48IhoIG8bEV7jjJ90wt2VS3uFU7gry/view?usp=sharing",
+      "storeUrl": "https://app.sensortower.com/overview/com.pl.csc.screwjam3d.rescue.puzzle?country=US"
     }
   ]
 };
