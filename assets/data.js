@@ -150,6 +150,21 @@ const PORTFOLIO_DATA = {
       ],
       "url": "https://drive.google.com/file/d/1OP48IhoIG8bEV7jjJ90wt2VS3uFU7gry/view?usp=sharing",
       "storeUrl": "https://app.sensortower.com/overview/com.pl.csc.screwjam3d.rescue.puzzle?country=US"
+    },
+    {
+      "title": "Block Knit Jam",
+      "category": "Puzzle",
+      "role": "Lead Developer",
+      "image": "./assets/images/blockknit.webp",
+      "description": "Block Knit Jam là một trò chơi giải đố thư giãn, nơi bạn di chuyển các khối len nhiều màu vào đúng cổng tương ứng để tháo gỡ sợi chỉ và hoàn thành một bức tranh thêu đầy màu sắc trên khung vải phía trên.",
+      "tech": [
+        "Unity",
+        "C#",
+        "Unity Physics",
+        "Custom shader"
+      ],
+      "url": "https://drive.google.com/file/d/1scIBLsSyAKxso9vL2mqnlZus6xFQcuDG/view?usp=sharing",
+      "storeUrl": "https://app.sensortower.com/overview/com.block.knit.jam.color?country=US"
     }
   ]
 };
