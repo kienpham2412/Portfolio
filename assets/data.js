@@ -17,10 +17,6 @@ const PORTFOLIO_DATA = {
   },
   "stats": [
     {
-      "value": "4+",
-      "label": "Năm kinh nghiệm"
-    },
-    {
       "value": "15+",
       "label": "Dự án hoàn thành"
     },

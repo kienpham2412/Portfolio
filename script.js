@@ -320,12 +320,38 @@ function renderHero(hero, personalInfo) {
   }
 }
 
+// Tính toán số năm kinh nghiệm tự động từ tháng 4/2022 đến thời điểm hiện tại
+function calculateExperienceYears(startYear = 2022, startMonth = 4) {
+  const now = new Date();
+  const startDate = new Date(startYear, startMonth - 1, 1);
+  let years = now.getFullYear() - startDate.getFullYear();
+  const monthDiff = now.getMonth() - startDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < startDate.getDate())) {
+    years--;
+  }
+  return Math.max(1, years);
+}
+
 // Render các thẻ số liệu thống kê nhanh (Quick Stats)
 function renderStats(stats) {
   const container = document.getElementById('stats-container');
-  if (!container || !Array.isArray(stats)) return;
+  if (!container) return;
 
-  container.innerHTML = stats
+  // Tự động tính số năm kinh nghiệm từ mốc tháng 4/2022 đến hiện tại
+  const expYears = calculateExperienceYears(2022, 4);
+  const experienceStat = {
+    value: `${expYears}+`,
+    label: 'Năm kinh nghiệm'
+  };
+
+  // Lọc bỏ mục kinh nghiệm nếu còn sót lại trong dữ liệu cấu hình
+  const otherStats = Array.isArray(stats)
+    ? stats.filter((s) => s && (!s.label || !s.label.toLowerCase().includes('kinh nghiệm')))
+    : [];
+
+  const fullStats = [experienceStat, ...otherStats];
+
+  container.innerHTML = fullStats
     .map(
       (stat) => `
       <div class="stat-card">
