@@ -1,18 +1,16 @@
 // Đặt năm hiện tại cho bản quyền footer (nếu có)
 const yearEl = document.getElementById('current-year');
-if (yearEl) {
+if (yearEl)
   yearEl.textContent = new Date().getFullYear();
-}
 
 // Header scroll background effect
 const header = document.getElementById('main-header');
 if (header) {
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
+    if (window.scrollY > 40)
       header.classList.add('scrolled');
-    } else {
+    else
       header.classList.remove('scrolled');
-    }
   });
 }
 
@@ -35,23 +33,37 @@ window.addEventListener('mouseleave', () => {
   mouse.y = -1000;
 });
 
-function resizeCanvas() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
 // Cấu hình 4 hình dạng nút bấm DualSense
 const SHAPE_TYPES = ['cross', 'circle', 'triangle', 'square'];
 
-// Màu sắc neon đặc trưng của PlayStation
-const SHAPE_COLORS = {
-  cross: { stroke: '#38bdf8', glow: 'rgba(56, 189, 248, 0.45)' },     // Cyan (X)
-  circle: { stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.45)' },    // Coral Red (O)
-  triangle: { stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.45)' }, // Mint Green (Tam giác)
-  square: { stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.45)' }    // Pink / Magenta (Vuông)
-};
+// Đọc màu sắc trực tiếp từ biến CSS trong style.css (đảm bảo style.css là Single Source of Truth)
+function getCSSVar(varName, fallback = '') {
+  const val = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+  if (val)
+    return val;
+  return fallback;
+}
+
+let shapeColors = {};
+
+function updateShapeColors() {
+  shapeColors = {
+    cross: { stroke: getCSSVar('--shape-cross', '#0284c7'), glow: getCSSVar('--shape-cross-glow', 'rgba(2, 132, 199, 0.35)') },
+    circle: { stroke: getCSSVar('--shape-circle', '#e11d48'), glow: getCSSVar('--shape-circle-glow', 'rgba(225, 29, 72, 0.35)') },
+    triangle: { stroke: getCSSVar('--shape-triangle', '#059669'), glow: getCSSVar('--shape-triangle-glow', 'rgba(5, 150, 105, 0.35)') },
+    square: { stroke: getCSSVar('--shape-square', '#db2777'), glow: getCSSVar('--shape-square-glow', 'rgba(219, 39, 119, 0.35)') }
+  };
+}
+updateShapeColors();
+
+function resizeCanvas() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  if (typeof updateShapeColors === 'function')
+    updateShapeColors();
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
 
 class DualSenseShape {
   constructor() {
@@ -89,14 +101,12 @@ class DualSenseShape {
       this.x -= (dx / dist) * force * 3.5;
       this.y -= (dy / dist) * force * 3.5;
       this.opacity = Math.min(0.7, this.baseOpacity + force * 0.45);
-    } else {
+    } else
       this.opacity += (this.baseOpacity - this.opacity) * 0.05;
-    }
 
     // Tái tạo lại vị trí khi trôi ra khỏi màn hình
-    if (this.y < -40 || this.x < -40 || this.x > width + 40) {
+    if (this.y < -40 || this.x < -40 || this.x > width + 40)
       this.reset(false);
-    }
   }
 
   draw() {
@@ -108,7 +118,7 @@ class DualSenseShape {
     const scaleX = Math.cos(this.wobbleAngle * 0.75);
     ctx.scale(scaleX, 1);
 
-    const config = SHAPE_COLORS[this.type];
+    const config = shapeColors[this.type];
     ctx.strokeStyle = config.stroke;
     ctx.lineWidth = this.lineWidth;
     ctx.lineCap = 'round';
@@ -143,11 +153,10 @@ class DualSenseShape {
         break;
 
       case 'square': // DualSense Square (Vuông)
-        if (ctx.roundRect) {
+        if (ctx.roundRect)
           ctx.roundRect(-hs, -hs, s, s, 4);
-        } else {
+        else
           ctx.rect(-hs, -hs, s, s);
-        }
         break;
     }
     ctx.stroke();
@@ -185,9 +194,8 @@ window.addEventListener('scroll', () => {
       const el = document.querySelector(targetId);
       if (el) {
         const targetTop = el.offsetTop - 180;
-        if (window.pageYOffset >= targetTop) {
+        if (window.pageYOffset >= targetTop)
           current = targetId;
-        }
       }
     }
   });
@@ -195,9 +203,8 @@ window.addEventListener('scroll', () => {
   if (current) {
     navLinks.forEach((link) => {
       link.classList.remove('active');
-      if (link.getAttribute('href') === current) {
+      if (link.getAttribute('href') === current)
         link.classList.add('active');
-      }
     });
   }
 });
@@ -210,17 +217,16 @@ function renderPersonalInfo(items) {
   container.innerHTML = items
     .map((item) => {
       let valueHtml = '';
-      if (item.type === 'email') {
+      if (item.type === 'email')
         valueHtml = `<a href="mailto:${item.value}">${item.value}</a>`;
-      } else if (item.type === 'phone') {
+      else if (item.type === 'phone')
         valueHtml = `<a href="tel:${item.raw || item.value}">${item.value}</a>`;
-      } else if (item.type === 'link') {
+      else if (item.type === 'link')
         valueHtml = `<a href="${item.url || item.value}" target="_blank" rel="noopener">${item.value}</a>`;
-      } else if (item.statusColor) {
+      else if (item.statusColor)
         valueHtml = `<span style="color: ${item.statusColor}; font-weight: 600;">${item.value}</span>`;
-      } else {
+      else
         valueHtml = item.value;
-      }
 
       return `
         <div class="info-item">
@@ -308,9 +314,8 @@ function renderHero(hero, personalInfo) {
     const avatarSrc = hero.avatar || hero.image || hero.portrait || (typeof PORTFOLIO_DATA !== 'undefined' && (PORTFOLIO_DATA.avatar || PORTFOLIO_DATA.portrait));
     if (avatarSrc) {
       const portraitEl = document.getElementById('user-portrait');
-      if (portraitEl) {
+      if (portraitEl)
         portraitEl.src = avatarSrc;
-      }
     }
   }
 }
@@ -445,15 +450,13 @@ function renderProjects(projects) {
     container.dataset.storeBound = 'true';
     container.addEventListener('click', (e) => {
       // Bỏ qua nếu click vào nút Tải apk hoặc thẻ liên kết bất kỳ
-      if (e.target.closest('.project-links') || e.target.closest('a')) {
+      if (e.target.closest('.project-links') || e.target.closest('a'))
         return;
-      }
       const card = e.target.closest('.project-card[data-store-url]');
       if (card) {
         const storeUrl = card.getAttribute('data-store-url');
-        if (storeUrl) {
+        if (storeUrl)
           window.open(storeUrl, '_blank', 'noopener,noreferrer');
-        }
       }
     });
   }
@@ -484,9 +487,8 @@ function renderBrand(brand, title) {
 // Nạp dữ liệu từ assets/data.js (chạy mượt mà trực tiếp trên mọi trình duyệt mà không bị lỗi CORS)
 function loadPortfolioData() {
   if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA) {
-    if (PORTFOLIO_DATA.brand || PORTFOLIO_DATA.title) {
+    if (PORTFOLIO_DATA.brand || PORTFOLIO_DATA.title)
       renderBrand(PORTFOLIO_DATA.brand, PORTFOLIO_DATA.title);
-    }
     renderHero(PORTFOLIO_DATA.hero, PORTFOLIO_DATA.personalInfo);
     if (PORTFOLIO_DATA.stats) renderStats(PORTFOLIO_DATA.stats);
     if (PORTFOLIO_DATA.personalInfo) renderPersonalInfo(PORTFOLIO_DATA.personalInfo);
@@ -494,9 +496,8 @@ function loadPortfolioData() {
     if (PORTFOLIO_DATA.experience) renderExperience(PORTFOLIO_DATA.experience);
     if (PORTFOLIO_DATA.skills) renderSkills(PORTFOLIO_DATA.skills);
     if (PORTFOLIO_DATA.projects) renderProjects(PORTFOLIO_DATA.projects);
-  } else {
+  } else
     console.error('Không tìm thấy dữ liệu PORTFOLIO_DATA từ file assets/data.js');
-  }
 }
 
 // Khởi chạy nạp dữ liệu
