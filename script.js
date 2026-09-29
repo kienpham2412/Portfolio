@@ -276,6 +276,22 @@ function renderExperience(experiences) {
     .join('');
 }
 
+// Chuẩn hóa đường link ảnh Google Drive sang dạng thumbnail để hiển thị được trong thẻ img
+function formatGoogleDriveImageUrl(url) {
+  if (!url)
+    return '';
+  const trimmed = url.trim();
+  if (trimmed.includes('drive.google.com/thumbnail'))
+    return trimmed;
+  const matchD = trimmed.match(/\/d\/([^/?]+)/);
+  if (matchD && matchD[1])
+    return `https://drive.google.com/thumbnail?id=${matchD[1]}&sz=w1000`;
+  const matchId = trimmed.match(/[?&]id=([^&]+)/);
+  if (matchId && matchId[1])
+    return `https://drive.google.com/thumbnail?id=${matchId[1]}&sz=w1000`;
+  return trimmed;
+}
+
 // Render thông tin giới thiệu Hero (lấy tên từ personalInfo, vai trò và mô tả từ hero)
 function renderHero(hero, personalInfo) {
   // Lấy họ và tên trực tiếp từ personalInfo
@@ -311,11 +327,14 @@ function renderHero(hero, personalInfo) {
     }
 
     // Cập nhật ảnh avatar từ cấu hình hero data
-    const avatarSrc = hero.avatar || hero.image || hero.portrait || (typeof PORTFOLIO_DATA !== 'undefined' && (PORTFOLIO_DATA.avatar || PORTFOLIO_DATA.portrait));
+    const rawAvatar = hero.avatar || hero.image || hero.portrait || (typeof PORTFOLIO_DATA !== 'undefined' && (PORTFOLIO_DATA.avatar || PORTFOLIO_DATA.portrait));
+    const avatarSrc = formatGoogleDriveImageUrl(rawAvatar);
     if (avatarSrc) {
       const portraitEl = document.getElementById('user-portrait');
-      if (portraitEl)
+      if (portraitEl) {
         portraitEl.src = avatarSrc;
+        portraitEl.setAttribute('referrerpolicy', 'no-referrer');
+      }
     }
   }
 }
@@ -428,7 +447,7 @@ function renderProjects(projects) {
       const storeUrl = project.storeUrl || project.store_url || '';
       const categoryBadge = project.category ? `<span class="project-category-badge">${project.category}</span>` : '';
       const roleBadge = project.role ? `<span class="project-role-badge">${project.role}</span>` : '';
-      const imageSrc = project.image || project.img || './assets/images/project-cyber.jpg';
+      const imageSrc = formatGoogleDriveImageUrl(project.image || project.img || './assets/images/project-cyber.jpg');
       const imageAlt = project.title ? `Dự án ${project.title}` : 'Ảnh dự án';
       const storeAttr = storeUrl ? `data-store-url="${storeUrl}"` : '';
       const tooltipAttr = storeUrl ? `title="Nhấn để mở trang Store (${project.title || ''})"` : '';
@@ -438,7 +457,7 @@ function renderProjects(projects) {
           <div class="project-cover">
             ${categoryBadge}
             ${roleBadge}
-            <img src="${imageSrc}" alt="${imageAlt}">
+            <img src="${imageSrc}" alt="${imageAlt}" referrerpolicy="no-referrer">
           </div>
           <div class="project-body">
             <div class="project-info-area">

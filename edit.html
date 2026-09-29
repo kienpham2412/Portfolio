@@ -1000,12 +1000,12 @@
             </div>
             <div class="form-group full-width">
               <label for="hero-avatar">
-                <span>Ảnh đại diện (Avatar)</span>
-                <span class="label-hint">Nhấn ảnh để chọn tệp từ máy tính</span>
+                <span>Ảnh đại diện (Avatar - Google Drive)</span>
+                <span class="label-hint">Dán link Google Drive hoặc nhấn vào ảnh</span>
               </label>
               <div class="image-preview-wrapper">
-                <div class="image-thumb-box" onclick="document.getElementById('hero-avatar-file-input').click()" title="Nhấn để chọn ảnh đại diện mới từ máy tính">
-                  <img id="hero-avatar-preview" src="" alt="Avatar Preview" onerror="this.src='./assets/images/avatar.webp'">
+                <div class="image-thumb-box" onclick="promptHeroAvatarDriveLink()" title="Nhấn để dán link ảnh đại diện từ Google Drive">
+                  <img id="hero-avatar-preview" referrerpolicy="no-referrer" src="" alt="Avatar Preview" onerror="this.src='./assets/images/avatar.webp'">
                   <div class="image-picker-overlay">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
@@ -1013,10 +1013,9 @@
                     </svg>
                   </div>
                 </div>
-                <input type="file" id="hero-avatar-file-input" accept="image/*" style="display: none;" onchange="handleHeroAvatarChange(this)">
                 <div style="flex: 1;">
-                  <input type="text" id="hero-avatar" placeholder="./assets/images/avatar.webp">
-                  <span class="label-hint">Đường dẫn: ./assets/images/avatar.webp (hoặc nhấn trực tiếp vào ảnh đại diện)</span>
+                  <input type="text" id="hero-avatar" placeholder="https://drive.google.com/file/d/.../view" oninput="handleHeroAvatarInput(this.value, this)">
+                  <span class="label-hint">Dán link Drive chia sẻ (tự động nhận diện ID thành https://drive.google.com/uc?export=view&id=...)</span>
                 </div>
               </div>
             </div>
@@ -1303,10 +1302,6 @@
       document.getElementById('hero-avatar-preview').src = hero.avatar || './assets/images/avatar.webp';
       document.getElementById('hero-tags').value = Array.isArray(hero.tags) ? hero.tags.join(', ') : '';
       document.getElementById('hero-bio').value = hero.bio || '';
-
-      document.getElementById('hero-avatar').addEventListener('input', (e) => {
-        document.getElementById('hero-avatar-preview').src = e.target.value.trim();
-      });
     }
 
     // ================= 2. RENDER PERSONAL INFO =================
@@ -1593,26 +1588,22 @@
             </div>
             <div class="form-group">
               <label>
-                <span>Ảnh bìa dự án</span>
-                <span class="label-hint">Nhấn ảnh để đổi tệp</span>
+                <span>Ảnh bìa dự án (Google Drive)</span>
+                <span class="label-hint">Dán link Drive hoặc bấm vào ảnh</span>
               </label>
-              <div class="project-image-picker" onclick="triggerProjectImageUpload(${index})" title="Nhấn vào ảnh để chọn tệp từ máy tính">
-                <img id="project-img-preview-${index}" src="${escapeHtml(item.image || './assets/images/project-cyber.jpg')}" alt="Ảnh bìa" onerror="this.src='./assets/images/project-cyber.jpg'">
+              <div class="project-image-picker" onclick="promptProjectDriveLink(${index})" title="Nhấn vào để dán link Google Drive">
+                <img id="project-img-preview-${index}" referrerpolicy="no-referrer" src="${escapeHtml(item.image || './assets/images/project-cyber.jpg')}" alt="Ảnh bìa" onerror="this.src='./assets/images/project-cyber.jpg'">
                 <div class="image-picker-overlay">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                     <circle cx="12" cy="13" r="4"></circle>
                   </svg>
-                  <span>Chọn ảnh từ máy tính</span>
+                  <span>Dán link Google Drive</span>
                 </div>
               </div>
-              <input type="file" id="project-file-input-${index}" accept="image/*" style="display: none;" onchange="handleProjectImageChange(${index}, this)">
-              <div class="image-path-info">
-                <span class="image-path-text" id="project-img-path-${index}" title="${escapeHtml(item.image || '')}">${escapeHtml(item.image || 'Chưa chọn ảnh')}</span>
-                <button type="button" class="btn-text-edit" onclick="promptEditImagePath(${index})" title="Nhập tay đường dẫn nếu cần">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                  Sửa path
-                </button>
+              <div style="margin-top: 0.5rem;">
+                <input type="text" id="project-img-input-${index}" value="${escapeHtml(item.image || '')}" oninput="handleProjectDriveLinkInput(${index}, this.value, this)" placeholder="https://drive.google.com/file/d/.../view">
+                <span class="label-hint" id="project-img-path-${index}" style="margin-top: 0.25rem; display: block; word-break: break-all;">${escapeHtml(item.image || 'Dán link Drive chia sẻ')}</span>
               </div>
             </div>
             <div class="form-group full-width">
@@ -1667,82 +1658,110 @@
 
     // Helper cập nhật trường dữ liệu của mảng
     function updateItemField(arrayKey, index, field, value) {
-      if (currentData[arrayKey] && currentData[arrayKey][index]) {
+      if (currentData[arrayKey] && currentData[arrayKey][index])
         currentData[arrayKey][index][field] = value.trim();
-      }
     }
 
-    // Xử lý upload ảnh bìa dự án từ máy tính
-    function triggerProjectImageUpload(index) {
-      const input = document.getElementById(`project-file-input-${index}`);
-      if (input) input.click();
+    // Trích xuất ID ảnh Google Drive nằm giữa /d/ và /view để chuyển thành link hiển thị thumbnail trực tiếp
+    function convertGoogleDriveImageUrl(inputUrl) {
+      if (!inputUrl)
+        return '';
+      const trimmed = inputUrl.trim();
+      if (trimmed.includes('drive.google.com/thumbnail'))
+        return trimmed;
+      const matchD = trimmed.match(/\/d\/([^/?]+)/);
+      if (matchD && matchD[1])
+        return `https://drive.google.com/thumbnail?id=${matchD[1]}&sz=w1000`;
+      const matchId = trimmed.match(/[?&]id=([^&]+)/);
+      if (matchId && matchId[1])
+        return `https://drive.google.com/thumbnail?id=${matchId[1]}&sz=w1000`;
+      return trimmed;
     }
 
-    function handleProjectImageChange(index, input) {
-      if (input.files && input.files[0]) {
-        const file = input.files[0];
-        const imagePath = `./assets/images/${file.name}`;
-        
-        updateItemField('projects', index, 'image', imagePath);
-        
-        const preview = document.getElementById(`project-img-preview-${index}`);
-        if (preview) {
-          preview.src = URL.createObjectURL(file);
-        }
-        
-        const pathText = document.getElementById(`project-img-path-${index}`);
-        if (pathText) {
-          pathText.textContent = imagePath;
-          pathText.title = imagePath;
-        }
-        
-        showToast(`Đã chọn ảnh bìa: ${file.name}`, 'success');
-      }
+    // Xử lý khi nhập link Google Drive ảnh bìa dự án
+    function handleProjectDriveLinkInput(index, rawValue, inputEl) {
+      const converted = convertGoogleDriveImageUrl(rawValue);
+      updateItemField('projects', index, 'image', converted);
+
+      if (inputEl && inputEl.value !== converted && converted.includes('drive.google.com/thumbnail'))
+        inputEl.value = converted;
+
+      const preview = document.getElementById(`project-img-preview-${index}`);
+      if (preview)
+        preview.src = converted || './assets/images/project-cyber.jpg';
+
+      const pathDisplay = document.getElementById(`project-img-path-${index}`);
+      if (pathDisplay)
+        pathDisplay.textContent = converted || 'Chưa chọn ảnh';
     }
 
-    function promptEditImagePath(index) {
+    // Mở popup dán nhanh link Google Drive cho dự án
+    function promptProjectDriveLink(index) {
       const current = (currentData.projects && currentData.projects[index] && currentData.projects[index].image) || '';
-      const newPath = prompt('Nhập đường dẫn hoặc URL của ảnh:', current);
-      if (newPath !== null) {
-        const trimmed = newPath.trim();
-        updateItemField('projects', index, 'image', trimmed);
-        const preview = document.getElementById(`project-img-preview-${index}`);
-        if (preview) preview.src = trimmed || './assets/images/project-cyber.jpg';
-        const pathText = document.getElementById(`project-img-path-${index}`);
-        if (pathText) {
-          pathText.textContent = trimmed || 'Chưa chọn ảnh';
-          pathText.title = trimmed;
-        }
-        showToast('Đã cập nhật đường dẫn ảnh!', 'success');
-      }
+      const inputLink = prompt('Dán link ảnh trên Google Drive (VD: https://drive.google.com/file/d/.../view):', current);
+      if (inputLink === null)
+        return;
+
+      const converted = convertGoogleDriveImageUrl(inputLink);
+      updateItemField('projects', index, 'image', converted);
+
+      const inputEl = document.getElementById(`project-img-input-${index}`);
+      if (inputEl)
+        inputEl.value = converted;
+
+      const preview = document.getElementById(`project-img-preview-${index}`);
+      if (preview)
+        preview.src = converted || './assets/images/project-cyber.jpg';
+
+      const pathDisplay = document.getElementById(`project-img-path-${index}`);
+      if (pathDisplay)
+        pathDisplay.textContent = converted || 'Chưa chọn ảnh';
+
+      showToast('Đã nhận diện ID và cập nhật ảnh dự án!', 'success');
     }
 
-    // Xử lý upload ảnh đại diện (Hero Avatar) từ máy tính
-    function handleHeroAvatarChange(input) {
-      if (input.files && input.files[0]) {
-        const file = input.files[0];
-        const imagePath = `./assets/images/${file.name}`;
-        
-        currentData.hero = currentData.hero || {};
-        currentData.hero.avatar = imagePath;
-        
-        const avatarInput = document.getElementById('hero-avatar');
-        if (avatarInput) avatarInput.value = imagePath;
-        
-        const avatarPreview = document.getElementById('hero-avatar-preview');
-        if (avatarPreview) avatarPreview.src = URL.createObjectURL(file);
-        
-        showToast(`Đã chọn ảnh đại diện: ${file.name}`, 'success');
-      }
+    // Xử lý khi nhập link Google Drive ảnh đại diện (Hero Avatar)
+    function handleHeroAvatarInput(rawValue, inputEl) {
+      const converted = convertGoogleDriveImageUrl(rawValue);
+      currentData.hero = currentData.hero || {};
+      currentData.hero.avatar = converted;
+
+      if (inputEl && inputEl.value !== converted && converted.includes('drive.google.com/thumbnail'))
+        inputEl.value = converted;
+
+      const preview = document.getElementById('hero-avatar-preview');
+      if (preview)
+        preview.src = converted || './assets/images/avatar.webp';
+    }
+
+    // Mở popup dán nhanh link Google Drive cho Avatar
+    function promptHeroAvatarDriveLink() {
+      const current = (currentData.hero && currentData.hero.avatar) || '';
+      const inputLink = prompt('Dán link ảnh đại diện trên Google Drive (VD: https://drive.google.com/file/d/.../view):', current);
+      if (inputLink === null)
+        return;
+
+      const converted = convertGoogleDriveImageUrl(inputLink);
+      currentData.hero = currentData.hero || {};
+      currentData.hero.avatar = converted;
+
+      const avatarInput = document.getElementById('hero-avatar');
+      if (avatarInput)
+        avatarInput.value = converted;
+
+      const preview = document.getElementById('hero-avatar-preview');
+      if (preview)
+        preview.src = converted || './assets/images/avatar.webp';
+
+      showToast('Đã nhận diện ID và cập nhật ảnh đại diện!', 'success');
     }
 
     function updateItemArrayField(arrayKey, index, field, commaSeparatedValue) {
-      if (currentData[arrayKey] && currentData[arrayKey][index]) {
+      if (currentData[arrayKey] && currentData[arrayKey][index])
         currentData[arrayKey][index][field] = commaSeparatedValue
           .split(',')
           .map(s => s.trim())
           .filter(s => s.length > 0);
-      }
     }
 
     function removeItem(arrayKey, index) {
