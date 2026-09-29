@@ -118,6 +118,20 @@ const PORTFOLIO_DATA = {
       "storeUrl": "https://play.google.com/store/apps/details?id=com.cscmobi.sandrush&hl=vi"
     },
     {
+      "title": "Jelly Breaker",
+      "category": "Puzzle",
+      "role": "Lead Developer",
+      "image": "./assets/images/jellybreaker.webp",
+      "description": "Chào mừng bạn đến với Jelly Breaker – trò chơi giải đố cực kỳ đã mắt, kết hợp hoàn hảo giữa chiến thuật ghép màu, vật lý bóng nảy và những màn phá hủy pixel đầy mãn nhãn!",
+      "tech": [
+        "Unity",
+        "C#",
+        "Custom shader"
+      ],
+      "url": "https://drive.google.com/file/d/1lKsW1HY_dIOkrvmhplKtyCPaGsmLU2Mx/view?usp=sharing",
+      "storeUrl": "https://app.sensortower.com/overview/com.cscmobi.jellybreaker?country=US"
+    },
+    {
       "title": "Pin Association",
       "category": "Puzzle",
       "role": "Lead Developer",
@@ -133,21 +147,6 @@ const PORTFOLIO_DATA = {
       "storeUrl": "https://app.sensortower.com/overview/com.cscmobi.pin.association?country=US"
     },
     {
-      "title": "Nut Screw Jam Puzzle",
-      "category": "Puzzle",
-      "role": "Lead Developer",
-      "image": "./assets/images/nutscrew.webp",
-      "description": "Trong Nut Screw Jam Puzzle, mục tiêu của bạn đơn giản nhưng đầy thử thách: ghép các con ốc vít, đai ốc và bu-lông theo màu trước khi thời gian kết thúc.",
-      "tech": [
-        "Unity",
-        "C#",
-        "Unity Physics",
-        "Shader graph"
-      ],
-      "url": "https://drive.google.com/file/d/1OP48IhoIG8bEV7jjJ90wt2VS3uFU7gry/view?usp=sharing",
-      "storeUrl": "https://app.sensortower.com/overview/com.pl.csc.screwjam3d.rescue.puzzle?country=US"
-    },
-    {
       "title": "Block Knit Jam",
       "category": "Puzzle",
       "role": "Lead Developer",
@@ -161,6 +160,21 @@ const PORTFOLIO_DATA = {
       ],
       "url": "https://drive.google.com/file/d/1scIBLsSyAKxso9vL2mqnlZus6xFQcuDG/view?usp=sharing",
       "storeUrl": "https://app.sensortower.com/overview/com.block.knit.jam.color?country=US"
+    },
+    {
+      "title": "Nut Screw Jam Puzzle",
+      "category": "Puzzle",
+      "role": "Lead Developer",
+      "image": "./assets/images/nutscrew.webp",
+      "description": "Trong Nut Screw Jam Puzzle, mục tiêu của bạn đơn giản nhưng đầy thử thách: ghép các con ốc vít, đai ốc và bu-lông theo màu trước khi thời gian kết thúc.",
+      "tech": [
+        "Unity",
+        "C#",
+        "Unity Physics",
+        "Shader graph"
+      ],
+      "url": "https://drive.google.com/file/d/1OP48IhoIG8bEV7jjJ90wt2VS3uFU7gry/view?usp=sharing",
+      "storeUrl": "https://app.sensortower.com/overview/com.pl.csc.screwjam3d.rescue.puzzle?country=US"
     }
   ]
 };
