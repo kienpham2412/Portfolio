@@ -227,16 +227,42 @@
       </div>
 
       <div class="projects-grid" id="projects-container">
-        <!-- Dữ liệu các Dự án thực tế được nạp động từ file assets/data.js -->
+        <!-- Dữ liệu các Dự án thực tế được nạp động từ Firebase Realtime Database -->
       </div>
     </div>
   </section>
 
-
-
-  <!-- External Data & Script -->
-  <script src="assets/data.js"></script>
+  <!-- Main Script -->
   <script src="script.js"></script>
+
+  <!-- Firebase Realtime Database Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+    // Cấu hình Firebase Realtime Database
+    const firebaseConfig = {
+      apiKey: "AIzaSyBk64HPKFqLEv2Zd5IS_cfpAkvsjThtm44",
+      authDomain: "portfolio-7f9df.firebaseapp.com",
+      databaseURL: "https://portfolio-7f9df-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "portfolio-7f9df",
+      storageBucket: "portfolio-7f9df.firebasestorage.app",
+      messagingSenderId: "891003069826",
+      appId: "1:891003069826:web:11ed0ddd07700ded745b9b"
+    };
+
+    // Khởi tạo Firebase App & Realtime Database
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dataRef = ref(db, '/');
+
+    // Lắng nghe dữ liệu theo thời gian thực (Realtime updates)
+    onValue(dataRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data && typeof window.loadPortfolioData === 'function')
+        window.loadPortfolioData(data);
+    });
+  </script>
 </body>
 
 </html>

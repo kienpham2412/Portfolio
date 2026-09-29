@@ -510,22 +510,36 @@ function renderBrand(brand, title) {
   }
 }
 
-// Nạp dữ liệu từ assets/data.js (chạy mượt mà trực tiếp trên mọi trình duyệt mà không bị lỗi CORS)
-function loadPortfolioData() {
-  if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA) {
-    if (PORTFOLIO_DATA.brand || PORTFOLIO_DATA.title)
-      renderBrand(PORTFOLIO_DATA.brand, PORTFOLIO_DATA.title);
-    renderHero(PORTFOLIO_DATA.hero, PORTFOLIO_DATA.personalInfo);
-    if (PORTFOLIO_DATA.stats) renderStats(PORTFOLIO_DATA.stats);
-    if (PORTFOLIO_DATA.personalInfo) renderPersonalInfo(PORTFOLIO_DATA.personalInfo);
-    if (PORTFOLIO_DATA.education) renderEducation(PORTFOLIO_DATA.education);
-    if (PORTFOLIO_DATA.experience) renderExperience(PORTFOLIO_DATA.experience);
-    if (PORTFOLIO_DATA.skills) renderSkills(PORTFOLIO_DATA.skills);
-    if (PORTFOLIO_DATA.projects) renderProjects(PORTFOLIO_DATA.projects);
-  } else
-    console.error('Không tìm thấy dữ liệu PORTFOLIO_DATA từ file assets/data.js');
+// Nạp dữ liệu Portfolio (hỗ trợ nạp trực tiếp từ Firebase hoặc fallback)
+function loadPortfolioData(data) {
+  const source = data || (typeof PORTFOLIO_DATA !== 'undefined' ? PORTFOLIO_DATA : null);
+  if (!source)
+    return;
+
+  window.PORTFOLIO_DATA = source;
+
+  if (source.brand || source.title)
+    renderBrand(source.brand, source.title);
+  renderHero(source.hero, source.personalInfo);
+  if (source.stats)
+    renderStats(source.stats);
+  if (source.personalInfo)
+    renderPersonalInfo(source.personalInfo);
+  if (source.education)
+    renderEducation(source.education);
+  if (source.experience)
+    renderExperience(source.experience);
+  if (source.skills)
+    renderSkills(source.skills);
+  if (source.projects)
+    renderProjects(source.projects);
 }
 
-// Khởi chạy nạp dữ liệu
-loadPortfolioData();
+// Phơi hàm ra window để script module bên ngoài gọi được
+window.loadPortfolioData = loadPortfolioData;
+
+// Tự động nạp nếu đã có sẵn PORTFOLIO_DATA trong môi trường
+if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA)
+  loadPortfolioData(PORTFOLIO_DATA);
+
 

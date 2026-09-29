@@ -787,6 +787,16 @@
         padding: 1.5rem;
       }
     }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spin {
+      animation: spin 1s linear infinite;
+    }
   </style>
 </head>
 
@@ -800,8 +810,8 @@
     <div class="header-brand">
       <div class="header-badge">E</div>
       <div class="header-title-box">
-        <h1>Portfolio Data Editor <span class="local-tag">Local Only</span></h1>
-        <p class="header-subtitle">Trình chỉnh sửa trực quan file assets/data.js</p>
+        <h1>Portfolio Data Editor <span class="local-tag" id="cloud-status-badge">Firebase RTDB</span></h1>
+        <p class="header-subtitle">Quản lý và đồng bộ trực tiếp với Firebase Realtime Database</p>
       </div>
     </div>
 
@@ -835,14 +845,24 @@
         Tải file data.js
       </button>
 
-      <!-- Ghi đè trực tiếp vào file data.js qua File System Access API -->
-      <button class="btn btn-primary btn-sm" id="btn-save-direct" title="Lưu và ghi đè trực tiếp vào file data.js">
+      <!-- Ghi đè file data.js dự phòng -->
+      <button class="btn btn-secondary btn-sm" id="btn-save-direct" title="Lưu và ghi đè trực tiếp vào file data.js">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
           <polyline points="17 21 17 13 7 13 7 21"></polyline>
           <polyline points="7 3 7 8 15 8"></polyline>
         </svg>
-        Lưu vào data.js
+        Lưu data.js
+      </button>
+
+      <!-- Lưu trực tiếp lên Firebase Realtime Database -->
+      <button class="btn btn-primary btn-sm" id="btn-save-cloud" title="Lưu và đồng bộ trực tiếp lên Firebase Realtime Database">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+          <polyline points="17 21 17 13 7 13 7 21"></polyline>
+          <polyline points="7 3 7 8 15 8"></polyline>
+        </svg>
+        Lưu lên Firebase
       </button>
     </div>
   </header>
@@ -1185,9 +1205,9 @@
     let currentData = {};
 
     function initData() {
-      if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA) {
+      if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA)
         currentData = JSON.parse(JSON.stringify(PORTFOLIO_DATA));
-      } else {
+      else
         currentData = {
           brand: { badge: "K", title: "Kien Pham" },
           hero: { greeting: "Xin chào, tôi là", role: "Game Developer", avatar: "./assets/images/avatar.webp", tags: [], bio: "" },
@@ -1198,8 +1218,19 @@
           skills: [],
           projects: []
         };
-      }
     }
+
+    // Nhận dữ liệu nạp từ Firebase Realtime Database
+    window.setEditorDataFromFirebase = function(data) {
+      if (!data)
+        return;
+      currentData = JSON.parse(JSON.stringify(data));
+      renderAllForms();
+      showToast('Đã nạp dữ liệu mới nhất từ Firebase!', 'success');
+      const badge = document.getElementById('cloud-status-badge');
+      if (badge)
+        badge.textContent = 'Firebase Connected';
+    };
 
     // Toast alert helper
     function showToast(message, type = 'success') {
@@ -1896,6 +1927,42 @@ const PORTFOLIO_DATA = ${jsonText};
       }
     });
 
+    // 4. Lưu trực tiếp lên Firebase Realtime Database
+    const btnSaveCloud = document.getElementById('btn-save-cloud');
+    if (btnSaveCloud)
+      btnSaveCloud.addEventListener('click', async () => {
+        syncFormToData();
+        if (typeof window.saveDataToFirebase !== 'function')
+          return showToast('Chưa kết nối được với Firebase Realtime Database!', 'error');
+
+        const originalHtml = btnSaveCloud.innerHTML;
+        btnSaveCloud.disabled = true;
+        btnSaveCloud.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin">
+            <line x1="12" y1="2" x2="12" y2="6"></line>
+            <line x1="12" y1="18" x2="12" y2="22"></line>
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+            <line x1="2" y1="12" x2="6" y2="12"></line>
+            <line x1="18" y1="12" x2="22" y2="12"></line>
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+          </svg>
+          Đang lưu...
+        `;
+
+        try {
+          await window.saveDataToFirebase(currentData);
+          showToast('Đã lưu thành công lên Firebase Realtime Database!', 'success');
+        } catch (err) {
+          console.error(err);
+          showToast('Lỗi lưu Firebase: ' + (err.message || err), 'error');
+        } finally {
+          btnSaveCloud.disabled = false;
+          btnSaveCloud.innerHTML = originalHtml;
+        }
+      });
+
     function escapeHtml(str) {
       if (typeof str !== 'string') return '';
       return str
@@ -1909,6 +1976,42 @@ const PORTFOLIO_DATA = ${jsonText};
     // Khởi động
     initData();
     renderAllForms();
+  </script>
+
+  <!-- Firebase Realtime Database Module -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+    // Cấu hình Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBk64HPKFqLEv2Zd5IS_cfpAkvsjThtm44",
+      authDomain: "portfolio-7f9df.firebaseapp.com",
+      databaseURL: "https://portfolio-7f9df-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "portfolio-7f9df",
+      storageBucket: "portfolio-7f9df.firebasestorage.app",
+      messagingSenderId: "891003069826",
+      appId: "1:891003069826:web:11ed0ddd07700ded745b9b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dataRef = ref(db, '/');
+
+    // Nạp dữ liệu ban đầu từ Firebase Realtime Database
+    try {
+      const snapshot = await get(dataRef);
+      const data = snapshot.val();
+      if (data && typeof window.setEditorDataFromFirebase === 'function')
+        window.setEditorDataFromFirebase(data);
+    } catch (err) {
+      console.warn('Lỗi kết nối Firebase:', err);
+    }
+
+    // Cung cấp hàm lưu dữ liệu lên Firebase
+    window.saveDataToFirebase = async function(data) {
+      return await set(dataRef, data);
+    };
   </script>
 </body>
 
