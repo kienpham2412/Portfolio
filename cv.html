@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV - Phạm Hồng Kiên | Game Developer & Software Engineer</title>
+  <meta name="description" content="Curriculum Vitae (CV) chuyên nghiệp 2 trang A4 của Phạm Hồng Kiên - Unity Game Developer & Software Engineer.">
+
+  <!-- Google Fonts: Load đầy đủ Outfit & Plus Jakarta Sans hỗ trợ tiếng Việt tối đa -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CSS VARIABLES & THEMES
+       ========================================================================== */
+    :root {
+      /* Theme Sáng - Chuẩn In ấn & Xuất PDF chất lượng cao */
+      --bg-body: #ebedf2;
+      --bg-page: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-card: #f8fafc;
+      --bg-card-hover: #f1f5f9;
+      --border-subtle: #e2e8f0;
+      --border-medium: #cbd5e1;
+      
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      
+      --accent: #e11d48;
+      --accent-secondary: #0284c7;
+      --accent-gradient: linear-gradient(135deg, #e11d48 0%, #ea580c 50%, #f59e0b 100%);
+      --accent-subtle: rgba(225, 29, 72, 0.08);
+      --accent-subtle-border: rgba(225, 29, 72, 0.25);
+      
+      --tag-bg: #e2e8f0;
+      --tag-text: #1e293b;
+      --tag-border: #cbd5e1;
+      
+      --shadow-paper: 0 16px 40px -10px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    /* Theme Tối - Cyber Gaming Portfolio */
+    [data-theme="dark"] {
+      --bg-body: #07090e;
+      --bg-page: #0d121f;
+      --bg-subtle: #131b2e;
+      --bg-card: rgba(19, 27, 46, 0.85);
+      --bg-card-hover: #1a243d;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.16);
+      
+      --text-main: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      
+      --accent: #ff5656;
+      --accent-secondary: #38bdf8;
+      --accent-gradient: linear-gradient(135deg, #ff5656 0%, #ffa239 52%, #fde047 100%);
+      --accent-subtle: rgba(255, 86, 86, 0.15);
+      --accent-subtle-border: rgba(255, 86, 86, 0.35);
+      
+      --tag-bg: rgba(30, 41, 59, 0.85);
+      --tag-text: #38bdf8;
+      --tag-border: rgba(56, 189, 248, 0.25);
+      
+      --shadow-paper: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.08);
+    }
+
+    /* ==========================================================================
+       RESET & BASE TYPOGRAPHY
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11.5pt;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      padding-top: 64px;
+      padding-bottom: 60px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Outfit', sans-serif;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Gradient Text signature giống Portfolio */
+    .gradient-text {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    /* ==========================================================================
+       TOP FLOATING ACTION TOOLBAR (Ẩn khi In)
+       ========================================================================== */
+    .cv-toolbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 9999;
+      color: #f8fafc;
+    }
+
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toolbar-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toolbar-badge {
+      background: var(--accent);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .toolbar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toolbar-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .toolbar-btn.btn-primary {
+      background: #e11d48;
+      border-color: #f43f5e;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
+    }
+
+    .toolbar-btn.btn-primary:hover {
+      background: #f43f5e;
+      box-shadow: 0 6px 16px rgba(225, 29, 72, 0.45);
+    }
+
+    /* ==========================================================================
+       A4 PAGES CONTAINER & STRUCTURE
+       Chuẩn khổ A4: 210mm x 297mm
+       ========================================================================== */
+    .cv-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      margin: 0 auto;
+    }
+
+    .page-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: -22px;
+    }
+
+    .cv-page {
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      min-height: 297mm;
+      background-color: var(--bg-page);
+      box-shadow: var(--shadow-paper);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      padding: 12mm 13mm 11mm 13mm;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      page-break-after: always;
+      break-after: page;
+      transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    /* Đường trang trí cạnh trên trang A4 */
+    .page-top-stripe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: var(--accent-gradient);
+    }
+
+    .page-watermark-footer {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9pt;
+      color: var(--text-muted);
+    }
+
+    .page-watermark-footer a {
+      color: var(--accent-secondary);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       PAGE 1: HEADER (AVATAR 250px x 250px & COHESIVE HEADER CONTENT)
+       ========================================================================== */
+    .p1-header {
+      display: flex;
+      align-items: stretch;
+      gap: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1.5px solid var(--border-subtle);
+      margin-bottom: 14px;
+    }
+
+    /* Avatar chuẩn kích thước 250px x 250px theo yêu cầu người dùng */
+    .p1-avatar-box {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      min-width: 250px;
+      min-height: 250px;
+      max-width: 250px;
+      max-height: 250px;
+      flex-shrink: 0;
+    }
+
+    .p1-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 3.5px solid var(--border-medium);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+    }
+
+    .p1-header-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .p1-name-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    /* Tên hiển thị với font Outfit chính xác như Portfolio */
+    .p1-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 27pt;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 2px;
+    }
+
+    .p1-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12pt;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 7px;
+      line-height: 1.25;
+    }
+
+    /* Tóm tắt giới thiệu ngay trong header bên cạnh avatar */
+    .p1-header-bio {
+      font-size: 10pt;
+      line-height: 1.62;
+      color: var(--text-secondary);
+      text-align: justify;
+      margin-bottom: 9px;
+    }
+
+    /* Lưới thông tin liên hệ 2 cột x 3 hàng cân đối với avatar 250px */
+    .p1-contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 16px;
+      font-size: 10pt;
+      line-height: 1.45;
+      padding-top: 7px;
+      border-top: 1px dashed var(--border-subtle);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .contact-item svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    .contact-item a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* ==========================================================================
+       PAGE 1: MAIN BODY (2 CỘT TỶ LỆ CÂN XỨNG & ĐẦY ĐẶN)
+       ========================================================================== */
+    .p1-body {
+      display: grid;
+      grid-template-columns: 38% 62%;
+      gap: 22px;
+      margin-top: 4px;
+      align-items: start;
+    }
+
+    .p1-left-col, .p1-right-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 18px;
+    }
+
+    /* SECTION TITLES */
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 9px;
+      padding-bottom: 5px;
+      border-bottom: 1.5px solid var(--border-subtle);
+      position: relative;
+      line-height: 1.3;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -1.5px;
+      left: 0;
+      width: 34px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .section-title svg {
+      width: 18px;
+      height: 18px;
+      color: var(--accent);
+    }
+
+    /* STATS STRIP IN SIDEBAR */
+    .p1-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .cv-stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 9px;
+      text-align: center;
+    }
+
+    .cv-stat-val {
+      font-size: 18pt;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+
+    .cv-stat-lbl {
+      font-size: 9.5pt;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 3px;
+      line-height: 1.3;
+    }
+
+    /* SKILL GROUPS */
+    .skill-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 9px 11px;
+      margin-bottom: 9px;
+    }
+
+    .skill-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .skill-block-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 700;
+      font-size: 10.5pt;
+      color: var(--text-main);
+      margin-bottom: 7px;
+      line-height: 1.35;
+    }
+
+    .skill-block-desc {
+      font-size: 9.2pt;
+      color: var(--text-muted);
+      line-height: 1.52;
+      margin-bottom: 7px;
+    }
+
+    .skill-tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .cv-pill {
+      font-size: 8.8pt;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid var(--tag-border);
+      line-height: 1.3;
+    }
+
+    /* TIMELINE (EXPERIENCE & EDUCATION) */
+    .timeline {
+      position: relative;
+      padding-left: 16px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: var(--border-medium);
+    }
+
+    .timeline-node {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .timeline-node:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -16px;
+      top: 5px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--bg-page);
+      border: 2.5px solid var(--accent);
+    }
+
+    .timeline-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .timeline-role {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12pt;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .timeline-period {
+      font-size: 9pt;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-subtle);
+      border: 1px solid var(--accent-subtle-border);
+      padding: 2.5px 7.5px;
+      border-radius: 5px;
+      white-space: nowrap;
+      line-height: 1.25;
+    }
+
+    .timeline-org {
+      font-size: 10.4pt;
+      font-weight: 700;
+      color: var(--accent-secondary);
+      margin-top: 2px;
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+
+    .timeline-desc {
+      font-size: 9.8pt;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .timeline-bullets {
+      margin-top: 5px;
+      padding-left: 16px;
+      font-size: 9.6pt;
+      color: var(--text-secondary);
+      line-height: 1.62;
+    }
+
+    .timeline-bullets li {
+      margin-bottom: 6px;
+    }
+
+    .timeline-bullets li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ==========================================================================
+       PAGE 2: FEATURED 6 PROJECTS (LƯỚI 2 CỘT x 3 HÀNG)
+       ========================================================================== */
+    .p2-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid var(--border-subtle);
+      margin-bottom: 12px;
+    }
+
+    .p2-title-group h2 {
+      font-size: 16.5pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.3;
+    }
+
+    .p2-subtitle {
+      font-size: 10pt;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .p2-badge {
+      background: var(--accent-subtle);
+      border: 1px solid var(--accent-subtle-border);
+      color: var(--accent);
+      font-size: 9.6pt;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 999px;
+    }
+
+    /* Lưới 6 Projects: 2 cột x 3 dòng */
+    .p2-projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      flex: 1;
+      align-content: stretch;
+    }
+
+    .cv-project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-sizing: border-box;
+      overflow: hidden;
+      justify-content: flex-start;
+      gap: 6px;
+    }
+
+    /* Ảnh bìa dự án chiếm trọn 1 hàng ngang với chiều cao mở rộng */
+    .project-banner-box {
+      width: 100%;
+      height: 185px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      flex-shrink: 0;
+      border: 1px solid var(--border-medium);
+    }
+
+    .project-banner-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Tên dự án hiển thị ngay dưới ảnh */
+    .project-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13pt;
+      font-weight: 800;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.25;
+      margin-top: 2px;
+    }
+
+    .project-tech-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 1px;
+    }
+
+    .tech-pill-mini {
+      font-size: 8.4pt;
+      font-weight: 600;
+      padding: 2.5px 7.5px;
+      border-radius: 4px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid var(--tag-border);
+      line-height: 1.3;
+    }
+
+    .project-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 7px;
+      border-top: 1px dashed var(--border-subtle);
+      margin-top: auto;
+    }
+
+    .project-btn-mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 8.2pt;
+      font-weight: 700;
+      padding: 3.5px 9px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-store {
+      background: var(--accent-subtle);
+      color: var(--accent);
+      border: 1px solid var(--accent-subtle-border);
+    }
+
+    .btn-store:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-apk {
+      background: var(--tag-bg);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-apk:hover {
+      border-color: var(--accent-secondary);
+      color: var(--accent-secondary);
+    }
+
+    /* Card placeholder nếu danh sách có ít hơn 6 dự án */
+    .cv-project-card.placeholder {
+      border: 1.5px dashed var(--border-medium);
+      background: transparent;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--text-muted);
+      padding: 18px;
+    }
+
+    /* ==========================================================================
+       PRINT STYLES (@media print)
+       Khóa cứng kích thước A4 tuyệt đối và ẩn thanh điều khiển
+       ========================================================================== */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .no-print,
+      .cv-toolbar,
+      .page-indicator {
+        display: none !important;
+      }
+
+      .cv-container {
+        gap: 0 !important;
+        margin: 0 !important;
+        width: 210mm !important;
+      }
+
+      .cv-page {
+        width: 210mm !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        min-height: 297mm !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: none !important;
+        padding: 12mm 13mm 11mm 13mm !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: hidden !important;
+      }
+
+      a {
+        text-decoration: none !important;
+      }
+    }
+
+    /* Responsive cho màn hình nhỏ */
+    @media screen and (max-width: 820px) {
+      body {
+        padding-top: 60px;
+        padding-bottom: 24px;
+      }
+      .cv-page {
+        width: 95vw;
+        height: auto;
+        min-height: auto;
+        max-height: none;
+        padding: 18px;
+      }
+      .p1-header {
+        flex-direction: column;
+        align-items: center;
+      }
+      .p1-avatar-box {
+        width: 200px;
+        height: 200px;
+        min-width: 200px;
+        min-height: 200px;
+      }
+      .p1-body {
+        grid-template-columns: 1fr;
+      }
+      .p2-projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .p1-contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Floating Action Toolbar -->
+  <aside class="cv-toolbar no-print" aria-label="Thanh công cụ CV">
+    <div class="toolbar-left">
+      <a href="index.html" class="toolbar-btn" title="Quay lại trang chính Portfolio">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Về Portfolio
+      </a>
+      <div class="toolbar-title">
+        <span>CV - Phạm Hồng Kiên</span>
+        <span class="toolbar-badge">A4 • 2 Trang</span>
+      </div>
+    </div>
+
+    <div class="toolbar-right">
+      <!-- Đổi theme Sáng / Tối -->
+      <button class="toolbar-btn" id="theme-toggle-btn" type="button" title="Chuyển đổi giao diện Sáng / Tối">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5" />
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+        </svg>
+        <span id="theme-text">Chủ đề Tối</span>
+      </button>
+
+      <!-- Nút In / Xuất PDF -->
+      <button class="toolbar-btn btn-primary" onclick="window.print()" type="button" title="In hoặc lưu dạng PDF (Khuyên dùng khổ A4)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <polyline points="6 9 6 2 18 2 18 9" />
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+          <rect x="6" y="14" width="12" height="8" />
+        </svg>
+        In / Xuất PDF
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main CV Container (2 Trang A4) -->
+  <main class="cv-container">
+
+    <!-- ====================================================================
+         TRANG 1: PERSONAL INFO, EDUCATION, EXPERIENCE & SKILLS
+         ==================================================================== -->
+    <div class="page-indicator no-print">
+      <span>Trang 1 / 2 • Thông tin cá nhân, Học vấn, Kinh nghiệm & Kỹ năng</span>
+    </div>
+
+    <article class="cv-page" id="cv-page-1">
+      <div class="page-top-stripe"></div>
+
+      <!-- Header: Avatar 250px x 250px + Tên (Font Outfit + Gradient) + Chức vụ + Bio + Liên hệ -->
+      <header class="p1-header">
+        <div class="p1-avatar-box">
+          <img src="./assets/images/avatar.webp" alt="Ảnh chân dung Phạm Hồng Kiên" class="p1-avatar-img" id="cv-avatar" referrerpolicy="no-referrer">
+        </div>
+        <div class="p1-header-content">
+          <div>
+            <div class="p1-name-row">
+              <h1 class="p1-name">
+                <span class="gradient-text" id="cv-name">Phạm Hồng Kiên</span>
+              </h1>
+            </div>
+            <div class="p1-title" id="cv-role">Unity Game Developer • Software Engineer</div>
+            <p class="p1-header-bio" id="cv-bio">
+              Đam mê xây dựng các trò chơi tương tác lôi cuốn, đồ họa bắt mắt và phát triển ứng dụng tối ưu hiệu năng cao. Luôn khát khao học hỏi và tạo ra các sản phẩm mang lại giá trị thực tế.
+            </p>
+          </div>
+
+          <div class="p1-contact-grid" id="cv-contact-grid">
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <a href="tel:0935581686" id="cv-phone">(+84) 935581686</a>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <a href="mailto:kienpham241296@gmail.com" id="cv-email">kienpham241296@gmail.com</a>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span id="cv-location">Hà Nội, Việt Nam</span>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span id="cv-dob">24 / 12 / 1996</span>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span id="cv-gender">Nam</span>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <a href="index.html" target="_blank">kienpham.dev</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Nội dung 2 cột Trang 1 -->
+      <div class="p1-body">
+
+        <!-- CỘT TRÁI (38%): Thống kê trước, Kỹ năng & Công cụ sau -->
+        <section class="p1-left-col">
+          
+          <!-- Thống kê nổi bật -->
+          <div>
+            <h2 class="section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Thống kê nổi bật
+            </h2>
+            <div class="p1-stats-grid" id="cv-stats-container">
+              <!-- Nạp động từ stats -->
+            </div>
+          </div>
+
+          <!-- Kỹ năng chuyên môn & Công nghệ -->
+          <div>
+            <h2 class="section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              Kỹ năng & Công cụ
+            </h2>
+            <div id="cv-skills-container">
+              <!-- Nạp động từ skills data.js -->
+            </div>
+          </div>
+
+        </section>
+
+        <!-- CỘT PHẢI (62%): Học vấn trước, Kinh nghiệm làm việc sau -->
+        <section class="p1-right-col">
+
+          <!-- Học vấn (Education) -->
+          <div>
+            <h2 class="section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Học vấn
+            </h2>
+            <div class="timeline" id="cv-education-timeline">
+              <!-- Nạp động từ education trong data.js -->
+            </div>
+          </div>
+
+          <!-- Kinh nghiệm làm việc (Experience) -->
+          <div>
+            <h2 class="section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              Kinh nghiệm làm việc
+            </h2>
+            <div class="timeline" id="cv-experience-timeline">
+              <!-- Nạp động từ experience trong data.js -->
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- Watermark footer trang 1 -->
+      <footer class="page-watermark-footer">
+        <span class="cv-footer-title">CV • Phạm Hồng Kiên - Unity Game Developer</span>
+        <span>Trang 1 / 2</span>
+      </footer>
+    </article>
+
+    <!-- ====================================================================
+         TRANG 2: THÔNG TIN 6 PROJECT ĐẦU TIÊN
+         ==================================================================== -->
+    <div class="page-indicator no-print">
+      <span>Trang 2 / 2 • 6 Dự án nổi bật trong danh sách Portfolio</span>
+    </div>
+
+    <article class="cv-page" id="cv-page-2">
+      <div class="page-top-stripe"></div>
+
+      <!-- Tiêu đề Trang 2 -->
+      <header class="p2-header">
+        <div class="p2-title-group">
+          <h2>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color: var(--accent);">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            Dự án tiêu biểu
+          </h2>
+        </div>
+      </header>
+
+      <!-- Lưới 6 Projects (2 cột x 3 dòng) -->
+      <div class="p2-projects-grid" id="cv-projects-grid">
+        <!-- Render động từ data.projects.slice(0, 6) -->
+      </div>
+
+      <!-- Watermark footer trang 2 -->
+      <footer class="page-watermark-footer">
+        <span class="cv-footer-title">CV • Phạm Hồng Kiên - Unity Game Developer</span>
+        <span>Trang 2 / 2</span>
+      </footer>
+    </article>
+
+  </main>
+
+  <!-- Nạp dữ liệu Portfolio Data từ assets/data.js -->
+  <script src="./assets/data.js"></script>
+
+  <script>
+    // ==========================================================================
+    // LOGIC RENDER DATA CHO TRANG CV
+    // ==========================================================================
+
+    // Tự động tính số năm kinh nghiệm từ tháng 4/2022
+    function calculateExperienceYears(startYear = 2022, startMonth = 4) {
+      const now = new Date();
+      const startDate = new Date(startYear, startMonth - 1, 1);
+      let years = now.getFullYear() - startDate.getFullYear();
+      const monthDiff = now.getMonth() - startDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < startDate.getDate())) {
+        years--;
+      }
+      return Math.max(1, years);
+    }
+
+    // Định dạng Google Drive link sang link ảnh trực tiếp
+    function formatDriveImage(url) {
+      if (!url) return './assets/images/project-cyber.jpg';
+      const trimmed = url.trim();
+      if (trimmed.includes('drive.google.com/thumbnail')) return trimmed;
+      const matchD = trimmed.match(/\/d\/([^/?]+)/);
+      if (matchD && matchD[1]) return `https://drive.google.com/thumbnail?id=${matchD[1]}&sz=w600`;
+      const matchId = trimmed.match(/[?&]id=([^&]+)/);
+      if (matchId && matchId[1]) return `https://drive.google.com/thumbnail?id=${matchId[1]}&sz=w600`;
+      return trimmed;
+    }
+
+    // Render thông tin Trang 1
+    function renderCVPage1(data) {
+      if (!data) return;
+
+      // 1. Tên, chức danh, bio, ảnh đại diện
+      if (data.hero) {
+        if (data.hero.bio) {
+          const bioEl = document.getElementById('cv-bio');
+          if (bioEl) bioEl.textContent = data.hero.bio;
+        }
+        if (data.hero.role) {
+          const roleEl = document.getElementById('cv-role');
+          const tagsStr = Array.isArray(data.hero.tags) ? data.hero.tags.join(' • ') : '';
+          if (roleEl) roleEl.textContent = `${data.hero.role} • ${tagsStr}`;
+        }
+        if (data.hero.avatar) {
+          const avatarEl = document.getElementById('cv-avatar');
+          if (avatarEl) avatarEl.src = formatDriveImage(data.hero.avatar);
+        }
+      }
+
+      // 2. Thông tin cá nhân (Personal Info)
+      if (Array.isArray(data.personalInfo)) {
+        const nameItem = data.personalInfo.find(i => i.label && i.label.toLowerCase().includes('tên'));
+        if (nameItem && nameItem.value) {
+          const nameEl = document.getElementById('cv-name');
+          if (nameEl) nameEl.textContent = nameItem.value;
+          document.title = `CV - ${nameItem.value} | Game Developer`;
+
+          const roleText = (data.hero && data.hero.role) ? data.hero.role : 'Unity Game Developer';
+          document.querySelectorAll('.cv-footer-title').forEach(el => {
+            el.textContent = `CV • ${nameItem.value} - ${roleText}`;
+          });
+        }
+
+        const phoneItem = data.personalInfo.find(i => i.type === 'phone' || (i.label && i.label.toLowerCase().includes('thoại')));
+        if (phoneItem) {
+          const phoneEl = document.getElementById('cv-phone');
+          if (phoneEl) {
+            phoneEl.textContent = phoneItem.value;
+            phoneEl.href = `tel:${phoneItem.raw || phoneItem.value}`;
+          }
+        }
+
+        const emailItem = data.personalInfo.find(i => i.type === 'email' || (i.label && i.label.toLowerCase().includes('email')));
+        if (emailItem) {
+          const emailEl = document.getElementById('cv-email');
+          if (emailEl) {
+            emailEl.textContent = emailItem.value;
+            emailEl.href = `mailto:${emailItem.value}`;
+          }
+        }
+
+        const locItem = data.personalInfo.find(i => i.label && i.label.toLowerCase().includes('nơi'));
+        if (locItem) {
+          const locEl = document.getElementById('cv-location');
+          if (locEl) locEl.textContent = locItem.value;
+        }
+
+        const dobItem = data.personalInfo.find(i => i.label && i.label.toLowerCase().includes('sinh'));
+        if (dobItem) {
+          const dobEl = document.getElementById('cv-dob');
+          if (dobEl) dobEl.textContent = dobItem.value;
+        }
+
+        const genderItem = data.personalInfo.find(i => i.label && i.label.toLowerCase().includes('tính'));
+        if (genderItem) {
+          const genderEl = document.getElementById('cv-gender');
+          if (genderEl) genderEl.textContent = genderItem.value;
+        }
+      }
+
+      // 3. Kỹ năng (Skills)
+      const skillsContainer = document.getElementById('cv-skills-container');
+      if (skillsContainer && Array.isArray(data.skills)) {
+        skillsContainer.innerHTML = data.skills.map(s => {
+          const tags = s.tags || s.skills || s.tech || [];
+          const tagsHtml = tags.map(t => `<span class="cv-pill">${t}</span>`).join('');
+          return `
+            <div class="skill-block">
+              <div class="skill-block-header">${s.title || 'Kỹ năng'}</div>
+              <div class="skill-tag-list">${tagsHtml}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 4. Thống kê (Stats)
+      const statsContainer = document.getElementById('cv-stats-container');
+      if (statsContainer) {
+        const expYears = calculateExperienceYears(2022, 4);
+        const autoExpStat = { value: `${expYears}+`, label: 'Năm kinh nghiệm' };
+        
+        let otherStats = [];
+        if (Array.isArray(data.stats)) {
+          otherStats = data.stats.filter(s => s && 
+            (!s.label || (!s.label.toLowerCase().includes('kinh nghiệm') && !s.label.toLowerCase().includes('cam kết'))) &&
+            (!s.value || !s.value.includes('100%'))
+          );
+        }
+
+        const fullStats = [autoExpStat, ...otherStats];
+        statsContainer.innerHTML = fullStats.map(st => `
+          <div class="cv-stat-card">
+            <div class="cv-stat-val">${st.value || ''}</div>
+            <div class="cv-stat-lbl">${st.label || ''}</div>
+          </div>
+        `).join('');
+      }
+
+      // 5. Kinh nghiệm làm việc (Experience)
+      const expContainer = document.getElementById('cv-experience-timeline');
+      if (expContainer && Array.isArray(data.experience)) {
+        expContainer.innerHTML = data.experience.map(exp => `
+          <div class="timeline-node">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header-row">
+              <div class="timeline-role">${exp.role || exp.position || 'Game Developer'}</div>
+              <span class="timeline-period">${exp.period || ''}</span>
+            </div>
+            <div class="timeline-org">${exp.company || ''}</div>
+            ${exp.description ? `<div class="timeline-desc">${exp.description}</div>` : `
+              <ul class="timeline-bullets">
+                <li>Phụ trách chính (Lead Developer) lập trình kiến trúc và logic gameplay cho các dự án game puzzle 3D/2D thị trường Global.</li>
+                <li>Xây dựng hệ thống vật lý tương tác (Physics) mượt mà; lập trình custom shader và Shader Graph tạo hiệu ứng đồ họa ấn tượng.</li>
+                <li>Ứng dụng Unity Job System và Multithreading giải quyết bài toán mô phỏng lượng hạt/vật thể lớn (Sand Rush), giữ vững 60 FPS ổn định.</li>
+                <li>Sử dụng Unity Profiler để tối ưu hóa bộ nhớ RAM, Draw Calls, giảm thiểu rò rỉ bộ nhớ (memory leaks) và tối ưu dung lượng cài đặt.</li>
+                <li>Phối hợp cùng Product Owner, Game Designer và Artist theo quy trình Agile/Scrum để hoàn thiện sản phẩm đạt chuẩn phát hành Global.</li>
+              </ul>
+            `}
+          </div>
+        `).join('');
+      }
+
+      // 6. Học vấn (Education)
+      const eduContainer = document.getElementById('cv-education-timeline');
+      if (eduContainer && Array.isArray(data.education)) {
+        const eduList = [...data.education].reverse();
+        eduContainer.innerHTML = eduList.map(edu => `
+          <div class="timeline-node">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header-row">
+              <div class="timeline-role">${edu.degree || ''}</div>
+              <span class="timeline-period">${edu.period || ''}</span>
+            </div>
+            <div class="timeline-org">${edu.school || ''}</div>
+            ${(edu.description || edu.desc) ? `<div class="timeline-desc">${edu.description || edu.desc}</div>` : ''}
+          </div>
+        `).join('');
+      }
+    }
+
+    // Render thông tin Trang 2: đúng 6 projects đầu tiên
+    function renderCVPage2(data) {
+      const container = document.getElementById('cv-projects-grid');
+      if (!container) return;
+
+      const rawProjects = Array.isArray(data.projects) ? data.projects : [];
+      // Lấy chính xác tối đa 6 project đầu tiên theo yêu cầu
+      const top6Projects = rawProjects.slice(0, 6);
+
+      let html = top6Projects.map((proj, idx) => {
+        const techList = proj.tech || proj.tags || [];
+        const techHtml = techList.map(t => `<span class="tech-pill-mini">${t}</span>`).join('');
+        const imgSrc = formatDriveImage(proj.image || proj.img);
+        const linkUrl = proj.url || (proj.link && proj.link.url) || (typeof proj.link === 'string' ? proj.link : '') || '';
+        const storeUrl = proj.storeUrl || proj.store_url || '';
+
+        return `
+          <article class="cv-project-card">
+            <!-- Ảnh bìa dự án chiếm trọn 1 hàng -->
+            <div class="project-banner-box">
+              <img src="${imgSrc}" alt="${proj.title || ''}" class="project-banner-img" referrerpolicy="no-referrer">
+            </div>
+
+            <!-- Tên dự án ở dưới ảnh -->
+            <h3 class="project-title">${proj.title || `Dự án #${idx + 1}`}</h3>
+
+            <!-- Danh sách công nghệ -->
+            <div class="project-tech-row">
+              ${techHtml}
+            </div>
+
+            <!-- Các nút liên kết Store và APK -->
+            <div class="project-actions">
+              ${storeUrl ? `
+                <a href="${storeUrl}" target="_blank" rel="noopener" class="project-btn-mini btn-store" title="Xem trên Store / Sensor Tower">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  Store Page
+                </a>
+              ` : ''}
+              ${linkUrl ? `
+                <a href="${linkUrl}" target="_blank" rel="noopener" class="project-btn-mini btn-apk" title="Tải bản build APK / Drive">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Tải APK
+                </a>
+              ` : ''}
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      // Nếu số dự án ít hơn 6, tạo thẻ chờ trang nhã để lưới luôn giữ tỷ lệ 2x3 hoàn hảo
+      if (top6Projects.length < 6) {
+        const remaining = 6 - top6Projects.length;
+        for (let i = 0; i < remaining; i++) {
+          html += `
+            <div class="cv-project-card placeholder">
+              <div style="font-size: 28px; margin-bottom: 6px;">🚀</div>
+              <div style="font-weight: 800; font-size: 12pt; color: var(--text-main);">Dự án tiếp theo</div>
+              <div style="font-size: 8.8pt; color: var(--text-muted); margin-top: 3px;">Đang trong quá trình hoàn thiện & cập nhật</div>
+            </div>
+          `;
+        }
+      }
+
+      container.innerHTML = html;
+    }
+
+    // Hàm nạp / cập nhật dữ liệu CV (đồng bộ với Firebase Realtime Database & fallback)
+    function loadCVData(data) {
+      const source = data || (typeof PORTFOLIO_DATA !== 'undefined' ? PORTFOLIO_DATA : null);
+      if (!source) return;
+      window.PORTFOLIO_DATA = source;
+      renderCVPage1(source);
+      renderCVPage2(source);
+    }
+    window.loadCVData = loadCVData;
+    window.loadPortfolioData = loadCVData;
+
+    // Khởi chạy toàn bộ dữ liệu CV từ dữ liệu có sẵn
+    function initCV() {
+      loadCVData(typeof PORTFOLIO_DATA !== 'undefined' ? PORTFOLIO_DATA : null);
+    }
+
+    // Toggle chuyển đổi Theme Sáng / Tối
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeText = document.getElementById('theme-text');
+    let currentTheme = 'light';
+
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        if (currentTheme === 'light') {
+          currentTheme = 'dark';
+          document.documentElement.setAttribute('data-theme', 'dark');
+          themeText.textContent = 'Chủ đề Sáng';
+        } else {
+          currentTheme = 'light';
+          document.documentElement.setAttribute('data-theme', 'light');
+          themeText.textContent = 'Chủ đề Tối';
+        }
+      });
+    }
+
+    // Nạp dữ liệu khi trang tải
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCV);
+    } else {
+      initCV();
+    }
+  </script>
+
+  <!-- Shared Script (Kết nối Firebase Realtime Database dùng chung cho Portfolio và CV) -->
+  <script src="script.js"></script>
+</body>
+
+</html>

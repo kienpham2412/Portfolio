@@ -14,174 +14,176 @@ if (header) {
   });
 }
 
-// Hiệu ứng các biểu tượng nút bấm DualSense bay lơ lửng trên Canvas
+// Hiệu ứng các biểu tượng nút bấm DualSense bay lơ lửng trên Canvas (chỉ kích hoạt nếu có trên trang)
 const canvas = document.getElementById('dualsense-canvas');
-const ctx = canvas.getContext('2d');
-let shapes = [];
-let width, height;
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  let shapes = [];
+  let width, height;
 
-// Tọa độ chuột cho tương tác dạt ra khi di chuột lại gần
-const mouse = { x: -1000, y: -1000, radius: 140 };
+  // Tọa độ chuột cho tương tác dạt ra khi di chuột lại gần
+  const mouse = { x: -1000, y: -1000, radius: 140 };
 
-window.addEventListener('mousemove', (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
 
-window.addEventListener('mouseleave', () => {
-  mouse.x = -1000;
-  mouse.y = -1000;
-});
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+  });
 
-// Cấu hình 4 hình dạng nút bấm DualSense
-const SHAPE_TYPES = ['cross', 'circle', 'triangle', 'square'];
+  // Cấu hình 4 hình dạng nút bấm DualSense
+  const SHAPE_TYPES = ['cross', 'circle', 'triangle', 'square'];
 
-// Đọc màu sắc trực tiếp từ biến CSS trong style.css (đảm bảo style.css là Single Source of Truth)
-function getCSSVar(varName, fallback = '') {
-  const val = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-  if (val)
-    return val;
-  return fallback;
-}
-
-let shapeColors = {};
-
-function updateShapeColors() {
-  shapeColors = {
-    cross: { stroke: getCSSVar('--shape-cross', '#0284c7'), glow: getCSSVar('--shape-cross-glow', 'rgba(2, 132, 199, 0.35)') },
-    circle: { stroke: getCSSVar('--shape-circle', '#e11d48'), glow: getCSSVar('--shape-circle-glow', 'rgba(225, 29, 72, 0.35)') },
-    triangle: { stroke: getCSSVar('--shape-triangle', '#059669'), glow: getCSSVar('--shape-triangle-glow', 'rgba(5, 150, 105, 0.35)') },
-    square: { stroke: getCSSVar('--shape-square', '#db2777'), glow: getCSSVar('--shape-square-glow', 'rgba(219, 39, 119, 0.35)') }
-  };
-}
-updateShapeColors();
-
-function resizeCanvas() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  if (typeof updateShapeColors === 'function')
-    updateShapeColors();
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-class DualSenseShape {
-  constructor() {
-    this.reset(true);
+  // Đọc màu sắc trực tiếp từ biến CSS trong style.css (đảm bảo style.css là Single Source of Truth)
+  function getCSSVar(varName, fallback = '') {
+    const val = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    if (val)
+      return val;
+    return fallback;
   }
 
-  reset(initial = false) {
-    this.type = SHAPE_TYPES[Math.floor(Math.random() * SHAPE_TYPES.length)];
-    this.x = Math.random() * width;
-    this.y = initial ? Math.random() * height : height + 35;
-    this.size = Math.random() * 16 + 14; // 14px đến 30px
-    this.speedY = -(Math.random() * 0.45 + 0.22); // Bay từ từ lên trên
-    this.speedX = (Math.random() - 0.5) * 0.3;
-    this.angle = Math.random() * Math.PI * 2;
-    this.rotSpeed = (Math.random() - 0.5) * 0.015;
-    this.wobbleAngle = Math.random() * Math.PI * 2;
-    this.wobbleSpeed = Math.random() * 0.02 + 0.008;
-    this.opacity = Math.random() * 0.2 + 0.15; // Độ trong suốt dịu mắt
-    this.baseOpacity = this.opacity;
-    this.lineWidth = 2;
+  let shapeColors = {};
+
+  function updateShapeColors() {
+    shapeColors = {
+      cross: { stroke: getCSSVar('--shape-cross', '#0284c7'), glow: getCSSVar('--shape-cross-glow', 'rgba(2, 132, 199, 0.35)') },
+      circle: { stroke: getCSSVar('--shape-circle', '#e11d48'), glow: getCSSVar('--shape-circle-glow', 'rgba(225, 29, 72, 0.35)') },
+      triangle: { stroke: getCSSVar('--shape-triangle', '#059669'), glow: getCSSVar('--shape-triangle-glow', 'rgba(5, 150, 105, 0.35)') },
+      square: { stroke: getCSSVar('--shape-square', '#db2777'), glow: getCSSVar('--shape-square-glow', 'rgba(219, 39, 119, 0.35)') }
+    };
   }
+  updateShapeColors();
 
-  update() {
-    this.y += this.speedY;
-    this.x += this.speedX + Math.sin(this.wobbleAngle) * 0.35;
-    this.angle += this.rotSpeed;
-    this.wobbleAngle += this.wobbleSpeed;
-
-    // Tương tác dạt ra khi chuột đến gần
-    const dx = mouse.x - this.x;
-    const dy = mouse.y - this.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    if (dist < mouse.radius) {
-      const force = (mouse.radius - dist) / mouse.radius;
-      this.x -= (dx / dist) * force * 3.5;
-      this.y -= (dy / dist) * force * 3.5;
-      this.opacity = Math.min(0.7, this.baseOpacity + force * 0.45);
-    } else
-      this.opacity += (this.baseOpacity - this.opacity) * 0.05;
-
-    // Tái tạo lại vị trí khi trôi ra khỏi màn hình
-    if (this.y < -40 || this.x < -40 || this.x > width + 40)
-      this.reset(false);
+  function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    if (typeof updateShapeColors === 'function')
+      updateShapeColors();
   }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
 
-  draw() {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-
-    // Hiệu ứng lật nghiêng 3D
-    const scaleX = Math.cos(this.wobbleAngle * 0.75);
-    ctx.scale(scaleX, 1);
-
-    const config = shapeColors[this.type];
-    ctx.strokeStyle = config.stroke;
-    ctx.lineWidth = this.lineWidth;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.globalAlpha = this.opacity;
-
-    ctx.shadowColor = config.glow;
-    ctx.shadowBlur = 8;
-
-    const s = this.size;
-    const hs = s / 2;
-
-    ctx.beginPath();
-    switch (this.type) {
-      case 'cross': // DualSense Cross (X)
-        ctx.moveTo(-hs, -hs);
-        ctx.lineTo(hs, hs);
-        ctx.moveTo(hs, -hs);
-        ctx.lineTo(-hs, hs);
-        break;
-
-      case 'circle': // DualSense Circle (O)
-        ctx.arc(0, 0, hs, 0, Math.PI * 2);
-        break;
-
-      case 'triangle': // DualSense Triangle (Tam giác)
-        const h = (Math.sqrt(3) / 2) * s;
-        ctx.moveTo(0, -h * 0.58);
-        ctx.lineTo(hs, h * 0.42);
-        ctx.lineTo(-hs, h * 0.42);
-        ctx.closePath();
-        break;
-
-      case 'square': // DualSense Square (Vuông)
-        if (ctx.roundRect)
-          ctx.roundRect(-hs, -hs, s, s, 4);
-        else
-          ctx.rect(-hs, -hs, s, s);
-        break;
+  class DualSenseShape {
+    constructor() {
+      this.reset(true);
     }
-    ctx.stroke();
-    ctx.restore();
-  }
-}
 
-function initShapes() {
-  shapes = [];
-  const count = Math.min(50, Math.max(22, Math.floor(window.innerWidth / 36)));
-  for (let i = 0; i < count; i++) {
-    shapes.push(new DualSenseShape());
-  }
-}
-initShapes();
+    reset(initial = false) {
+      this.type = SHAPE_TYPES[Math.floor(Math.random() * SHAPE_TYPES.length)];
+      this.x = Math.random() * width;
+      this.y = initial ? Math.random() * height : height + 35;
+      this.size = Math.random() * 16 + 14; // 14px đến 30px
+      this.speedY = -(Math.random() * 0.45 + 0.22); // Bay từ từ lên trên
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.angle = Math.random() * Math.PI * 2;
+      this.rotSpeed = (Math.random() - 0.5) * 0.015;
+      this.wobbleAngle = Math.random() * Math.PI * 2;
+      this.wobbleSpeed = Math.random() * 0.02 + 0.008;
+      this.opacity = Math.random() * 0.2 + 0.15; // Độ trong suốt dịu mắt
+      this.baseOpacity = this.opacity;
+      this.lineWidth = 2;
+    }
 
-function animate() {
-  ctx.clearRect(0, 0, width, height);
-  for (let i = 0; i < shapes.length; i++) {
-    shapes[i].update();
-    shapes[i].draw();
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX + Math.sin(this.wobbleAngle) * 0.35;
+      this.angle += this.rotSpeed;
+      this.wobbleAngle += this.wobbleSpeed;
+
+      // Tương tác dạt ra khi chuột đến gần
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < mouse.radius) {
+        const force = (mouse.radius - dist) / mouse.radius;
+        this.x -= (dx / dist) * force * 3.5;
+        this.y -= (dy / dist) * force * 3.5;
+        this.opacity = Math.min(0.7, this.baseOpacity + force * 0.45);
+      } else
+        this.opacity += (this.baseOpacity - this.opacity) * 0.05;
+
+      // Tái tạo lại vị trí khi trôi ra khỏi màn hình
+      if (this.y < -40 || this.x < -40 || this.x > width + 40)
+        this.reset(false);
+    }
+
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+
+      // Hiệu ứng lật nghiêng 3D
+      const scaleX = Math.cos(this.wobbleAngle * 0.75);
+      ctx.scale(scaleX, 1);
+
+      const config = shapeColors[this.type];
+      ctx.strokeStyle = config.stroke;
+      ctx.lineWidth = this.lineWidth;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.globalAlpha = this.opacity;
+
+      ctx.shadowColor = config.glow;
+      ctx.shadowBlur = 8;
+
+      const s = this.size;
+      const hs = s / 2;
+
+      ctx.beginPath();
+      switch (this.type) {
+        case 'cross': // DualSense Cross (X)
+          ctx.moveTo(-hs, -hs);
+          ctx.lineTo(hs, hs);
+          ctx.moveTo(hs, -hs);
+          ctx.lineTo(-hs, hs);
+          break;
+
+        case 'circle': // DualSense Circle (O)
+          ctx.arc(0, 0, hs, 0, Math.PI * 2);
+          break;
+
+        case 'triangle': // DualSense Triangle (Tam giác)
+          const h = (Math.sqrt(3) / 2) * s;
+          ctx.moveTo(0, -h * 0.58);
+          ctx.lineTo(hs, h * 0.42);
+          ctx.lineTo(-hs, h * 0.42);
+          ctx.closePath();
+          break;
+
+        case 'square': // DualSense Square (Vuông)
+          if (ctx.roundRect)
+            ctx.roundRect(-hs, -hs, s, s, 4);
+          else
+            ctx.rect(-hs, -hs, s, s);
+          break;
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
   }
-  requestAnimationFrame(animate);
+
+  function initShapes() {
+    shapes = [];
+    const count = Math.min(50, Math.max(22, Math.floor(window.innerWidth / 36)));
+    for (let i = 0; i < count; i++) {
+      shapes.push(new DualSenseShape());
+    }
+  }
+  initShapes();
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < shapes.length; i++) {
+      shapes[i].update();
+      shapes[i].draw();
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
 }
-animate();
 
 // Đánh dấu mục đang chọn trên Navbar khi cuộn trang
 const navLinks = document.querySelectorAll('.nav-links a');
@@ -554,11 +556,57 @@ function loadPortfolioData(data) {
     renderProjects(source.projects);
 }
 
-// Phơi hàm ra window để script module bên ngoài gọi được
+// Phơi hàm ra window để script bên ngoài gọi được
 window.loadPortfolioData = loadPortfolioData;
 
-// Tự động nạp nếu đã có sẵn PORTFOLIO_DATA trong môi trường
-if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA)
+// Tự động nạp nếu đã có sẵn PORTFOLIO_DATA trong môi trường (và đang ở trang Portfolio)
+if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA && document.getElementById('projects-container')) {
   loadPortfolioData(PORTFOLIO_DATA);
+}
+
+// =============================================================================
+// FIREBASE REALTIME DATABASE INTEGRATION (Dùng chung cho cả index.html và cv.html)
+// =============================================================================
+(async function initFirebaseRealtime() {
+  try {
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js");
+    const { getDatabase, ref, onValue } = await import("https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js");
+
+    // Cấu hình Firebase Realtime Database
+    const firebaseConfig = {
+      apiKey: "AIzaSyBk64HPKFqLEv2Zd5IS_cfpAkvsjThtm44",
+      authDomain: "portfolio-7f9df.firebaseapp.com",
+      databaseURL: "https://portfolio-7f9df-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "portfolio-7f9df",
+      storageBucket: "portfolio-7f9df.firebasestorage.app",
+      messagingSenderId: "891003069826",
+      appId: "1:891003069826:web:11ed0ddd07700ded745b9b"
+    };
+
+    // Khởi tạo Firebase App & Realtime Database
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dataRef = ref(db, '/');
+
+    // Lắng nghe dữ liệu theo thời gian thực (Realtime updates)
+    onValue(dataRef, (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+
+      // Cập nhật cho trang Portfolio (index.html) nếu có hàm loadPortfolioData
+      if (typeof window.loadPortfolioData === 'function') {
+        window.loadPortfolioData(data);
+      }
+
+      // Cập nhật cho trang CV (cv.html) nếu có hàm loadCVData
+      if (typeof window.loadCVData === 'function') {
+        window.loadCVData(data);
+      }
+    });
+  } catch (err) {
+    console.warn('Lỗi kết nối Firebase Realtime Database:', err);
+  }
+})();
+
 
 
