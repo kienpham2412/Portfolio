@@ -14,9 +14,12 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
     rel="stylesheet">
 
+  <!-- Theme Palette (Bảng màu & Design Tokens dùng chung với Portfolio) -->
+  <link rel="stylesheet" href="palette.css">
+
   <style>
     /* ==========================================================================
-       CSS VARIABLES & THEMES
+       CSS VARIABLES & THEMES (Tận dụng và kế thừa từ palette.css)
        ========================================================================== */
     :root {
       /* Theme Sáng - Chuẩn In ấn & Xuất PDF chất lượng cao */
@@ -43,47 +46,38 @@
       --tag-border: #cbd5e1;
       
       --shadow-paper: 0 16px 40px -10px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
     }
 
-    /* Theme Tối - Cyber Gaming Portfolio */
+    /* Theme Tối - Cyber Gaming Portfolio (Kế thừa trực tiếp biến từ palette.css) */
     [data-theme="dark"] {
       --bg-body: #07090e;
-      --bg-page: #0d121f;
-      --bg-subtle: #131b2e;
-      --bg-card: rgba(19, 27, 46, 0.85);
-      --bg-card-hover: #1a243d;
-      --border-subtle: rgba(255, 255, 255, 0.08);
+      --bg-page: var(--bg-secondary);
+      --bg-subtle: var(--bg-section-alt);
+      --bg-card: var(--bg-card);
+      --bg-card-hover: var(--bg-card-hover);
+      --border-subtle: var(--border-glass);
       --border-medium: rgba(255, 255, 255, 0.16);
       
-      --text-main: #f8fafc;
+      --text-main: var(--text-primary);
       --text-secondary: #cbd5e1;
-      --text-muted: #94a3b8;
+      --text-muted: var(--text-secondary);
       
-      --accent: #ff5656;
-      --accent-secondary: #38bdf8;
-      --accent-gradient: linear-gradient(135deg, #ff5656 0%, #ffa239 52%, #fde047 100%);
-      --accent-subtle: rgba(255, 86, 86, 0.15);
-      --accent-subtle-border: rgba(255, 86, 86, 0.35);
+      --accent: var(--accent-primary);
+      --accent-secondary: var(--accent-secondary);
+      --accent-gradient: var(--accent-gradient);
+      --accent-subtle: var(--badge-bg-subtle);
+      --accent-subtle-border: var(--badge-border-subtle);
       
-      --tag-bg: rgba(30, 41, 59, 0.85);
-      --tag-text: #38bdf8;
-      --tag-border: rgba(56, 189, 248, 0.25);
+      --tag-bg: var(--pill-bg);
+      --tag-text: var(--pill-text);
+      --tag-border: var(--pill-border);
       
       --shadow-paper: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.08);
     }
 
     /* ==========================================================================
-       RESET & BASE TYPOGRAPHY
+       BASE TYPOGRAPHY & BODY
        ========================================================================== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
       background-color: var(--bg-body);
       color: var(--text-main);
@@ -100,19 +94,6 @@
       font-family: 'Outfit', sans-serif;
       color: var(--text-main);
       line-height: 1.2;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* Gradient Text signature giống Portfolio */
-    .gradient-text {
-      background: var(--accent-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
     }
 
     /* ==========================================================================
@@ -185,14 +166,14 @@
     }
 
     .toolbar-btn.btn-primary {
-      background: #e11d48;
-      border-color: #f43f5e;
+      background: var(--accent);
+      border-color: var(--accent);
       color: #ffffff;
       box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
     }
 
     .toolbar-btn.btn-primary:hover {
-      background: #f43f5e;
+      filter: brightness(1.15);
       box-shadow: 0 6px 16px rgba(225, 29, 72, 0.45);
     }
 

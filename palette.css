@@ -86,4 +86,32 @@
   --shape-triangle-glow: rgba(251, 191, 36, 0.7);
   --shape-square: #fb923c;
   --shape-square-glow: rgba(251, 146, 60, 0.65);
+
+  /* --- 10. BO GÓC & CHUYỂN ĐỘNG DÙNG CHUNG (Radius & Transitions) --- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- RESET & CHỮ GRADIENT DÙNG CHUNG TOÀN HỆ THỐNG --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }

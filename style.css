@@ -1,22 +1,5 @@
 @import url('palette.css');
 
-:root {
-  /* --- BO GÓC & CHUYỂN ĐỘNG (Radius & Transitions) --- */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-full: 9999px;
-
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 html {
   scroll-behavior: smooth;
   font-size: 16px;
@@ -293,12 +276,6 @@ header.scrolled {
   line-height: 1.1;
   margin-bottom: 1rem;
   color: var(--text-primary);
-}
-
-.gradient-text {
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .hero-role {

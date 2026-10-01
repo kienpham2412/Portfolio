@@ -3,6 +3,10 @@
     {
       "source": "/edit",
       "destination": "/edit.html"
+    },
+    {
+      "source": "/cv",
+      "destination": "/cv.html"
     }
   ]
 }
