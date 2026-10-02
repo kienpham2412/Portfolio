@@ -11,10 +11,6 @@ const PORTFOLIO_DATA = {
     "greeting": "Xin chào, tôi là",
     "role": "Game Developer",
     "avatar": "./assets/images/avatar.webp",
-    "tags": [
-      "Unity & C#",
-      "Software Engineer"
-    ],
     "bio": "Đam mê xây dựng các trò chơi tương tác lôi cuốn, đồ họa bắt mắt và phát triển ứng dụng tối ưu hiệu năng cao. Luôn khát khao học hỏi và tạo ra các sản phẩm mang lại giá trị thực tế."
   },
   "stats": [

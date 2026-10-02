@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CV - Phạm Hồng Kiên | Game Developer & Software Engineer</title>
-  <meta name="description" content="Curriculum Vitae (CV) chuyên nghiệp 2 trang A4 của Phạm Hồng Kiên - Unity Game Developer & Software Engineer.">
+  <meta name="description"
+    content="Curriculum Vitae (CV) chuyên nghiệp 2 trang A4 của Phạm Hồng Kiên - Unity Game Developer & Software Engineer.">
 
   <!-- Google Fonts: Load đầy đủ Outfit & Plus Jakarta Sans hỗ trợ tiếng Việt tối đa -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,21 +31,21 @@
       --bg-card-hover: #f1f5f9;
       --border-subtle: #e2e8f0;
       --border-medium: #cbd5e1;
-      
+
       --text-main: #0f172a;
       --text-secondary: #334155;
       --text-muted: #64748b;
-      
+
       --accent: #e11d48;
       --accent-secondary: #0284c7;
       --accent-gradient: linear-gradient(135deg, #e11d48 0%, #ea580c 50%, #f59e0b 100%);
       --accent-subtle: rgba(225, 29, 72, 0.08);
       --accent-subtle-border: rgba(225, 29, 72, 0.25);
-      
+
       --tag-bg: #e2e8f0;
       --tag-text: #1e293b;
       --tag-border: #cbd5e1;
-      
+
       --shadow-paper: 0 16px 40px -10px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
     }
 
@@ -57,21 +58,21 @@
       --bg-card-hover: var(--bg-card-hover);
       --border-subtle: var(--border-glass);
       --border-medium: rgba(255, 255, 255, 0.16);
-      
+
       --text-main: var(--text-primary);
       --text-secondary: #cbd5e1;
       --text-muted: var(--text-secondary);
-      
+
       --accent: var(--accent-primary);
       --accent-secondary: var(--accent-secondary);
       --accent-gradient: var(--accent-gradient);
       --accent-subtle: var(--badge-bg-subtle);
       --accent-subtle-border: var(--badge-border-subtle);
-      
+
       --tag-bg: var(--pill-bg);
       --tag-text: var(--pill-text);
       --tag-border: var(--pill-border);
-      
+
       --shadow-paper: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.08);
     }
 
@@ -90,7 +91,12 @@
       padding-bottom: 60px;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       font-family: 'Plus Jakarta Sans', sans-serif;
       color: var(--text-main);
       line-height: 1.2;
@@ -117,7 +123,8 @@
       color: #f8fafc;
     }
 
-    .toolbar-left, .toolbar-right {
+    .toolbar-left,
+    .toolbar-right {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -298,16 +305,16 @@
     /* Tên hiển thị với font Plus Jakarta Sans chuẩn tiếng Việt 100% đồng bộ với Portfolio */
     .p1-name {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 27pt;
+      font-size: 40pt;
       font-weight: 800;
       letter-spacing: -0.025em;
-      line-height: 1.15;
-      margin-bottom: 2px;
+      line-height: 1.1;
+      margin-bottom: 3px;
     }
 
     .p1-title {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 12pt;
+      font-size: 20pt;
       font-weight: 700;
       color: var(--accent);
       text-transform: uppercase;
@@ -376,7 +383,8 @@
       align-items: start;
     }
 
-    .p1-left-col, .p1-right-col {
+    .p1-left-col,
+    .p1-right-col {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -815,6 +823,7 @@
         padding-top: 60px;
         padding-bottom: 24px;
       }
+
       .cv-page {
         width: 95vw;
         height: auto;
@@ -822,22 +831,27 @@
         max-height: none;
         padding: 18px;
       }
+
       .p1-header {
         flex-direction: column;
         align-items: center;
       }
+
       .p1-avatar-box {
         width: 200px;
         height: 200px;
         min-width: 200px;
         min-height: 200px;
       }
+
       .p1-body {
         grid-template-columns: 1fr;
       }
+
       .p2-projects-grid {
         grid-template-columns: 1fr;
       }
+
       .p1-contact-grid {
         grid-template-columns: 1fr;
       }
@@ -867,13 +881,15 @@
       <button class="toolbar-btn" id="theme-toggle-btn" type="button" title="Chuyển đổi giao diện Sáng / Tối">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5" />
-          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          <path
+            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
         </svg>
         <span id="theme-text">Chủ đề Tối</span>
       </button>
 
       <!-- Nút In / Xuất PDF -->
-      <button class="toolbar-btn btn-primary" onclick="window.print()" type="button" title="In hoặc lưu dạng PDF (Khuyên dùng khổ A4)">
+      <button class="toolbar-btn btn-primary" onclick="window.print()" type="button"
+        title="In hoặc lưu dạng PDF (Khuyên dùng khổ A4)">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
           <polyline points="6 9 6 2 18 2 18 9" />
           <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
@@ -900,7 +916,8 @@
       <!-- Header: Avatar 250px x 250px + Tên (Font Outfit + Gradient) + Chức vụ + Bio + Liên hệ -->
       <header class="p1-header">
         <div class="p1-avatar-box">
-          <img src="./assets/images/avatar.webp" alt="Ảnh chân dung Phạm Hồng Kiên" class="p1-avatar-img" id="cv-avatar" referrerpolicy="no-referrer">
+          <img src="./assets/images/avatar.webp" alt="Ảnh chân dung Phạm Hồng Kiên" class="p1-avatar-img" id="cv-avatar"
+            referrerpolicy="no-referrer">
         </div>
         <div class="p1-header-content">
           <div>
@@ -911,33 +928,55 @@
             </div>
             <div class="p1-title" id="cv-role">Unity Game Developer • Software Engineer</div>
             <p class="p1-header-bio" id="cv-bio">
-              Đam mê xây dựng các trò chơi tương tác lôi cuốn, đồ họa bắt mắt và phát triển ứng dụng tối ưu hiệu năng cao. Luôn khát khao học hỏi và tạo ra các sản phẩm mang lại giá trị thực tế.
+              Đam mê xây dựng các trò chơi tương tác lôi cuốn, đồ họa bắt mắt và phát triển ứng dụng tối ưu hiệu năng
+              cao. Luôn khát khao học hỏi và tạo ra các sản phẩm mang lại giá trị thực tế.
             </p>
           </div>
 
           <div class="p1-contact-grid" id="cv-contact-grid">
             <div class="contact-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
               <a href="tel:0935581686" id="cv-phone">(+84) 935581686</a>
             </div>
             <div class="contact-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
               <a href="mailto:kienpham241296@gmail.com" id="cv-email">kienpham241296@gmail.com</a>
             </div>
             <div class="contact-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
               <span id="cv-location">Hà Nội, Việt Nam</span>
             </div>
             <div class="contact-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
               <span id="cv-dob">24 / 12 / 1996</span>
             </div>
             <div class="contact-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
               <span id="cv-gender">Nam</span>
             </div>
             <div class="contact-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
               <a href="index.html" target="_blank" id="cv-website">kienpham.dev</a>
             </div>
           </div>
@@ -949,11 +988,13 @@
 
         <!-- CỘT TRÁI (38%): Thống kê trước, Kỹ năng & Công cụ sau -->
         <section class="p1-left-col">
-          
+
           <!-- Thống kê nổi bật -->
           <div>
             <h2 class="section-title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
               Thống kê nổi bật
             </h2>
             <div class="p1-stats-grid" id="cv-stats-container">
@@ -964,7 +1005,11 @@
           <!-- Kỹ năng chuyên môn & Công nghệ -->
           <div>
             <h2 class="section-title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
               Kỹ năng & Công cụ
             </h2>
             <div id="cv-skills-container">
@@ -980,7 +1025,10 @@
           <!-- Học vấn (Education) -->
           <div>
             <h2 class="section-title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+              </svg>
               Học vấn
             </h2>
             <div class="timeline" id="cv-education-timeline">
@@ -991,7 +1039,10 @@
           <!-- Kinh nghiệm làm việc (Experience) -->
           <div>
             <h2 class="section-title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+              </svg>
               Kinh nghiệm làm việc
             </h2>
             <div class="timeline" id="cv-experience-timeline">
@@ -1024,8 +1075,10 @@
       <header class="p2-header">
         <div class="p2-title-group">
           <h2>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color: var(--accent);">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              style="color: var(--accent);">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
             </svg>
             Dự án tiêu biểu
           </h2>
@@ -1186,10 +1239,10 @@
       if (statsContainer) {
         const expYears = calculateExperienceYears(2022, 4);
         const autoExpStat = { value: `${expYears}+`, label: 'Năm kinh nghiệm' };
-        
+
         let otherStats = [];
         if (Array.isArray(data.stats)) {
-          otherStats = data.stats.filter(s => s && 
+          otherStats = data.stats.filter(s => s &&
             (!s.label || (!s.label.toLowerCase().includes('kinh nghiệm') && !s.label.toLowerCase().includes('cam kết'))) &&
             (!s.value || !s.value.includes('100%'))
           );
