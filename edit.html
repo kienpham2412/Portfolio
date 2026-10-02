@@ -493,6 +493,62 @@
       border-color: rgba(255, 86, 86, 0.4);
     }
 
+    /* Switch Badges (CV & Portfolio toggles) */
+    .switch-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+    }
+
+    .switch-badge:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .switch-badge input {
+      display: none;
+    }
+
+    .switch-badge .switch-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .switch-badge.active-cv {
+      background: rgba(225, 29, 72, 0.14);
+      border-color: rgba(225, 29, 72, 0.4);
+      color: #fb7185;
+    }
+
+    .switch-badge.active-cv .switch-indicator {
+      background: #e11d48;
+      box-shadow: 0 0 6px rgba(225, 29, 72, 0.7);
+    }
+
+    .switch-badge.active-port {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+    }
+
+    .switch-badge.active-port .switch-indicator {
+      background: #38bdf8;
+      box-shadow: 0 0 6px rgba(56, 189, 248, 0.7);
+    }
+
     /* Image Preview helper */
     .image-preview-wrapper {
       display: flex;
@@ -1561,7 +1617,7 @@
       const list = currentData.experience || [];
 
       if (list.length === 0) {
-        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Chưa có dữ liệu kinh nghiệm nào. Hãy nhấn "Thêm mốc kinh nghiệm".</p>`;
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Chưa có kinh nghiệm nào. Hãy nhấn "Thêm kinh nghiệm".</p>`;
         return;
       }
 
@@ -1594,14 +1650,153 @@
               <label>Tên Công ty / Tổ chức (Company)</label>
               <input type="text" value="${escapeHtml(item.company || '')}" onchange="updateItemField('experience', ${index}, 'company', this.value)" placeholder="VD: Công Ty Cổ Phần Công Nghệ Cscmobi Việt Nam">
             </div>
+            
+            <!-- Chi tiết các ý mô tả kinh nghiệm (Bullets with CV / Portfolio Toggles) -->
             <div class="form-group full-width">
-              <label>Mô tả công việc (Description - Tùy chọn)</label>
-              <textarea onchange="updateItemField('experience', ${index}, 'description', this.value)" placeholder="Mô tả các trách nhiệm hoặc thành tích chính...">${escapeHtml(item.description || item.desc || '')}</textarea>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.35rem; margin-bottom: 0.65rem;">
+                <label style="margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 7px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color: var(--accent-secondary);"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                  Các ý mô tả công việc (Trách nhiệm & Thành tích)
+                </label>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="addExperienceBullet(${index})" style="font-size: 0.78rem; padding: 0.35rem 0.75rem;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Thêm ý mô tả
+                </button>
+              </div>
+              <div id="exp-bullets-${index}">
+                <!-- Render bởi renderExperienceBullets(${index}) -->
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      list.forEach((_, idx) => renderExperienceBullets(idx));
+    }
+
+    // Render danh sách bullets cho riêng 1 mốc kinh nghiệm
+    function renderExperienceBullets(expIndex) {
+      const container = document.getElementById(`exp-bullets-${expIndex}`);
+      if (!container) return;
+
+      const item = currentData.experience && currentData.experience[expIndex];
+      if (!item) return;
+
+      if (!Array.isArray(item.highlights)) {
+        item.highlights = [];
+      } else {
+        item.highlights = item.highlights.map(b => typeof b === 'string' ? { text: b, showCV: true, showPortfolio: true } : b);
+      }
+      const highlights = item.highlights;
+      if (highlights.length === 0) {
+        container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; padding: 0.5rem 0;">Chưa có ý mô tả nào. Nhấn "Thêm ý mô tả" để tạo gạch đầu dòng mới.</p>`;
+        return;
+      }
+
+      container.innerHTML = highlights.map((b, bIndex) => `
+        <div class="exp-bullet-item" style="background: rgba(15, 23, 42, 0.45); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 0.65rem;">
+          <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+            <textarea rows="2" style="flex: 1; min-height: 52px; font-size: 0.88rem; line-height: 1.45;" 
+              id="exp-bullet-text-${expIndex}-${bIndex}"
+              oninput="updateExperienceBullet(${expIndex}, ${bIndex}, 'text', this.value)" 
+              placeholder="Nhập nội dung ý mô tả công việc / thành tựu...">${escapeHtml(b.text || '')}</textarea>
+            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+              <button type="button" class="btn-icon" onclick="moveExperienceBullet(${expIndex}, ${bIndex}, -1)" title="Lên" ${bIndex === 0 ? 'disabled' : ''} style="width: 26px; height: 26px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              </button>
+              <button type="button" class="btn-icon" onclick="moveExperienceBullet(${expIndex}, ${bIndex}, 1)" title="Xuống" ${bIndex === highlights.length - 1 ? 'disabled' : ''} style="width: 26px; height: 26px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <button type="button" class="btn-icon danger" onclick="removeExperienceBullet(${expIndex}, ${bIndex})" title="Xóa ý này" style="width: 26px; height: 26px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.6rem; padding-top: 0.5rem; border-top: 1px dashed rgba(255, 255, 255, 0.08); flex-wrap: wrap; gap: 0.5rem;">
+            <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 500;">Hiển thị ở:</span>
+            <div style="display: flex; gap: 0.65rem;">
+              <label class="switch-badge ${b.showCV !== false ? 'active-cv' : ''}" title="Bật/Tắt hiển thị ý này trên bản CV">
+                <input type="checkbox" ${b.showCV !== false ? 'checked' : ''} onchange="toggleExperienceBullet(${expIndex}, ${bIndex}, 'showCV', this)">
+                <span class="switch-indicator"></span>
+                <span>Hiện trên CV</span>
+              </label>
+              <label class="switch-badge ${b.showPortfolio === true ? 'active-port' : ''}" title="Bật/Tắt hiển thị ý này trên website Portfolio">
+                <input type="checkbox" ${b.showPortfolio === true ? 'checked' : ''} onchange="toggleExperienceBullet(${expIndex}, ${bIndex}, 'showPortfolio', this)">
+                <span class="switch-indicator"></span>
+                <span>Hiện trên Portfolio</span>
+              </label>
             </div>
           </div>
         </div>
       `).join('');
     }
+
+    // Helper functions for Experience highlights/bullets
+    function updateExperienceBullet(expIndex, bulletIndex, field, value) {
+      if (!currentData.experience || !currentData.experience[expIndex]) return;
+      if (!currentData.experience[expIndex].highlights) currentData.experience[expIndex].highlights = [];
+      if (!currentData.experience[expIndex].highlights[bulletIndex]) return;
+      currentData.experience[expIndex].highlights[bulletIndex][field] = value;
+    }
+
+    function toggleExperienceBullet(expIndex, bulletIndex, field, checkboxEl) {
+      if (!currentData.experience || !currentData.experience[expIndex]) return;
+      if (!currentData.experience[expIndex].highlights) currentData.experience[expIndex].highlights = [];
+      if (!currentData.experience[expIndex].highlights[bulletIndex]) return;
+
+      const checked = checkboxEl ? checkboxEl.checked : true;
+      currentData.experience[expIndex].highlights[bulletIndex][field] = checked;
+
+      const badgeLabel = checkboxEl ? checkboxEl.closest('.switch-badge') : null;
+      if (badgeLabel) {
+        const activeClass = field === 'showCV' ? 'active-cv' : 'active-port';
+        if (checked) {
+          badgeLabel.classList.add(activeClass);
+        } else {
+          badgeLabel.classList.remove(activeClass);
+        }
+      }
+    }
+
+    function addExperienceBullet(expIndex) {
+      if (!currentData.experience || !currentData.experience[expIndex]) return;
+      if (!Array.isArray(currentData.experience[expIndex].highlights)) {
+        currentData.experience[expIndex].highlights = [];
+      }
+      currentData.experience[expIndex].highlights.push({
+        text: "",
+        showCV: true,
+        showPortfolio: true
+      });
+      renderExperienceBullets(expIndex);
+
+      const newIndex = currentData.experience[expIndex].highlights.length - 1;
+      const newTextarea = document.getElementById(`exp-bullet-text-${expIndex}-${newIndex}`);
+      if (newTextarea) {
+        newTextarea.focus();
+      }
+    }
+
+    function moveExperienceBullet(expIndex, bulletIndex, direction) {
+      if (!currentData.experience || !currentData.experience[expIndex]) return;
+      const list = currentData.experience[expIndex].highlights;
+      if (!Array.isArray(list)) return;
+      const targetIndex = bulletIndex + direction;
+      if (targetIndex < 0 || targetIndex >= list.length) return;
+      const temp = list[bulletIndex];
+      list[bulletIndex] = list[targetIndex];
+      list[targetIndex] = temp;
+      renderExperienceBullets(expIndex);
+    }
+
+    function removeExperienceBullet(expIndex, bulletIndex) {
+      if (!currentData.experience || !currentData.experience[expIndex]) return;
+      const list = currentData.experience[expIndex].highlights;
+      if (!Array.isArray(list)) return;
+      list.splice(bulletIndex, 1);
+      renderExperienceBullets(expIndex);
+    }
+
 
     // ================= 6. RENDER SKILLS =================
     function renderSkillsList() {
@@ -1924,7 +2119,14 @@
 
     document.getElementById('btn-add-experience').addEventListener('click', () => {
       if (!currentData.experience) currentData.experience = [];
-      currentData.experience.push({ period: "2024 – Hiện tại", company: "Tên công ty", role: "Vị trí", description: "" });
+      currentData.experience.push({
+        period: "2024 – Hiện tại",
+        company: "Tên công ty",
+        role: "Vị trí",
+        highlights: [
+          { text: "Mô tả trách nhiệm hoặc dự án phụ trách...", showCV: true, showPortfolio: true }
+        ]
+      });
       renderExperienceList();
       updateSidebarBadges();
     });

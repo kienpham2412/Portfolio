@@ -1279,15 +1279,20 @@
               <span class="timeline-period">${exp.period || ''}</span>
             </div>
             <div class="timeline-org">${exp.company || ''}</div>
-            ${exp.description ? `<div class="timeline-desc">${exp.description}</div>` : `
-              <ul class="timeline-bullets">
-                <li>Phụ trách chính (Lead Developer) lập trình kiến trúc và logic gameplay cho các dự án game puzzle 3D/2D thị trường Global.</li>
-                <li>Xây dựng hệ thống vật lý tương tác (Physics) mượt mà; lập trình custom shader và Shader Graph tạo hiệu ứng đồ họa ấn tượng.</li>
-                <li>Ứng dụng Unity Job System và Multithreading giải quyết bài toán mô phỏng lượng hạt/vật thể lớn (Sand Rush), giữ vững 60 FPS ổn định.</li>
-                <li>Sử dụng Unity Profiler để tối ưu hóa bộ nhớ RAM, Draw Calls, giảm thiểu rò rỉ bộ nhớ (memory leaks) và tối ưu dung lượng cài đặt.</li>
-                <li>Phối hợp cùng Product Owner, Game Designer và Artist theo quy trình Agile/Scrum để hoàn thiện sản phẩm đạt chuẩn phát hành Global.</li>
-              </ul>
-            `}
+            ${(() => {
+              if (Array.isArray(exp.highlights) && exp.highlights.length > 0) {
+                const cvBullets = exp.highlights
+                  .map(h => typeof h === 'string' ? { text: h, showCV: true } : h)
+                  .filter(h => h && h.text && h.showCV !== false);
+                return cvBullets.length > 0
+                  ? `<ul class="timeline-bullets">${cvBullets.map(b => `<li>${b.text}</li>`).join('')}</ul>`
+                  : '';
+              }
+              if (exp.description) {
+                return `<div class="timeline-desc">${exp.description}</div>`;
+              }
+              return '';
+            })()}
           </div>
         `).join('');
       }

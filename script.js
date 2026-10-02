@@ -265,15 +265,36 @@ function renderExperience(experiences) {
 
   container.innerHTML = experiences
     .map(
-      (exp) => `
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <span class="timeline-period">${exp.period || ''}</span>
-        <h4 class="timeline-degree">${exp.role || exp.position || ''}</h4>
-        <p class="timeline-school">${exp.company || ''}</p>
-        ${(exp.description || exp.desc) ? `<p class="timeline-desc">${exp.description || exp.desc}</p>` : ''}
-      </div>
-    `
+      (exp) => {
+        let highlightsHtml = '';
+        if (Array.isArray(exp.highlights) && exp.highlights.length > 0) {
+          const portBullets = exp.highlights
+            .map(h => typeof h === 'string' ? { text: h, showPortfolio: true } : h)
+            .filter(h => h && h.text && h.showPortfolio === true);
+          if (portBullets.length > 0) {
+            highlightsHtml = `
+              <ul class="timeline-bullets" style="margin-top: 8px; padding-left: 1.25rem; font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6;">
+                ${portBullets.map(b => `<li style="margin-bottom: 5px;">${b.text}</li>`).join('')}
+              </ul>
+            `;
+          }
+        }
+
+        const descHtml = (exp.description || exp.desc)
+          ? `<p class="timeline-desc">${exp.description || exp.desc}</p>`
+          : '';
+
+        return `
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <span class="timeline-period">${exp.period || ''}</span>
+            <h4 class="timeline-degree">${exp.role || exp.position || ''}</h4>
+            <p class="timeline-school">${exp.company || ''}</p>
+            ${descHtml}
+            ${highlightsHtml}
+          </div>
+        `;
+      }
     )
     .join('');
 }

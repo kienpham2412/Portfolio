@@ -70,7 +70,34 @@ const PORTFOLIO_DATA = {
     {
       "period": "2022 – Hiện tại",
       "company": "Công Ty Cổ Phần Công Nghệ Cscmobi Việt Nam",
-      "role": "Unity Game Developer"
+      "role": "Unity Game Developer",
+      "highlights": [
+        {
+          "text": "Phụ trách chính (Lead Developer) lập trình kiến trúc và logic gameplay cho các dự án game puzzle 3D/2D thị trường Global.",
+          "showCV": true,
+          "showPortfolio": true
+        },
+        {
+          "text": "Xây dựng hệ thống vật lý tương tác (Physics) mượt mà; lập trình custom shader và Shader Graph tạo hiệu ứng đồ họa ấn tượng.",
+          "showCV": true,
+          "showPortfolio": true
+        },
+        {
+          "text": "Ứng dụng Unity Job System và Multithreading giải quyết bài toán mô phỏng lượng hạt/vật thể lớn (Sand Rush), giữ vững 60 FPS ổn định.",
+          "showCV": true,
+          "showPortfolio": true
+        },
+        {
+          "text": "Sử dụng Unity Profiler để tối ưu hóa bộ nhớ RAM, Draw Calls, giảm thiểu rò rỉ bộ nhớ (memory leaks) và tối ưu dung lượng cài đặt.",
+          "showCV": true,
+          "showPortfolio": true
+        },
+        {
+          "text": "Phối hợp cùng Product Owner, Game Designer và Artist theo quy trình Agile/Scrum để hoàn thiện sản phẩm đạt chuẩn phát hành Global.",
+          "showCV": true,
+          "showPortfolio": true
+        }
+      ]
     }
   ],
   "skills": [
