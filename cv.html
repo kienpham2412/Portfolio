@@ -1141,10 +1141,21 @@
           const bioEl = document.getElementById('cv-bio');
           if (bioEl) bioEl.textContent = data.hero.bio;
         }
-        if (data.hero.role) {
+        if (data.hero.role || data.hero.tags) {
           const roleEl = document.getElementById('cv-role');
-          const tagsStr = Array.isArray(data.hero.tags) ? data.hero.tags.join(' • ') : '';
-          if (roleEl) roleEl.textContent = `${data.hero.role} • ${tagsStr}`;
+          const roleName = data.hero.role || '';
+          const validTags = Array.isArray(data.hero.tags)
+            ? data.hero.tags.map(t => String(t || '').trim()).filter(t => t.length > 0)
+            : [];
+          if (roleEl) {
+            if (roleName && validTags.length > 0) {
+              roleEl.textContent = `${roleName} • ${validTags.join(' • ')}`;
+            } else if (roleName) {
+              roleEl.textContent = roleName;
+            } else if (validTags.length > 0) {
+              roleEl.textContent = validTags.join(' • ');
+            }
+          }
         }
         if (data.hero.avatar) {
           const avatarEl = document.getElementById('cv-avatar');
