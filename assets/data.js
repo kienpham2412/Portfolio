@@ -3,7 +3,9 @@
 const PORTFOLIO_DATA = {
   "brand": {
     "badge": "K",
-    "title": "Kien Pham"
+    "title": "Kien Pham",
+    "website": "kienpham.dev",
+    "websiteUrl": "index.html"
   },
   "hero": {
     "greeting": "Xin chào, tôi là",

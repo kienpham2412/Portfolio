@@ -1005,6 +1005,33 @@
         <div class="panel">
           <h3 class="panel-title">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            Liên kết Portfolio & Website (CV Contact Link)
+          </h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="brand-website">
+                <span>Text hiển thị liên kết Portfolio</span>
+                <span class="label-hint">Hiển thị ở mục liên hệ trên CV (biểu tượng quả địa cầu)</span>
+              </label>
+              <input type="text" id="brand-website" placeholder="VD: kienphamdev.vercel.app hoặc kienpham.dev">
+            </div>
+            <div class="form-group">
+              <label for="brand-website-url">
+                <span>Đường dẫn liên kết Portfolio (URL)</span>
+                <span class="label-hint">Đường dẫn khi click vào text (VD: index.html hoặc https://...)</span>
+              </label>
+              <input type="text" id="brand-website-url" placeholder="VD: index.html hoặc https://kienphamdev.vercel.app">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
@@ -1376,6 +1403,8 @@
 
       document.getElementById('brand-title').value = brand.title || '';
       document.getElementById('brand-badge').value = brand.badge || '';
+      document.getElementById('brand-website').value = brand.website || 'kienpham.dev';
+      document.getElementById('brand-website-url').value = brand.websiteUrl || 'index.html';
 
       document.getElementById('hero-greeting').value = hero.greeting || '';
       document.getElementById('hero-role').value = hero.role || '';
@@ -1430,8 +1459,8 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Số điện thoại thô (Raw) <span class="label-hint">Dành cho type=phone</span></label>
-              <input type="text" value="${escapeHtml(item.raw || '')}" onchange="updateItemField('personalInfo', ${index}, 'raw', this.value)" placeholder="VD: 0935581686">
+              <label>Số điện thoại thô (Raw) / Link URL <span class="label-hint">Dành cho type=phone hoặc type=link</span></label>
+              <input type="text" value="${escapeHtml(item.raw || item.url || '')}" onchange="updateItemField('personalInfo', ${index}, item.type === 'link' ? 'url' : 'raw', this.value)" placeholder="VD: 0935581686 hoặc https://...">
             </div>
           </div>
         </div>
@@ -1929,6 +1958,8 @@
       currentData.brand = currentData.brand || {};
       currentData.brand.title = document.getElementById('brand-title').value.trim();
       currentData.brand.badge = document.getElementById('brand-badge').value.trim();
+      currentData.brand.website = document.getElementById('brand-website').value.trim();
+      currentData.brand.websiteUrl = document.getElementById('brand-website-url').value.trim();
 
       currentData.hero = currentData.hero || {};
       currentData.hero.greeting = document.getElementById('hero-greeting').value.trim();
