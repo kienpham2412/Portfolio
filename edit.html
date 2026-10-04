@@ -1893,6 +1893,13 @@
             </div>
             <div class="form-group">
               <label>
+                <span>Package Name</span>
+                <span class="label-hint" style="color: var(--accent-secondary);">Chỉ hiện trên CV</span>
+              </label>
+              <input type="text" id="project-package-${index}" value="${escapeHtml(item.packageName || '')}" oninput="updateItemField('projects', ${index}, 'packageName', this.value)" onchange="updateItemField('projects', ${index}, 'packageName', this.value)" placeholder="VD: com.cscmobi.sandrush">
+            </div>
+            <div class="form-group">
+              <label>
                 <span>Ảnh bìa dự án (Google Drive)</span>
                 <span class="label-hint">Dán link Drive hoặc bấm vào ảnh</span>
               </label>
@@ -1925,7 +1932,7 @@
             </div>
             <div class="form-group">
               <label>Link Store (Google Play / SensorTower)</label>
-              <input type="text" value="${escapeHtml(item.storeUrl || '')}" onchange="updateItemField('projects', ${index}, 'storeUrl', this.value)" placeholder="https://play.google.com/store/apps/details?id=...">
+              <input type="text" value="${escapeHtml(item.storeUrl || '')}" onchange="handleProjectStoreUrlChange(${index}, this.value)" placeholder="https://play.google.com/store/apps/details?id=...">
             </div>
           </div>
         </div>
@@ -1965,6 +1972,24 @@
     function updateItemField(arrayKey, index, field, value) {
       if (currentData[arrayKey] && currentData[arrayKey][index])
         currentData[arrayKey][index][field] = value.trim();
+    }
+
+    // Xử lý khi nhập link Store của dự án: tự động trích xuất Package Name nếu đang trống
+    function handleProjectStoreUrlChange(index, value) {
+      updateItemField('projects', index, 'storeUrl', value);
+      const proj = currentData.projects && currentData.projects[index];
+      if (proj && (!proj.packageName || !proj.packageName.trim())) {
+        const trimmed = value.trim();
+        const playMatch = trimmed.match(/[?&]id=([^&]+)/);
+        const stMatch = trimmed.match(/overview\/([^/?]+)/);
+        const detected = (playMatch && playMatch[1]) || (stMatch && stMatch[1]);
+        if (detected) {
+          proj.packageName = detected;
+          const pkgInput = document.getElementById(`project-package-${index}`);
+          if (pkgInput) pkgInput.value = detected;
+          showToast(`Tự động trích xuất Package Name: ${detected}`, 'success');
+        }
+      }
     }
 
     // Trích xuất ID ảnh Google Drive nằm giữa /d/ và /view để chuyển thành link hiển thị thumbnail trực tiếp
@@ -2144,6 +2169,7 @@
         title: "Dự án mới",
         category: "Puzzle",
         role: "Lead Developer",
+        packageName: "",
         image: "./assets/images/project-cyber.jpg",
         description: "",
         tech: ["Unity", "C#"],

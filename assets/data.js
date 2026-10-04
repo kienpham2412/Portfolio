@@ -131,6 +131,7 @@ const PORTFOLIO_DATA = {
       "title": "Sand Rush",
       "category": "Puzzle",
       "role": "Lead Developer",
+      "packageName": "com.cscmobi.sandrush",
       "image": "./assets/images/sandrush.webp",
       "description": "Sand Rush là một trò chơi giải đố phân loại cát thư giãn nhưng đầy thử thách, nơi bạn phá vỡ các cấu trúc hình khối đầy màu sắc thành dòng cát chảy.",
       "tech": [
@@ -146,6 +147,7 @@ const PORTFOLIO_DATA = {
       "title": "Jelly Breaker",
       "category": "Puzzle",
       "role": "Lead Developer",
+      "packageName": "com.cscmobi.jellybreaker",
       "image": "./assets/images/jellybreaker.webp",
       "description": "Chào mừng bạn đến với Jelly Breaker – trò chơi giải đố cực kỳ đã mắt, kết hợp hoàn hảo giữa chiến thuật ghép màu, vật lý bóng nảy và những màn phá hủy pixel đầy mãn nhãn!",
       "tech": [
@@ -160,6 +162,7 @@ const PORTFOLIO_DATA = {
       "title": "Pin Association",
       "category": "Puzzle",
       "role": "Lead Developer",
+      "packageName": "com.cscmobi.pin.association",
       "image": "./assets/images/pin.webp",
       "description": "Rèn luyện trí não với Pin Association, một trò chơi giải đố 3D thư giãn, nơi bạn khám phá những chiếc ghim ẩn và ghép chúng thành các bộ sưu tập theo chủ đề.",
       "tech": [
@@ -175,6 +178,7 @@ const PORTFOLIO_DATA = {
       "title": "Block Knit Jam",
       "category": "Puzzle",
       "role": "Lead Developer",
+      "packageName": "com.block.knit.jam.color",
       "image": "./assets/images/blockknit.webp",
       "description": "Block Knit Jam là một trò chơi giải đố thư giãn, nơi bạn di chuyển các khối len nhiều màu vào đúng cổng tương ứng để tháo gỡ sợi chỉ và hoàn thành một bức tranh thêu đầy màu sắc trên khung vải phía trên.",
       "tech": [
@@ -190,6 +194,7 @@ const PORTFOLIO_DATA = {
       "title": "Nut Screw Jam Puzzle",
       "category": "Puzzle",
       "role": "Lead Developer",
+      "packageName": "com.pl.csc.screwjam3d.rescue.puzzle",
       "image": "./assets/images/nutscrew.webp",
       "description": "Trong Nut Screw Jam Puzzle, mục tiêu của bạn đơn giản nhưng đầy thử thách: ghép các con ốc vít, đai ốc và bu-lông theo màu trước khi thời gian kết thúc.",
       "tech": [

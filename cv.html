@@ -693,6 +693,33 @@
       margin-top: 2px;
     }
 
+    /* Package name ở ngay dưới tên dự án */
+    .project-package-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 8.4pt;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+      margin-top: 1px;
+    }
+
+    .project-package-row svg {
+      flex-shrink: 0;
+      opacity: 0.75;
+      color: var(--accent-secondary);
+    }
+
+    .project-package-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .project-tech-row {
       display: flex;
       flex-wrap: wrap;
@@ -1275,6 +1302,16 @@
       }
     }
 
+    function escapeHtml(str) {
+      if (typeof str !== 'string') return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     // Render thông tin Trang 2: đúng 6 projects đầu tiên
     function renderCVPage2(data) {
       const container = document.getElementById('cv-projects-grid');
@@ -1286,18 +1323,30 @@
 
       let html = top6Projects.map((proj, idx) => {
         const techList = proj.tech || proj.tags || [];
-        const techHtml = techList.map(t => `<span class="tech-pill-mini">${t}</span>`).join('');
+        const techHtml = techList.map(t => `<span class="tech-pill-mini">${escapeHtml(t)}</span>`).join('');
         const imgSrc = formatDriveImage(proj.image || proj.img);
+        const pkgName = (proj.packageName || proj.package || '').trim();
 
         return `
           <article class="cv-project-card">
             <!-- Ảnh bìa dự án chiếm trọn 1 hàng -->
             <div class="project-banner-box">
-              <img src="${imgSrc}" alt="${proj.title || ''}" class="project-banner-img" referrerpolicy="no-referrer">
+              <img src="${imgSrc}" alt="${escapeHtml(proj.title || '')}" class="project-banner-img" referrerpolicy="no-referrer">
             </div>
 
             <!-- Tên dự án ở dưới ảnh -->
-            <h3 class="project-title">${proj.title || `Dự án #${idx + 1}`}</h3>
+            <h3 class="project-title">${escapeHtml(proj.title || `Dự án #${idx + 1}`)}</h3>
+
+            <!-- Package Name hiển thị ở dưới tên project -->
+            ${pkgName ? `
+            <div class="project-package-row" title="Package: ${escapeHtml(pkgName)}">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+              <span class="project-package-text">${escapeHtml(pkgName)}</span>
+            </div>` : ''}
 
             <!-- Danh sách công nghệ được đặt ở hàng dưới cùng -->
             <div class="project-tech-row">
