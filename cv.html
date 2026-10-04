@@ -683,7 +683,7 @@
     /* Tên dự án hiển thị ngay dưới ảnh */
     .project-title {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 17pt;
+      font-size: 15pt;
       font-weight: 800;
       color: var(--text-main);
       white-space: nowrap;
@@ -699,7 +699,7 @@
       align-items: center;
       gap: 6px;
       font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-      font-size: 13pt;
+      font-size: 10pt;
       font-weight: 500;
       color: var(--text-muted);
       white-space: nowrap;
@@ -1313,6 +1313,17 @@
         .replace(/'/g, '&#039;');
     }
 
+    // Tự động trích xuất Package Name từ Store URL (Google Play hoặc SensorTower)
+    function extractPackageName(url) {
+      if (!url || typeof url !== 'string') return '';
+      const trimmed = url.trim();
+      const playMatch = trimmed.match(/[?&]id=([^&]+)/);
+      if (playMatch && playMatch[1]) return decodeURIComponent(playMatch[1]).trim();
+      const stMatch = trimmed.match(/overview\/([^/?#&]+)/);
+      if (stMatch && stMatch[1]) return decodeURIComponent(stMatch[1]).trim();
+      return '';
+    }
+
     // Render thông tin Trang 2: đúng 6 projects đầu tiên
     function renderCVPage2(data) {
       const container = document.getElementById('cv-projects-grid');
@@ -1326,7 +1337,7 @@
         const techList = proj.tech || proj.tags || [];
         const techHtml = techList.map(t => `<span class="tech-pill-mini">${escapeHtml(t)}</span>`).join('');
         const imgSrc = formatDriveImage(proj.image || proj.img);
-        const pkgName = (proj.packageName || proj.package || '').trim();
+        const pkgName = extractPackageName(proj.storeUrl || proj.store_url || '') || (proj.packageName || proj.package || '').trim();
 
         return `
           <article class="cv-project-card">
@@ -1338,10 +1349,10 @@
             <!-- Tên dự án ở dưới ảnh -->
             <h3 class="project-title">${escapeHtml(proj.title || `Dự án #${idx + 1}`)}</h3>
 
-            <!-- Package Name hiển thị ở dưới tên project -->
+            <!-- Package Name tự động lấy từ storeUrl hiển thị ở dưới tên project -->
             ${pkgName ? `
             <div class="project-package-row" title="Package: ${escapeHtml(pkgName)}">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                 <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
                 <line x1="12" y1="22.08" x2="12" y2="12"></line>

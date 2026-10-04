@@ -105,8 +105,7 @@ const PORTFOLIO_DATA = {
         "Job system"
       ],
       "title": "Sand Rush",
-      "url": "https://drive.google.com/file/d/1l16hJYDlHbFbL2I-pCHZpSfJNwp20F0X/view?usp=sharing",
-      "packageName": ""
+      "url": "https://drive.google.com/file/d/1l16hJYDlHbFbL2I-pCHZpSfJNwp20F0X/view?usp=sharing"
     },
     {
       "category": "Puzzle",
