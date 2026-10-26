@@ -3,10 +3,12 @@
 const PORTFOLIO_DATA = {
   "brand": {
     "badge": "K",
+    "cvUrl": "cv.html",
     "title": "Kien Pham",
     "website": "kienphamdev.vercel.app",
     "websiteUrl": "index.html"
   },
+  "cvUrl": "cv.html",
   "education": [
     {
       "degree": "Cử nhân Kinh tế xây dựng",

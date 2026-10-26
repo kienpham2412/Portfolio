@@ -549,7 +549,24 @@ function renderBrand(brand, title) {
 
     if (badgeEl && badgeText) badgeEl.textContent = badgeText;
     if (titleEl && titleText) titleEl.textContent = titleText;
+    if (data.cvUrl) updateCvLinks(data.cvUrl);
   }
+}
+
+// Cập nhật đường dẫn cho nút Xem CV trên thanh menu (và các nút liên quan)
+function updateCvLinks(cvUrl) {
+  if (!cvUrl) return;
+  const targetUrl = cvUrl.trim();
+  const cvLink = document.getElementById('nav-cv-link');
+  if (cvLink) {
+    cvLink.href = targetUrl;
+  }
+  const allLinks = document.querySelectorAll('a');
+  allLinks.forEach(link => {
+    if (link.textContent.trim().toLowerCase() === 'xem cv') {
+      link.href = targetUrl;
+    }
+  });
 }
 
 // Nạp dữ liệu Portfolio (hỗ trợ nạp trực tiếp từ Firebase hoặc fallback)
@@ -559,6 +576,9 @@ function loadPortfolioData(data) {
     return;
 
   window.PORTFOLIO_DATA = source;
+
+  const cvUrl = (source.brand && source.brand.cvUrl) || source.cvUrl || 'cv.html';
+  updateCvLinks(cvUrl);
 
   if (source.brand || source.title)
     renderBrand(source.brand, source.title);
@@ -579,10 +599,15 @@ function loadPortfolioData(data) {
 
 // Phơi hàm ra window để script bên ngoài gọi được
 window.loadPortfolioData = loadPortfolioData;
+window.updateCvLinks = updateCvLinks;
 
 // Tự động nạp nếu đã có sẵn PORTFOLIO_DATA trong môi trường (và đang ở trang Portfolio)
-if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA && document.getElementById('projects-container')) {
-  loadPortfolioData(PORTFOLIO_DATA);
+if (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA) {
+  const initialCvUrl = (PORTFOLIO_DATA.brand && PORTFOLIO_DATA.brand.cvUrl) || PORTFOLIO_DATA.cvUrl;
+  if (initialCvUrl) updateCvLinks(initialCvUrl);
+  if (document.getElementById('projects-container')) {
+    loadPortfolioData(PORTFOLIO_DATA);
+  }
 }
 
 // =============================================================================

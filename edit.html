@@ -1088,6 +1088,38 @@
         <div class="panel">
           <h3 class="panel-title">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Liên kết Hồ sơ CV (CV Link)
+          </h3>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="brand-cv-url">
+                <span>Đường dẫn mở khi ấn nút "Xem CV" trên thanh menu Portfolio</span>
+                <span class="label-hint">Nhập file nội bộ (VD: cv.html) hoặc liên kết ngoài (Google Drive, PDF, Notion, ...)</span>
+              </label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="text" id="brand-cv-url" placeholder="VD: cv.html hoặc https://drive.google.com/file/d/..." style="flex: 1;">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-test-cv-link" onclick="testCvLink()" title="Mở thử link CV trên tab mới" style="flex-shrink: 0; padding: 0.72rem 1.1rem;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Mở thử
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
@@ -1372,7 +1404,8 @@
         currentData = JSON.parse(JSON.stringify(PORTFOLIO_DATA));
       else
         currentData = {
-          brand: { badge: "K", title: "Kien Pham" },
+          brand: { badge: "K", title: "Kien Pham", cvUrl: "cv.html" },
+          cvUrl: "cv.html",
           hero: { greeting: "Xin chào, tôi là", role: "Game Developer", avatar: "./assets/images/avatar.webp", tags: [], bio: "" },
           stats: [],
           personalInfo: [],
@@ -1461,6 +1494,7 @@
       document.getElementById('brand-badge').value = brand.badge || '';
       document.getElementById('brand-website').value = brand.website || 'kienpham.dev';
       document.getElementById('brand-website-url').value = brand.websiteUrl || 'index.html';
+      document.getElementById('brand-cv-url').value = brand.cvUrl || currentData.cvUrl || 'cv.html';
 
       document.getElementById('hero-greeting').value = hero.greeting || '';
       document.getElementById('hero-role').value = hero.role || '';
@@ -2162,6 +2196,9 @@
       currentData.brand.badge = document.getElementById('brand-badge').value.trim();
       currentData.brand.website = document.getElementById('brand-website').value.trim();
       currentData.brand.websiteUrl = document.getElementById('brand-website-url').value.trim();
+      const cvVal = (document.getElementById('brand-cv-url').value || '').trim() || 'cv.html';
+      currentData.brand.cvUrl = cvVal;
+      currentData.cvUrl = cvVal;
 
       currentData.hero = currentData.hero || {};
       currentData.hero.greeting = document.getElementById('hero-greeting').value.trim();
@@ -2305,6 +2342,13 @@ const PORTFOLIO_DATA = ${jsonText};
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
     }
+
+    function testCvLink() {
+      const input = document.getElementById('brand-cv-url');
+      const url = (input && input.value.trim()) || 'cv.html';
+      window.open(url, '_blank');
+    }
+    window.testCvLink = testCvLink;
 
     // Khởi động
     initData();
